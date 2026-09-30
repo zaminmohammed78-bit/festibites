@@ -4653,5 +4653,18 @@ render(recipes);
 
 
 </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(registration => {
+        console.log("FestiBites PWA is ready!");
+      })
+      .catch(error => {
+        console.error("PWA registration failed:", error);
+      });
+  });
+}
+</script>
 </body>
 </html>
