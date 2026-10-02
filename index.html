@@ -4629,11 +4629,13 @@ function render(list){
   shown.forEach((r,i)=>{
     const card = document.createElement("article");
     card.className = "card";
+    const minutes = r.minutes ?? r.time ?? "—";
+    const servings = r.servings ?? "—";
     card.innerHTML = `
-      <div class="tag">${r.category}</div>
+      <div class="tag">${r.category || "Recipe"}</div>
       <h3>${r.name}</h3>
-      <p>${r.description}</p>
-      <div class="meta"><span>${r.minutes} min</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
+      <p>${r.description || ""}</p>
+      <div class="meta"><span>${minutes} min</span><span>${servings} servings</span><span>${r.difficulty || "Easy"}</span></div>
       <button class="view" onclick="openRecipe(${i})">View full recipe</button>
     `;
     grid.appendChild(card);
@@ -4643,23 +4645,64 @@ function render(list){
     seeMoreWrap.style.display = "flex";
     seeMoreBtn.textContent = `Show More Recipes (${list.length - visibleCount} remaining)`;
   }else{
-    seeMorelet activeRecipe = null;
+    seeMoreWrap.style.display = "none";
+  }
+}
+
+seeMoreBtn.addEventListener("click",()=>{
+  visibleCount += PAGE_SIZE;
+  render(currentList);
+});
+
+function filterRecipes(){
+  const term = search.value.trim().toLowerCase();
+
+  const filtered = recipes.filter(r=>{
+    const matchesCategory = activeCategory === "All" || r.category === activeCategory;
+    const haystack = [
+      r.name,
+      r.category,
+      r.description,
+      ...(r.ingredients || [])
+    ].join(" ").toLowerCase();
+
+    return matchesCategory && (!term || haystack.includes(term));
+  });
+
+  visibleCount = PAGE_SIZE;
+  render(filtered);
+}
+
+document.querySelectorAll(".chip").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".chip").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    activeCategory = btn.dataset.cat;
+    filterRecipes();
+  });
+});
+
+search.addEventListener("input", filterRecipes);
+
+let activeRecipe = null;
 let selectedServings = 1;
 
 function openRecipe(index){
   const r = currentList[index];
+  if(!r) return;
+
   activeRecipe = r;
   selectedServings = Math.min(10, Math.max(1, Number(r.servings) || 1));
 
-  document.getElementById("mTitle").textContent = r.name;
-  document.getElementById("mDesc").textContent = r.description;
-  document.getElementById("mTime").textContent = `${r.minutes} minutes`;
-  document.getElementById("mDifficulty").textContent = r.difficulty;
+  document.getElementById("mTitle").textContent = r.name || "Recipe";
+  document.getElementById("mDesc").textContent = r.description || "";
+  document.getElementById("mTime").textContent = r.minutes ?? r.time ?? "—";
+  document.getElementById("mDifficulty").textContent = r.difficulty || "Easy";
 
   updateServingDisplay();
 
   document.getElementById("mSteps").innerHTML =
-    r.steps.map(x=>`<li>${x}</li>`).join("");
+    (r.steps || []).map(x=>`<li>${x}</li>`).join("");
 
   document.getElementById("modal").style.display = "block";
   document.body.style.overflow = "hidden";
@@ -4675,17 +4718,20 @@ function changeServings(amount){
 
 function updateServingDisplay(){
   if(!activeRecipe) return;
+
   document.getElementById("mServings").textContent = selectedServings;
-  const multiplier = selectedServings / activeRecipe.servings;
+
+  const originalServings = Number(activeRecipe.servings);
+  const multiplier = originalServings > 0 ? selectedServings / originalServings : 1;
 
   document.getElementById("mIngredients").innerHTML =
-    activeRecipe.ingredients
+    (activeRecipe.ingredients || [])
       .map(ingredient => `<li>${scaleIngredient(ingredient, multiplier)}</li>`)
       .join("");
 }
 
 function scaleIngredient(ingredient, multiplier){
-  const match = ingredient.match(/^(\d+(?:\s+\d+\/\d+)?|\d+\/\d+|\d*\.\d+)(\s+)(.*)$/);
+  const match = ingredient.match(/^(\\d+(?:\\s+\\d+\\/\\d+)?|\\d+\\/\\d+|\\d*\\.\\d+)(\\s+)(.*)$/);
   if(!match) return ingredient;
 
   const quantity = parseFraction(match[1]);
@@ -4698,7 +4744,7 @@ function parseFraction(value){
   value = value.trim();
 
   if(value.includes(" ")){
-    const parts = value.split(/\s+/);
+    const parts = value.split(/\\s+/);
     if(parts.length === 2 && parts[1].includes("/")){
       const whole = Number(parts[0]);
       const fraction = parseFraction(parts[1]);
@@ -4732,33 +4778,8 @@ function formatQuantity(value){
       return whole > 0 ? `${whole} ${symbol}` : symbol;
     }
   }
+
   return Number.isInteger(value) ? String(value) : String(value);
-}
-
-    btn.classList.add("active");
-    activeCategory = btn.dataset.cat;
-    filterRecipes();
-  });
-});
-
-search.addEventListener("input", filterRecipes);
-
-function openRecipe(index){
-  const r = currentList[index];
-  document.getElementById("mTitle").textContent = r.name;
-  document.getElementById("mDesc").textContent = r.description;
-  document.getElementById("mTime").textContent = `${r.minutes} minutes`;
-  document.getElementById("mServings").textContent = `${r.servings} people`;
-  document.getElementById("mDifficulty").textContent = r.difficulty;
-
-  document.getElementById("mIngredients").innerHTML =
-    r.ingredients.map(x=>`<li>${x}</li>`).join("");
-
-  document.getElementById("mSteps").innerHTML =
-    r.steps.map(x=>`<li>${x}</li>`).join("");
-
-  document.getElementById("modal").style.display = "block";
-  document.body.style.overflow = "hidden";
 }
 
 function closeRecipe(){
@@ -4775,8 +4796,7 @@ document.addEventListener("keydown",e=>{
 });
 
 document.getElementById("heroCount").textContent = recipes.length + "+";
-render(recipes);
-</script>
+render(recipes);</script>
 <script>
 // PWA Registration, Cross-OS Installation & Offline Handlers
 let deferredPrompt = null;
