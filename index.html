@@ -145,34 +145,9 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 .google-form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,93,4,.28)}
 @media(max-width:650px){.submit-section{padding:55px 5%}.submit-box{padding:22px}.google-form-submit{width:100%}}
 
-.print-btn{border:0;background:#3a1b0f;color:#fff;padding:9px 16px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:inherit;margin-left:auto}
-.print-btn:hover{background:#522718}
-
 .fav-btn{position:absolute;right:18px;top:18px;border:0;background:rgba(255,255,255,.9);color:#e85d04;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:.2s}
 .fav-btn:hover{transform:scale(1.1)}
 .recipe-card{position:relative}
-
-/* Print / PDF Styling Template */
-@media print {
-  body { background: #fff !important; color: #000 !important; font-size: 13pt; }
-  header, nav, .offline-banner, .submit-section, footer, .view, .see-more-wrap, .serving-control, .serving-note, .close, .pwa-install-btn { display: none !important; }
-  .modal { display: block !important; position: static !important; inset: auto !important; background: none !important; padding: 0 !important; overflow: visible !important; }
-  .modal-box { max-width: 100% !important; box-shadow: none !important; border-radius: 0 !important; margin: 0 !important; border: 0 !important; }
-  .modal-top { background: #fff !important; color: #000 !important; border-bottom: 3px solid #e85d04; padding: 0 0 20px 0 !important; margin-bottom: 25px; }
-  .modal-top h2 { font-size: 32pt !important; color: #1a1a1a !important; margin-bottom: 8px !important; }
-  .modal-top p { color: #555 !important; font-size: 14pt !important; opacity: 1 !important; }
-  .modal-body { padding: 0 !important; }
-  .details { display: flex !important; gap: 20px !important; margin-bottom: 25px !important; border: 1px solid #ddd; padding: 12px 18px; border-radius: 8px; background: #fafafa !important; }
-  .detail { background: none !important; padding: 0 !important; border: 0 !important; }
-  .detail b { color: #e85d04 !important; font-size: 11pt !important; }
-  .detail span { color: #222 !important; font-size: 13pt !important; font-weight: 700; }
-  .modal-body h3 { color: #e85d04 !important; font-size: 18pt !important; margin: 25px 0 12px 0 !important; border-bottom: 1px solid #eee; padding-bottom: 6px; page-break-after: avoid; }
-  .ingredients li { border-bottom: 1px solid #eee !important; padding: 6px 0 !important; page-break-inside: avoid; }
-  .ingredients li:before { color: #e85d04 !important; }
-  .steps li { page-break-inside: avoid; padding-bottom: 16px !important; color: #222 !important; }
-  .steps li:before { background: #e85d04 !important; color: #fff !important; }
-  body:after { content: "FestiBites Recipe Kitchen • https://zaminmohammed78-bit.github.io/festibites/"; display: block; text-align: center; margin-top: 40px; font-size: 10pt; color: #777; border-top: 1px solid #ddd; padding-top: 15px; }
-}
 
 </style>
 </head>
@@ -294,7 +269,6 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <button type="button" aria-label="Decrease servings" onclick="changeServings(-1)">−</button>
         <input id="servingInput" type="number" min="1" max="100" step="1" value="2" inputmode="numeric" onchange="setServings(this.value)">
         <button type="button" aria-label="Increase servings" onclick="changeServings(1)">+</button>
-        <button type="button" class="print-btn" onclick="printRecipe()">🖨️ Print / PDF</button>
       </div>
       <p class="serving-note">Ingredient amounts adjust automatically when quantities are provided.</p>
       <h3> Ingredients</h3>
@@ -484,11 +458,6 @@ function openRecipe(index){
 function closeRecipe(){
   document.getElementById("modal").style.display = "none";
   document.body.style.overflow = "";
-}
-
-function printRecipe(){
-  if(!selectedRecipe) return;
-  window.print();
 }
 
 document.getElementById("modal").addEventListener("click",e=>{
