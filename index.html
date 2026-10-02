@@ -97,8 +97,11 @@ footer span{color:#ff9a89}
 .ingredients li{padding:9px 0;border-bottom:1px solid #edf1f0}
 .ingredients li:before{content:"";color:var(--coral);font-weight:900;margin-right:10px}
 .steps{list-style:none;counter-reset:s}
-.steps li{counter-increment:s;position:relative;padding:2px 0 18px 52px;line-height:1.7;color:#526060}
+.steps li{counter-increment:s;position:relative;padding:2px 0 18px 52px;line-height:1.7;color:#526060;cursor:pointer;transition:color .2s}
+.steps li:hover{color:var(--ink)}
+.steps li.done{text-decoration:line-through;color:#b0a095}
 .steps li:before{content:counter(s);position:absolute;left:0;top:0;width:34px;height:34px;background:var(--coral);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900}
+.steps li.done:before{background:#a8988e}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}nav{display:none}}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.hero{padding:55px 5%}.section,.search-wrap{padding-left:5%;padding-right:5%}.hero h1{letter-spacing:-2px}.search button{padding:0 16px}.modal{padding:8px}.modal-body{padding:20px}}
@@ -141,6 +144,35 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 .google-form-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:14px 22px;font-weight:900;font-size:16px;text-decoration:none;cursor:pointer;box-shadow:0 10px 24px rgba(232,93,4,.20);transition:transform .2s ease,box-shadow .2s ease}
 .google-form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,93,4,.28)}
 @media(max-width:650px){.submit-section{padding:55px 5%}.submit-box{padding:22px}.google-form-submit{width:100%}}
+
+.print-btn{border:0;background:#3a1b0f;color:#fff;padding:9px 16px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:inherit;margin-left:auto}
+.print-btn:hover{background:#522718}
+
+.fav-btn{position:absolute;right:18px;top:18px;border:0;background:rgba(255,255,255,.9);color:#e85d04;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:.2s}
+.fav-btn:hover{transform:scale(1.1)}
+.recipe-card{position:relative}
+
+/* Print / PDF Styling Template */
+@media print {
+  body { background: #fff !important; color: #000 !important; font-size: 13pt; }
+  header, nav, .offline-banner, .submit-section, footer, .view, .see-more-wrap, .serving-control, .serving-note, .close, .pwa-install-btn { display: none !important; }
+  .modal { display: block !important; position: static !important; inset: auto !important; background: none !important; padding: 0 !important; overflow: visible !important; }
+  .modal-box { max-width: 100% !important; box-shadow: none !important; border-radius: 0 !important; margin: 0 !important; border: 0 !important; }
+  .modal-top { background: #fff !important; color: #000 !important; border-bottom: 3px solid #e85d04; padding: 0 0 20px 0 !important; margin-bottom: 25px; }
+  .modal-top h2 { font-size: 32pt !important; color: #1a1a1a !important; margin-bottom: 8px !important; }
+  .modal-top p { color: #555 !important; font-size: 14pt !important; opacity: 1 !important; }
+  .modal-body { padding: 0 !important; }
+  .details { display: flex !important; gap: 20px !important; margin-bottom: 25px !important; border: 1px solid #ddd; padding: 12px 18px; border-radius: 8px; background: #fafafa !important; }
+  .detail { background: none !important; padding: 0 !important; border: 0 !important; }
+  .detail b { color: #e85d04 !important; font-size: 11pt !important; }
+  .detail span { color: #222 !important; font-size: 13pt !important; font-weight: 700; }
+  .modal-body h3 { color: #e85d04 !important; font-size: 18pt !important; margin: 25px 0 12px 0 !important; border-bottom: 1px solid #eee; padding-bottom: 6px; page-break-after: avoid; }
+  .ingredients li { border-bottom: 1px solid #eee !important; padding: 6px 0 !important; page-break-inside: avoid; }
+  .ingredients li:before { color: #e85d04 !important; }
+  .steps li { page-break-inside: avoid; padding-bottom: 16px !important; color: #222 !important; }
+  .steps li:before { background: #e85d04 !important; color: #fff !important; }
+  body:after { content: "FestiBites Recipe Kitchen • https://zaminmohammed78-bit.github.io/festibites/"; display: block; text-align: center; margin-top: 40px; font-size: 10pt; color: #777; border-top: 1px solid #ddd; padding-top: 15px; }
+}
 
 </style>
 </head>
@@ -210,6 +242,8 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   <button class="chip" data-cat="Snacks">Snacks</button>
   <button class="chip" data-cat="Desserts">Desserts</button>
   <button class="chip" data-cat="Beverages">Beverages</button>
+  <button class="chip" data-cat="Quick (<30m)">⚡ Quick (&lt;30m)</button>
+  <button class="chip" data-cat="Vegetarian">🌱 Vegetarian</button>
 </div>
 
 <section class="section" id="recipes">
@@ -260,6 +294,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <button type="button" aria-label="Decrease servings" onclick="changeServings(-1)">−</button>
         <input id="servingInput" type="number" min="1" max="100" step="1" value="2" inputmode="numeric" onchange="setServings(this.value)">
         <button type="button" aria-label="Increase servings" onclick="changeServings(1)">+</button>
+        <button type="button" class="print-btn" onclick="printRecipe()">🖨️ Print / PDF</button>
       </div>
       <p class="serving-note">Ingredient amounts adjust automatically when quantities are provided.</p>
       <h3> Ingredients</h3>
@@ -351,7 +386,14 @@ function filterRecipes(resetPage = true){
 
   const q = search.value.toLowerCase().trim();
   const list = recipes.filter(r=>{
-    const categoryOK = activeCategory==="All" || r.category===activeCategory;
+    let categoryOK = activeCategory==="All" || r.category===activeCategory;
+    if(activeCategory==="Quick (<30m)") {
+      categoryOK = Number(r.minutes) <= 30;
+    } else if(activeCategory==="Vegetarian") {
+      const textAll = [r.name, r.description, ...r.ingredients].join(" ").toLowerCase();
+      const nonVeg = ["chicken", "mutton", "beef", "fish", "prawn", "egg", "meat", "lamb", "shrimp", "gelatin", "chicken stock"];
+      categoryOK = !nonVeg.some(item => textAll.includes(item));
+    }
     const text = [r.name,r.category,r.description,...r.ingredients].join(" ").toLowerCase();
     return categoryOK && text.includes(q);
   });
@@ -433,7 +475,7 @@ function openRecipe(index){
   updateServingIngredients();
 
   document.getElementById("mSteps").innerHTML =
-    r.steps.map(x=>`<li>${x}</li>`).join("");
+    r.steps.map(x=>`<li onclick="this.classList.toggle('done')" title="Click to cross off step">${x}</li>`).join("");
 
   document.getElementById("modal").style.display = "block";
   document.body.style.overflow = "hidden";
@@ -442,6 +484,11 @@ function openRecipe(index){
 function closeRecipe(){
   document.getElementById("modal").style.display = "none";
   document.body.style.overflow = "";
+}
+
+function printRecipe(){
+  if(!selectedRecipe) return;
+  window.print();
 }
 
 document.getElementById("modal").addEventListener("click",e=>{
