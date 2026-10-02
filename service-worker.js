@@ -1,9 +1,12 @@
-const CACHE_NAME = 'festibites-v1';
+const CACHE_NAME = 'festibites-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './apple-touch-icon.png',
   './sitemap.xml'
 ];
 
@@ -11,7 +14,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] Caching core app assets');
+      console.log('[Service Worker] Caching core app assets for offline cross-platform use');
       return cache.addAll(ASSETS_TO_CACHE);
     }).then(() => self.skipWaiting())
   );
@@ -24,7 +27,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('[Service Worker] Deleting old cache:', cache);
+            console.log('[Service Worker] Deleting outdated cache:', cache);
             return caches.delete(cache);
           }
         })
@@ -47,7 +50,7 @@ self.addEventListener('fetch', (event) => {
               caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
             }
           })
-          .catch(() => {/* Offline fallback */});
+          .catch(() => {/* Silent fallback when offline */});
         return cachedResponse;
       }
 

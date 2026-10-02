@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FestiBites — Recipe Kitchen</title>
+  <meta name="description" content="A responsive web application to discover, search, and save delicious cooking recipes with ingredients, step-by-step instructions, and dietary filters on any OS.">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/svg+xml" href="./icon.svg">
-  <link rel="apple-touch-icon" href="./icon.svg">
-<meta name="theme-color" content="#ff6b35">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="FestiBites">
+  <!-- Cross-Platform PWA & Mobile Meta Tags -->
+  <meta name="theme-color" content="#ff6b35">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FestiBites">
+  <meta name="msapplication-TileColor" content="#ff6b35">
+  <meta name="msapplication-TileImage" content="./icon-192.png">
   <meta name="google-site-verification" content="srmVmo-jNBUa6fCeCXqfgdyS2pJZVv5WVrP3X2rczwk" />
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FestiBites — Recipe Kitchen</title>
   <link rel="canonical" href="https://zaminmohammed78-bit.github.io/festibites/">
 <style>
 :root{
@@ -30,7 +34,11 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--cream);color:var(--ink)}
-header{position:sticky;top:0;z-index:50;background:rgba(255,250,242,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:16px 6%;display:flex;align-items:center;justify-content:space-between}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:max(16px,env(safe-area-inset-top)) max(6%,env(safe-area-inset-right)) 16px max(6%,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 10px 35px rgba(210,80,20,.08)}
+.pwa-install-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;padding:9px 18px;border-radius:99px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);transition:transform .2s ease,box-shadow .2s ease;font-family:inherit}
+.pwa-install-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(232,93,4,.35)}
+.pwa-install-btn:active{transform:translateY(0)}
+.offline-banner{background:#3a1b0f;color:#ffb067;text-align:center;padding:10px 16px;font-size:14px;font-weight:800;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .logo{font-size:28px;font-weight:900;letter-spacing:-1px;color:var(--ink)}
 .logo span{color:var(--coral)}
 nav{display:flex;gap:25px}
@@ -133,6 +141,10 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 </head>
 <body>
 
+<div id="offlineBanner" class="offline-banner" style="display:none;">
+  ⚡ You are viewing FestiBites offline. Saved recipes remain fully accessible!
+</div>
+
 <header>
   <div class="logo brand-logo" aria-label="FestiBites">
   <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
@@ -156,6 +168,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
     <a href="#about">About</a>
     <a href="#submit-recipe">Share Recipe</a>
   </nav>
+  <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
 
 <section class="hero" id="home">
@@ -241,6 +254,34 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       <ul class="ingredients" id="mIngredients"></ul>
       <h3>‍ Step-by-step instructions</h3>
       <ol class="steps" id="mSteps"></ol>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="iosInstallModal" style="display:none;">
+  <div class="modal-box" style="max-width:500px;background:#fff;border-radius:24px;overflow:hidden;margin:auto;">
+    <div class="modal-top" style="padding:28px 24px;text-align:center;">
+      <button class="close" onclick="document.getElementById('iosInstallModal').style.display='none'">×</button>
+      <div style="font-size:42px;margin-bottom:8px;">📲</div>
+      <h2 style="font-size:26px;margin:0 0 6px;">Install FestiBites</h2>
+      <p style="opacity:.95;font-size:14px;line-height:1.5;">Add FestiBites to your iOS Home Screen for a fast, native app experience on iPhone & iPad.</p>
+    </div>
+    <div class="modal-body" style="padding:24px;">
+      <ol style="list-style:none;padding:0;margin:0 0 20px;">
+        <li style="position:relative;padding:0 0 16px 44px;line-height:1.6;color:var(--ink);font-size:15px;">
+          <span style="position:absolute;left:0;top:0;width:32px;height:32px;background:var(--coral);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;">1</span>
+          Tap the <b>Share</b> button <span style="display:inline-block;background:#f0f0f0;padding:2px 6px;border-radius:6px;">⎋</span> at the bottom of Safari.
+        </li>
+        <li style="position:relative;padding:0 0 16px 44px;line-height:1.6;color:var(--ink);font-size:15px;">
+          <span style="position:absolute;left:0;top:0;width:32px;height:32px;background:var(--coral);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;">2</span>
+          Scroll down and tap <b>Add to Home Screen</b> <span style="display:inline-block;background:#f0f0f0;padding:2px 6px;border-radius:6px;">➕</span>.
+        </li>
+        <li style="position:relative;padding:0 0 0 44px;line-height:1.6;color:var(--ink);font-size:15px;">
+          <span style="position:absolute;left:0;top:0;width:32px;height:32px;background:var(--coral);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;">3</span>
+          Tap <b>Add</b> in the top-right corner to complete installation.
+        </li>
+      </ol>
+      <button class="view" style="width:100%;padding:13px;font-size:15px;" onclick="document.getElementById('iosInstallModal').style.display='none'">Got it!</button>
     </div>
   </div>
 </div>
@@ -4653,18 +4694,92 @@ document.addEventListener("keydown",e=>{
 
 document.getElementById("heroCount").textContent = recipes.length + "+";
 render(recipes);
-
-
 </script>
-  <script>
+<script>
+// PWA Registration, Cross-OS Installation & Offline Handlers
+let deferredPrompt = null;
+const pwaInstallBtn = document.getElementById("pwaInstallBtn");
+const iosInstallModal = document.getElementById("iosInstallModal");
+
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (pwaInstallBtn && !isStandalone) {
+    pwaInstallBtn.style.display = "inline-flex";
+    pwaInstallBtn.textContent = "📲 Install App";
+  }
+});
+
+if (isIOS && !isStandalone) {
+  if (pwaInstallBtn) {
+    pwaInstallBtn.style.display = "inline-flex";
+    pwaInstallBtn.textContent = "📲 Install App";
+  }
+}
+
+if (pwaInstallBtn) {
+  pwaInstallBtn.addEventListener("click", () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("FestiBites installed successfully!");
+          pwaInstallBtn.style.display = "none";
+        }
+        deferredPrompt = null;
+      });
+    } else if (isIOS) {
+      if (iosInstallModal) iosInstallModal.style.display = "block";
+    }
+  });
+}
+
+window.addEventListener("appinstalled", () => {
+  if (pwaInstallBtn) pwaInstallBtn.style.display = "none";
+  console.log("FestiBites installed on system!");
+});
+
+// Offline Banner logic
+function updateOnlineStatus() {
+  const offlineBanner = document.getElementById("offlineBanner");
+  if (offlineBanner) {
+    offlineBanner.style.display = navigator.onLine ? "none" : "flex";
+  }
+}
+window.addEventListener("online", updateOnlineStatus);
+window.addEventListener("offline", updateOnlineStatus);
+updateOnlineStatus();
+
+// Keyboard Shortcuts & Modal Dismissal
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeRecipe();
+    if (iosInstallModal) iosInstallModal.style.display = "none";
+  }
+  if (e.key === "/" && document.activeElement !== search) {
+    e.preventDefault();
+    search.focus();
+  }
+});
+
+if (iosInstallModal) {
+  iosInstallModal.addEventListener("click", (e) => {
+    if (e.target.id === "iosInstallModal") iosInstallModal.style.display = "none";
+  });
+}
+
+// Service Worker Registration
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./service-worker.js")
       .then(registration => {
-        console.log("FestiBites PWA is ready!");
+        console.log("FestiBites PWA is active and offline-ready!");
       })
       .catch(error => {
-        console.error("PWA registration failed:", error);
+        console.error("PWA Service Worker registration error:", error);
       });
   });
 }
