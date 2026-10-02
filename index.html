@@ -137,13 +137,6 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 .google-form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,93,4,.28)}
 @media(max-width:650px){.submit-section{padding:55px 5%}.submit-box{padding:22px}.google-form-submit{width:100%}}
 
-
-/* Custom Serving Selector */
-.serving-detail{min-width:170px}
-.serving-selector{display:flex;align-items:center;gap:10px;margin-top:6px}
-.serving-btn{width:32px;height:32px;border:0;border-radius:9px;background:var(--coral);color:#fff;font-size:20px;font-weight:900;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.serving-btn:hover{background:var(--teal)}
-.serving-selector #mServings{min-width:24px;text-align:center;font-size:17px;font-weight:900;color:var(--ink)}
 </style>
 </head>
 <body>
@@ -254,14 +247,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
     <div class="modal-body">
       <div class="details">
         <div class="detail"><b>Cooking time</b><span id="mTime"></span></div>
-        <div class="detail serving-detail">
-          <b>Servings</b>
-          <div class="serving-selector">
-            <button type="button" class="serving-btn" onclick="changeServings(-1)" aria-label="Decrease servings">−</button>
-            <span id="mServings">1</span>
-            <button type="button" class="serving-btn" onclick="changeServings(1)" aria-label="Increase servings">+</button>
-          </div>
-        </div>
+        <div class="detail"><b>Servings</b><span id="mServings"></span></div>
         <div class="detail"><b>Difficulty</b><span id="mDifficulty"></span></div>
       </div>
       <h3> Ingredients</h3>
@@ -4629,13 +4615,11 @@ function render(list){
   shown.forEach((r,i)=>{
     const card = document.createElement("article");
     card.className = "card";
-    const minutes = r.minutes ?? r.time ?? "—";
-    const servings = r.servings ?? "—";
     card.innerHTML = `
-      <div class="tag">${r.category || "Recipe"}</div>
+      <div class="tag">${r.category}</div>
       <h3>${r.name}</h3>
-      <p>${r.description || ""}</p>
-      <div class="meta"><span>${minutes} min</span><span>${servings} servings</span><span>${r.difficulty || "Easy"}</span></div>
+      <p>${r.description}</p>
+      <div class="meta"><span>${r.minutes} min</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
       <button class="view" onclick="openRecipe(${i})">View full recipe</button>
     `;
     grid.appendChild(card);
@@ -4649,33 +4633,26 @@ function render(list){
   }
 }
 
-seeMoreBtn.addEventListener("click",()=>{
+function filterRecipes(resetPage = true){
+  if(resetPage) visibleCount = PAGE_SIZE;
+
+  const q = search.value.toLowerCase().trim();
+  const list = recipes.filter(r=>{
+    const categoryOK = activeCategory==="All" || r.category===activeCategory;
+    const text = [r.name,r.category,r.description,...r.ingredients].join(" ").toLowerCase();
+    return categoryOK && text.includes(q);
+  });
+  render(list);
+}
+
+seeMoreBtn.addEventListener("click", ()=>{
   visibleCount += PAGE_SIZE;
   render(currentList);
 });
 
-function filterRecipes(){
-  const term = search.value.trim().toLowerCase();
-
-  const filtered = recipes.filter(r=>{
-    const matchesCategory = activeCategory === "All" || r.category === activeCategory;
-    const haystack = [
-      r.name,
-      r.category,
-      r.description,
-      ...(r.ingredients || [])
-    ].join(" ").toLowerCase();
-
-    return matchesCategory && (!term || haystack.includes(term));
-  });
-
-  visibleCount = PAGE_SIZE;
-  render(filtered);
-}
-
 document.querySelectorAll(".chip").forEach(btn=>{
   btn.addEventListener("click",()=>{
-    document.querySelectorAll(".chip").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
     btn.classList.add("active");
     activeCategory = btn.dataset.cat;
     filterRecipes();
@@ -4684,102 +4661,22 @@ document.querySelectorAll(".chip").forEach(btn=>{
 
 search.addEventListener("input", filterRecipes);
 
-let activeRecipe = null;
-let selectedServings = 1;
-
 function openRecipe(index){
   const r = currentList[index];
-  if(!r) return;
+  document.getElementById("mTitle").textContent = r.name;
+  document.getElementById("mDesc").textContent = r.description;
+  document.getElementById("mTime").textContent = `${r.minutes} minutes`;
+  document.getElementById("mServings").textContent = `${r.servings} people`;
+  document.getElementById("mDifficulty").textContent = r.difficulty;
 
-  activeRecipe = r;
-  selectedServings = Math.min(10, Math.max(1, Number(r.servings) || 1));
-
-  document.getElementById("mTitle").textContent = r.name || "Recipe";
-  document.getElementById("mDesc").textContent = r.description || "";
-  document.getElementById("mTime").textContent = r.minutes ?? r.time ?? "—";
-  document.getElementById("mDifficulty").textContent = r.difficulty || "Easy";
-
-  updateServingDisplay();
+  document.getElementById("mIngredients").innerHTML =
+    r.ingredients.map(x=>`<li>${x}</li>`).join("");
 
   document.getElementById("mSteps").innerHTML =
-    (r.steps || []).map(x=>`<li>${x}</li>`).join("");
+    r.steps.map(x=>`<li>${x}</li>`).join("");
 
   document.getElementById("modal").style.display = "block";
   document.body.style.overflow = "hidden";
-}
-
-function changeServings(amount){
-  if(!activeRecipe) return;
-  const newServings = selectedServings + amount;
-  if(newServings < 1 || newServings > 10) return;
-  selectedServings = newServings;
-  updateServingDisplay();
-}
-
-function updateServingDisplay(){
-  if(!activeRecipe) return;
-
-  document.getElementById("mServings").textContent = selectedServings;
-
-  const originalServings = Number(activeRecipe.servings);
-  const multiplier = originalServings > 0 ? selectedServings / originalServings : 1;
-
-  document.getElementById("mIngredients").innerHTML =
-    (activeRecipe.ingredients || [])
-      .map(ingredient => `<li>${scaleIngredient(ingredient, multiplier)}</li>`)
-      .join("");
-}
-
-function scaleIngredient(ingredient, multiplier){
-  const match = ingredient.match(/^(\\d+(?:\\s+\\d+\\/\\d+)?|\\d+\\/\\d+|\\d*\\.\\d+)(\\s+)(.*)$/);
-  if(!match) return ingredient;
-
-  const quantity = parseFraction(match[1]);
-  if(quantity === null || !Number.isFinite(quantity)) return ingredient;
-
-  return `${formatQuantity(quantity * multiplier)} ${match[3]}`;
-}
-
-function parseFraction(value){
-  value = value.trim();
-
-  if(value.includes(" ")){
-    const parts = value.split(/\\s+/);
-    if(parts.length === 2 && parts[1].includes("/")){
-      const whole = Number(parts[0]);
-      const fraction = parseFraction(parts[1]);
-      if(Number.isFinite(whole) && fraction !== null) return whole + fraction;
-    }
-  }
-
-  if(value.includes("/")){
-    const parts = value.split("/");
-    if(parts.length === 2){
-      const numerator = Number(parts[0]);
-      const denominator = Number(parts[1]);
-      if(Number.isFinite(numerator) && Number.isFinite(denominator) && denominator !== 0){
-        return numerator / denominator;
-      }
-    }
-  }
-
-  const number = Number(value);
-  return Number.isFinite(number) ? number : null;
-}
-
-function formatQuantity(value){
-  value = Math.round(value * 100) / 100;
-  const commonFractions = [[0.25,"¼"],[0.33,"⅓"],[0.5,"½"],[0.67,"⅔"],[0.75,"¾"]];
-  const whole = Math.floor(value);
-  const fraction = value - whole;
-
-  for(const [decimal,symbol] of commonFractions){
-    if(Math.abs(fraction - decimal) < 0.02){
-      return whole > 0 ? `${whole} ${symbol}` : symbol;
-    }
-  }
-
-  return Number.isInteger(value) ? String(value) : String(value);
 }
 
 function closeRecipe(){
@@ -4796,7 +4693,8 @@ document.addEventListener("keydown",e=>{
 });
 
 document.getElementById("heroCount").textContent = recipes.length + "+";
-render(recipes);</script>
+render(recipes);
+</script>
 <script>
 // PWA Registration, Cross-OS Installation & Offline Handlers
 let deferredPrompt = null;
