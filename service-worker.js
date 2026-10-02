@@ -1,7 +1,8 @@
-const CACHE_NAME = 'festibites-v2';
+const CACHE_NAME = 'festibites-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './recipes.json',
   './manifest.json',
   './icon.svg',
   './icon-192.png',
