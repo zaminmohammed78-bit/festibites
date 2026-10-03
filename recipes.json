@@ -1864,31 +1864,7 @@
       "Finish with coconut oil and curry leaves."
     ]
   },
-  {
-    "name": "Banana Fritters",
-    "category": "Kerala Foods",
-    "icon": "",
-    "minutes": 20,
-    "servings": 4,
-    "difficulty": "Easy",
-    "ingredients": [
-      "3 ripe bananas",
-      "1 cup flour",
-      "2 tbsp sugar",
-      "1/2 tsp cinnamon",
-      "1/2 cup milk",
-      "Oil for frying"
-    ],
-    "steps": [
-      "Mash bananas in a bowl.",
-      "Add flour, sugar, cinnamon and milk to make a thick batter.",
-      "Heat oil over medium heat.",
-      "Drop small spoonfuls of batter into the oil.",
-      "Fry until golden on both sides.",
-      "Drain and serve warm with honey."
-    ],
-    "description": "A delicious banana fritters recipe with clear ingredients and detailed cooking instructions."
-  },
+
   {
     "name": "Idiyappam",
     "category": "Kerala Foods",
@@ -2024,31 +2000,7 @@
       "Finish with curry leaves."
     ]
   },
-  {
-    "name": "Kerala Sadya",
-    "category": "Kerala Foods",
-    "time": "90 min",
-    "difficulty": "Hard",
-    "ingredients": [
-      "Steamed rice – 3 cups",
-      "Avial – 1 bowl",
-      "Thoran – 1 bowl",
-      "Sambar – 1 bowl",
-      "Olan – 1 bowl",
-      "Kalan – 1 bowl",
-      "Pachadi – 1 bowl",
-      "Pickle – 2 tbsp",
-      "Papad – 2",
-      "Payasam – 1 bowl"
-    ],
-    "steps": [
-      "Prepare the individual Sadya dishes separately.",
-      "Cook and keep steamed rice hot.",
-      "Arrange the dishes traditionally on a clean banana leaf.",
-      "Serve rice with the curries and side dishes.",
-      "Finish the meal with payasam."
-    ]
-  },
+
   {
     "name": "Kerala Thoran",
     "category": "Kerala Foods",
