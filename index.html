@@ -86,13 +86,14 @@ footer span{color:#ff9a89}
 .close:active{transform:scale(.95)}
 .modal-body{padding:30px}
 .details{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:25px}
-.detail{background:#eef8f6;padding:13px 18px;border-radius:12px}
+.detail{background:#eef8f6;padding:13px 18px;border-radius:12px;flex:1;min-width:110px}
 .detail b{display:block;color:var(--teal);font-size:12px;text-transform:uppercase;margin-bottom:4px}
 .modal-body h3{margin:24px 0 12px;color:var(--teal);font-size:23px}
-.serving-control{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 8px;padding:14px;background:#fff7f1;border:1px solid var(--line);border-radius:14px}
-.serving-control label{font-weight:800;margin-right:auto;color:var(--ink)}
-.serving-control button{width:38px;height:38px;border:0;border-radius:10px;background:var(--coral);color:#fff;font-size:22px;font-weight:800;cursor:pointer}
-.serving-control input{width:66px;height:38px;text-align:center;border:1px solid #ead8ce;border-radius:10px;font:inherit;font-weight:800;color:var(--ink);background:#fff}
+.serving-control{display:flex;align-items:center;gap:10px;margin:0 0 8px;padding:14px;background:#fff7f1;border:1px solid var(--line);border-radius:14px}
+.serving-control label{font-weight:800;margin-right:auto;color:var(--ink);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.serving-stepper{display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
+.serving-control button{width:36px;height:36px;border:0;border-radius:10px;background:var(--coral);color:#fff;font-size:20px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.serving-control input{width:54px;height:36px;text-align:center;border:1px solid #ead8ce;border-radius:10px;font:inherit;font-weight:800;color:var(--ink);background:#fff;flex-shrink:0}
 .serving-note{font-size:12px;color:var(--muted);margin-bottom:18px}
 .ingredients{list-style:none}
 .ingredients li{padding:9px 0;border-bottom:1px solid #edf1f0}
@@ -293,13 +294,16 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <div class="detail"><b>Cooking time</b><span id="mTime"></span></div>
         <div class="detail"><b>Servings</b><span id="mServings"></span></div>
         <div class="detail"><b>Difficulty</b><span id="mDifficulty"></span></div>
+        <div class="detail" style="background:#fff3eb;"><b>Est. Calories</b><span id="mCalories" style="color:var(--coral);font-weight:900;"></span></div>
       </div>
       <div class="serving-control">
         <label for="servingInput">Customize servings</label>
-        <button type="button" aria-label="Decrease servings" onclick="changeServings(-1)">−</button>
-        <input id="servingInput" type="number" min="1" max="100" step="1" value="2" inputmode="numeric" onchange="setServings(this.value)">
-        <button type="button" aria-label="Increase servings" onclick="changeServings(1)">+</button>
-        <button type="button" class="print-btn" aria-label="Share Recipe" title="Share Recipe" onclick="shareRecipe()">📤 Share</button>
+        <div class="serving-stepper">
+          <button type="button" aria-label="Decrease servings" onclick="changeServings(-1)">−</button>
+          <input id="servingInput" type="number" min="1" max="100" step="1" value="2" inputmode="numeric" onchange="setServings(this.value)">
+          <button type="button" aria-label="Increase servings" onclick="changeServings(1)">+</button>
+        </div>
+        <button type="button" class="print-btn" aria-label="Share Recipe" title="Share Recipe" onclick="shareRecipe()">📤</button>
         <button type="button" class="print-btn" aria-label="Print or Export PDF" title="Print or Export PDF" onclick="printRecipe()">🖨️</button>
       </div>
       <p class="serving-note">Ingredient amounts adjust automatically when quantities are provided.</p>
@@ -468,11 +472,25 @@ function scaledIngredient(ingredient, factor){
   return formatQuantity(amount * factor) + ingredient.slice(match[0].length);
 }
 
+function estimateCalories(recipe){
+  if(recipe.calories) return recipe.calories;
+  let base = 250;
+  const cat = (recipe.category || "").toLowerCase();
+  if(cat.includes("biryani") || cat.includes("fast food") || cat.includes("dinner") || cat.includes("lunch")) base = 480;
+  else if(cat.includes("breakfast") || cat.includes("indian") || cat.includes("kerala")) base = 320;
+  else if(cat.includes("snack") || cat.includes("dessert")) base = 280;
+  else if(cat.includes("beverage")) base = 150;
+  const ingCount = (recipe.ingredients || []).length;
+  return base + (ingCount * 18);
+}
+
 function updateServingIngredients(){
   if(!selectedRecipe) return;
   const factor = selectedServings / originalServings;
   document.getElementById("servingInput").value = selectedServings;
   document.getElementById("mServings").textContent = selectedServings + (selectedServings === 1 ? " person" : " people");
+  const calPerPerson = Math.round(estimateCalories(selectedRecipe));
+  document.getElementById("mCalories").textContent = `${calPerPerson} kcal / person`;
   document.getElementById("mIngredients").innerHTML =
     selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
 }
