@@ -299,6 +299,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <button type="button" aria-label="Decrease servings" onclick="changeServings(-1)">−</button>
         <input id="servingInput" type="number" min="1" max="100" step="1" value="2" inputmode="numeric" onchange="setServings(this.value)">
         <button type="button" aria-label="Increase servings" onclick="changeServings(1)">+</button>
+        <button type="button" class="print-btn" aria-label="Share Recipe" title="Share Recipe" onclick="shareRecipe()">📤 Share</button>
         <button type="button" class="print-btn" aria-label="Print or Export PDF" title="Print or Export PDF" onclick="printRecipe()">🖨️</button>
       </div>
       <p class="serving-note">Ingredient amounts adjust automatically when quantities are provided.</p>
@@ -306,6 +307,25 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       <ul class="ingredients" id="mIngredients"></ul>
       <h3>‍ Step-by-step instructions</h3>
       <ol class="steps" id="mSteps"></ol>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="shareModal" style="display:none;">
+  <div class="modal-box" style="max-width:500px;background:#fff;border-radius:24px;overflow:hidden;margin:auto;">
+    <div class="modal-top" style="padding:28px 24px;text-align:center;">
+      <button class="close" onclick="document.getElementById('shareModal').style.display='none'">×</button>
+      <div style="font-size:38px;margin-bottom:6px;">📤</div>
+      <h2 style="font-size:24px;margin:0 0 4px;">Share Recipe</h2>
+      <p style="opacity:.95;font-size:13px;" id="shareModalSubtitle">Share recipe text directly to your favorite app.</p>
+    </div>
+    <div class="modal-body" style="padding:20px;">
+      <textarea id="shareTextArea" aria-label="Recipe text preview" style="width:100%;height:180px;border:1px solid #ead8ce;border-radius:12px;padding:12px;font-family:inherit;font-size:13px;line-height:1.5;resize:none;outline:none;background:#fffdfb;" readonly></textarea>
+      <div style="display:flex;gap:10px;margin-top:14px;">
+        <button class="view" style="flex:1;padding:12px;background:var(--coral);" onclick="copyShareText()">📋 Copy Text</button>
+        <button class="view" style="flex:1;padding:12px;background:var(--ink);" onclick="triggerNativeShare()">📱 Share via App</button>
+      </div>
+      <p id="copyToast" style="text-align:center;color:var(--teal);font-weight:800;font-size:13px;margin-top:10px;display:none;">✓ Copied to clipboard!</p>
     </div>
   </div>
 </div>
@@ -491,6 +511,53 @@ function closeRecipe(){
   document.body.style.overflow = "";
 }
 
+function generateShareText(){
+  if(!selectedRecipe) return "";
+  const factor = selectedServings / originalServings;
+  const ingredients = selectedRecipe.ingredients.map(x => "• " + scaledIngredient(x, factor)).join("\n");
+  const steps = selectedRecipe.steps.map((x, i) => `${i + 1}. ${x}`).join("\n");
+  return `🍳 *${selectedRecipe.name}* (${selectedRecipe.category})\n⏱️ Time: ${selectedRecipe.minutes} mins | 👥 Servings: ${selectedServings} | 📊 ${selectedRecipe.difficulty}\n\n${selectedRecipe.description}\n\n🛒 *INGREDIENTS:*\n${ingredients}\n\n👨‍🍳 *INSTRUCTIONS:*\n${steps}\n\nShared from FestiBites Recipe Kitchen: https://zaminmohammed78-bit.github.io/festibites/`;
+}
+
+function shareRecipe(){
+  if(!selectedRecipe) return;
+  const shareText = generateShareText();
+  document.getElementById("shareTextArea").value = shareText;
+  document.getElementById("shareModal").style.display = "block";
+  document.getElementById("copyToast").style.display = "none";
+}
+
+function copyShareText(){
+  const textArea = document.getElementById("shareTextArea");
+  navigator.clipboard.writeText(textArea.value).then(() => {
+    const toast = document.getElementById("copyToast");
+    toast.style.display = "block";
+    setTimeout(() => { toast.style.display = "none"; }, 2500);
+  }).catch(() => {
+    textArea.select();
+    document.execCommand("copy");
+    const toast = document.getElementById("copyToast");
+    toast.style.display = "block";
+    setTimeout(() => { toast.style.display = "none"; }, 2500);
+  });
+}
+
+function triggerNativeShare(){
+  if(!selectedRecipe) return;
+  const shareText = generateShareText();
+  if (navigator.share) {
+    navigator.share({
+      title: `${selectedRecipe.name} — FestiBites`,
+      text: shareText,
+      url: "https://zaminmohammed78-bit.github.io/festibites/"
+    }).catch(err => {
+      if(err.name !== "AbortError") console.log("Share failed:", err);
+    });
+  } else {
+    copyShareText();
+  }
+}
+
 function printRecipe(){
   if(!selectedRecipe) return;
   window.print();
@@ -583,12 +650,21 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeRecipe();
     if (iosInstallModal) iosInstallModal.style.display = "none";
+    const shareModal = document.getElementById("shareModal");
+    if (shareModal) shareModal.style.display = "none";
   }
   if (e.key === "/" && document.activeElement !== search) {
     e.preventDefault();
     search.focus();
   }
 });
+
+const shareModal = document.getElementById("shareModal");
+if (shareModal) {
+  shareModal.addEventListener("click", (e) => {
+    if (e.target.id === "shareModal") shareModal.style.display = "none";
+  });
+}
 
 if (iosInstallModal) {
   iosInstallModal.addEventListener("click", (e) => {
