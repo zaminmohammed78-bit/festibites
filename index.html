@@ -228,10 +228,12 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 </section>
 
 <div class="search-wrap">
-  <div class="search" style="position:relative;">
-    <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
-    <button onclick="filterRecipes()">Search</button>
-    <button type="button" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:0 16px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;" title="Surprise Me Spinner">🎲 Surprise Me</button>
+  <div class="search" style="position:relative;flex-wrap:wrap;gap:8px;background:transparent;border:0;box-shadow:none;padding:0;">
+    <div style="flex:1;min-width:240px;background:white;border:1px solid #dfe8e7;border-radius:18px;display:flex;padding:6px;box-shadow:0 12px 30px rgba(21,59,58,.06);">
+      <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
+      <button onclick="filterRecipes()">Search</button>
+    </div>
+    <button type="button" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:18px;padding:0 22px;font-weight:800;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 25px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;min-height:54px;flex:1;min-width:180px;" title="Surprise Me Spinner">🎲 Surprise Me Spinner</button>
   </div>
 </div>
 
