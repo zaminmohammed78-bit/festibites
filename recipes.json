@@ -1840,29 +1840,7 @@
     ],
     "description": "A delicious Vegetable Biryani recipe with clear ingredients and step-by-step cooking instructions."
   },
-  {
-    "name": "Ada Pradhaman",
-    "category": "Kerala Foods",
-    "time": "40 min",
-    "difficulty": "Medium",
-    "ingredients": [
-      "Rice ada – 1 cup",
-      "Jaggery – 1½ cups",
-      "Thin coconut milk – 3 cups",
-      "Thick coconut milk – 1 cup",
-      "Cardamom – ½ tsp",
-      "Coconut pieces – 2 tbsp",
-      "Ghee – 1 tbsp"
-    ],
-    "steps": [
-      "Cook the rice ada until soft and drain.",
-      "Melt jaggery with a little water and strain.",
-      "Cook ada with jaggery and thin coconut milk until thickened.",
-      "Add thick coconut milk and heat gently without boiling hard.",
-      "Add cardamom and fried coconut pieces in ghee.",
-      "Serve warm or chilled."
-    ]
-  },
+
   {
     "name": "Avial",
     "category": "Kerala Foods",
@@ -2205,31 +2183,7 @@
       "Drain and serve warm."
     ]
   },
-  {
-    "name": "Rice Payasam",
-    "category": "Kerala Foods",
-    "icon": "",
-    "minutes": 50,
-    "servings": 6,
-    "difficulty": "Easy",
-    "ingredients": [
-      "1/2 cup rice",
-      "1 liter milk",
-      "1/2 cup sugar",
-      "3 cardamom pods",
-      "2 tbsp cashews",
-      "2 tbsp raisins"
-    ],
-    "steps": [
-      "Wash rice and add it to a heavy pot with milk.",
-      "Simmer slowly, stirring often, until rice is very soft.",
-      "Add sugar and cardamom.",
-      "Cook until the payasam thickens.",
-      "Toast cashews and raisins in a little ghee.",
-      "Add them to the payasam and serve warm or chilled."
-    ],
-    "description": "A delicious rice payasam recipe with clear ingredients and detailed cooking instructions."
-  },
+
   {
     "name": "Aloo Tikki",
     "category": "Snacks",
