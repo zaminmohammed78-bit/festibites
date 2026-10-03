@@ -228,9 +228,10 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 </section>
 
 <div class="search-wrap">
-  <div class="search">
+  <div class="search" style="position:relative;">
     <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
     <button onclick="filterRecipes()">Search</button>
+    <button type="button" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:0 16px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;" title="Surprise Me Spinner">🎲 Surprise Me</button>
   </div>
 </div>
 
@@ -296,8 +297,17 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <div class="detail"><b>Difficulty</b><span id="mDifficulty"></span></div>
         <div class="detail" style="background:#fff3eb;"><b>Est. Calories</b><span id="mCalories" style="color:var(--coral);font-weight:900;"></span></div>
       </div>
+      <div id="spiceControlWrap" class="serving-control" style="margin-bottom:12px;background:#fff5f2;border-color:#ffddd5;display:none;">
+        <label for="spiceSelect">🌶️ Spice Level</label>
+        <select id="spiceSelect" onchange="updateSpiceLevel(this.value)" style="padding:6px 12px;border-radius:10px;border:1px solid #ffbcae;font-weight:800;color:var(--ink);background:#fff;outline:none;cursor:pointer;">
+          <option value="Mild">🌶️ Mild</option>
+          <option value="Medium">🌶️🌶️ Medium</option>
+          <option value="Spicy">🌶️🌶️🌶️ Spicy</option>
+          <option value="Extra Spicy">🔥 Extra Spicy</option>
+        </select>
+      </div>
       <div class="serving-control">
-        <label for="servingInput">Customize servings</label>
+        <label for="servingInput">Custom servings</label>
         <div class="serving-stepper">
           <button type="button" aria-label="Decrease servings" onclick="changeServings(-1)">−</button>
           <input id="servingInput" type="number" min="1" max="100" step="1" value="2" inputmode="numeric" onchange="setServings(this.value)">
@@ -330,6 +340,28 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <button class="view" style="flex:1;padding:12px;background:var(--ink);" onclick="triggerNativeShare()">📱 Share via App</button>
       </div>
       <p id="copyToast" style="text-align:center;color:var(--teal);font-weight:800;font-size:13px;margin-top:10px;display:none;">✓ Copied to clipboard!</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="spinnerModal" style="display:none;">
+  <div class="modal-box" style="max-width:520px;background:#fff;border-radius:24px;overflow:hidden;margin:auto;text-align:center;">
+    <div class="modal-top" style="padding:28px 24px;">
+      <button class="close" onclick="closeSpinnerModal()">×</button>
+      <div style="font-size:42px;margin-bottom:6px;">🎲</div>
+      <h2 style="font-size:26px;margin:0 0 4px;">What To Cook Today?</h2>
+      <p style="opacity:.95;font-size:14px;">Spin the wheel to pick a surprise recipe for your next meal!</p>
+    </div>
+    <div class="modal-body" style="padding:28px 20px;">
+      <div id="spinnerDisplay" style="padding:24px;border:2px dashed var(--coral);border-radius:18px;background:#fff7f1;margin-bottom:20px;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .1s ease;">
+        <span id="spinCategory" class="tag" style="margin-bottom:6px;display:inline-block;">Press Spin Below</span>
+        <h3 id="spinName" style="font-size:22px;color:var(--ink);margin:4px 0;">🎉 Ready to spin?</h3>
+        <p id="spinDesc" style="font-size:13px;color:var(--muted);margin:0;">Let FestiBites choose a delicious recipe for you.</p>
+      </div>
+      <div style="display:flex;gap:12px;">
+        <button id="spinBtn" class="see-more" style="flex:1;padding:14px;margin:0;" onclick="spinWheel()">🎲 Spin Wheel!</button>
+        <button id="spinViewBtn" class="view" style="padding:14px 22px;background:var(--ink);display:none;" onclick="openSpunRecipe()">View Recipe →</button>
+      </div>
     </div>
   </div>
 </div>
@@ -392,8 +424,9 @@ function render(list){
   shown.forEach((r,i)=>{
     const card = document.createElement("article");
     card.className = "card";
+    const spiceTag = r.spiceLevel ? ` • ${r.spiceLevel}` : '';
     card.innerHTML = `
-      <div class="tag">${r.category}</div>
+      <div class="tag">${r.category}${spiceTag}</div>
       <h3>${r.name}</h3>
       <p>${r.description}</p>
       <div class="meta"><span>${r.minutes} min</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
@@ -472,16 +505,82 @@ function scaledIngredient(ingredient, factor){
   return formatQuantity(amount * factor) + ingredient.slice(match[0].length);
 }
 
-function estimateCalories(recipe){
-  if(recipe.calories) return recipe.calories;
-  let base = 250;
-  const cat = (recipe.category || "").toLowerCase();
-  if(cat.includes("biryani") || cat.includes("fast food") || cat.includes("dinner") || cat.includes("lunch")) base = 480;
-  else if(cat.includes("breakfast") || cat.includes("indian") || cat.includes("kerala")) base = 320;
-  else if(cat.includes("snack") || cat.includes("dessert")) base = 280;
-  else if(cat.includes("beverage")) base = 150;
-  const ingCount = (recipe.ingredients || []).length;
-  return base + (ingCount * 18);
+function calculateAccurateCalories(recipe){
+  if(!recipe || !recipe.ingredients) return 300;
+  let totalCal = 0;
+  const db = [
+    { key: "avocado", cal: 160 },
+    { key: "bread", cal: 80 },
+    { key: "olive oil", cal: 120 },
+    { key: "oil", cal: 120 },
+    { key: "butter", cal: 100 },
+    { key: "ghee", cal: 110 },
+    { key: "oats", cal: 150 },
+    { key: "banana", cal: 105 },
+    { key: "milk", cal: 120 },
+    { key: "honey", cal: 60 },
+    { key: "yogurt", cal: 130 },
+    { key: "berries", cal: 50 },
+    { key: "granola", cal: 140 },
+    { key: "tortilla", cal: 140 },
+    { key: "egg", cal: 70 },
+    { key: "beans", cal: 110 },
+    { key: "cheese", cal: 110 },
+    { key: "chickpea", cal: 160 },
+    { key: "chicken", cal: 220 },
+    { key: "mutton", cal: 280 },
+    { key: "beef", cal: 260 },
+    { key: "fish", cal: 150 },
+    { key: "prawn", cal: 100 },
+    { key: "rice", cal: 200 },
+    { key: "potato", cal: 130 },
+    { key: "paneer", cal: 260 },
+    { key: "pasta", cal: 210 },
+    { key: "mayonnaise", cal: 90 },
+    { key: "flour", cal: 110 },
+    { key: "maida", cal: 110 },
+    { key: "sugar", cal: 50 },
+    { key: "cream", cal: 120 },
+    { key: "chocolate", cal: 150 },
+    { key: "ice cream", cal: 140 }
+  ];
+
+  recipe.ingredients.forEach(ing => {
+    const text = ing.toLowerCase();
+    let found = false;
+    for(let item of db){
+      if(text.includes(item.key)){
+        totalCal += item.cal;
+        found = true;
+        break;
+      }
+    }
+    if(!found && !text.includes("salt") && !text.includes("water") && !text.includes("pepper")) {
+      totalCal += 40;
+    }
+  });
+
+  const baseServings = Math.max(1, Number(recipe.servings) || 1);
+  const calPerServing = Math.round(totalCal / baseServings);
+  return Math.max(120, calPerServing);
+}
+
+let currentSelectedSpice = "Medium";
+
+function getSpiceAdjustedIngredient(ingredient, spiceLevel, factor){
+  const text = ingredient.toLowerCase();
+  const scaled = scaledIngredient(ingredient, factor);
+
+  if(text.includes("chili") || text.includes("chilli") || text.includes("pepper") || text.includes("paprika") || text.includes("schezwan") || text.includes("peri peri")){
+    let spiceMultiplier = 1;
+    if(spiceLevel === "Mild") spiceMultiplier = 0.4;
+    else if(spiceLevel === "Medium") spiceMultiplier = 1;
+    else if(spiceLevel === "Spicy") spiceMultiplier = 1.6;
+    else if(spiceLevel === "Extra Spicy") spiceMultiplier = 2.2;
+
+    return scaledIngredient(ingredient, factor * spiceMultiplier);
+  }
+  return scaled;
 }
 
 function updateServingIngredients(){
@@ -489,10 +588,16 @@ function updateServingIngredients(){
   const factor = selectedServings / originalServings;
   document.getElementById("servingInput").value = selectedServings;
   document.getElementById("mServings").textContent = selectedServings + (selectedServings === 1 ? " person" : " people");
-  const calPerPerson = Math.round(estimateCalories(selectedRecipe));
+  const calPerPerson = calculateAccurateCalories(selectedRecipe);
   document.getElementById("mCalories").textContent = `${calPerPerson} kcal / person`;
+
   document.getElementById("mIngredients").innerHTML =
-    selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
+    selectedRecipe.ingredients.map(x=>`<li>${getSpiceAdjustedIngredient(x, currentSelectedSpice, factor)}</li>`).join("");
+}
+
+function updateSpiceLevel(level){
+  currentSelectedSpice = level;
+  updateServingIngredients();
 }
 
 function setServings(value){
@@ -515,6 +620,18 @@ function openRecipe(index){
   selectedRecipe = r;
   originalServings = Math.max(1, Number(r.servings) || 1);
   selectedServings = originalServings;
+
+  const spiceWrap = document.getElementById("spiceControlWrap");
+  const adjustableList = ["Classic Chicken Burger", "Crispy Veg Cheese Roll", "Spicy Peri Peri French Fries", "Classic Creamy White Sauce Pasta", "Crispy Zinger Chicken Strip Wrap", "Breakfast Burrito", "Chickpea Breakfast Salad"];
+  if(adjustableList.includes(r.name) || r.category === "Fast Food" || r.category === "Biryani" || r.category === "Indian") {
+    spiceWrap.style.display = "flex";
+    currentSelectedSpice = r.spiceLevel || "Medium";
+    document.getElementById("spiceSelect").value = currentSelectedSpice;
+  } else {
+    spiceWrap.style.display = "none";
+    currentSelectedSpice = "Medium";
+  }
+
   updateServingIngredients();
 
   document.getElementById("mSteps").innerHTML =
@@ -522,6 +639,56 @@ function openRecipe(index){
 
   document.getElementById("modal").style.display = "block";
   document.body.style.overflow = "hidden";
+}
+
+let spinnedRecipeIndex = null;
+
+function openSpinnerModal(){
+  document.getElementById("spinnerModal").style.display = "block";
+  document.body.style.overflow = "hidden";
+  document.getElementById("spinName").textContent = "🎉 Ready to spin?";
+  document.getElementById("spinDesc").textContent = "Let FestiBites choose a delicious recipe for you.";
+  document.getElementById("spinCategory").textContent = "Press Spin Below";
+  document.getElementById("spinViewBtn").style.display = "none";
+}
+
+function closeSpinnerModal(){
+  document.getElementById("spinnerModal").style.display = "none";
+  document.body.style.overflow = "";
+}
+
+function spinWheel(){
+  if(!recipes || !recipes.length) return;
+  const display = document.getElementById("spinnerDisplay");
+  let counter = 0;
+  const maxSpins = 18;
+  const interval = setInterval(() => {
+    const randomIndex = Math.floor(Math.random() * recipes.length);
+    const tempR = recipes[randomIndex];
+    document.getElementById("spinCategory").textContent = tempR.category;
+    document.getElementById("spinName").textContent = tempR.name;
+    document.getElementById("spinDesc").textContent = tempR.description;
+    display.style.transform = `scale(${1 + (counter % 2 === 0 ? 0.04 : -0.04)})`;
+    counter++;
+    if(counter >= maxSpins) {
+      clearInterval(interval);
+      display.style.transform = "scale(1)";
+      const finalIndex = Math.floor(Math.random() * recipes.length);
+      const chosen = recipes[finalIndex];
+      spinnedRecipeIndex = finalIndex;
+      document.getElementById("spinCategory").textContent = chosen.category;
+      document.getElementById("spinName").textContent = "✨ " + chosen.name + " ✨";
+      document.getElementById("spinDesc").textContent = chosen.description;
+      document.getElementById("spinViewBtn").style.display = "inline-flex";
+    }
+  }, 90);
+}
+
+function openSpunRecipe(){
+  if(spinnedRecipeIndex === null) return;
+  closeSpinnerModal();
+  currentList = recipes;
+  openRecipe(spinnedRecipeIndex);
 }
 
 function closeRecipe(){
