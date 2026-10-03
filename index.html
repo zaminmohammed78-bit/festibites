@@ -298,15 +298,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <div class="detail"><b>Servings</b><span id="mServings"></span></div>
         <div class="detail"><b>Difficulty</b><span id="mDifficulty"></span></div>
         <div class="detail" style="background:#fff3eb;"><b>Est. Calories</b><span id="mCalories" style="color:var(--coral);font-weight:900;"></span></div>
-      </div>
-      <div id="spiceControlWrap" class="serving-control" style="margin-bottom:12px;background:#fff5f2;border-color:#ffddd5;display:none;">
-        <label for="spiceSelect">🌶️ Spice Level</label>
-        <select id="spiceSelect" onchange="updateSpiceLevel(this.value)" style="padding:6px 12px;border-radius:10px;border:1px solid #ffbcae;font-weight:800;color:var(--ink);background:#fff;outline:none;cursor:pointer;">
-          <option value="Mild">🌶️ Mild</option>
-          <option value="Medium">🌶️🌶️ Medium</option>
-          <option value="Spicy">🌶️🌶️🌶️ Spicy</option>
-          <option value="Extra Spicy">🔥 Extra Spicy</option>
-        </select>
+        <div class="detail" style="background:#fff5f2;"><b>Spice Level</b><span id="mSpice" style="color:var(--coral);font-weight:900;"></span></div>
       </div>
       <div class="serving-control">
         <label for="servingInput">Custom servings</label>
@@ -567,24 +559,6 @@ function calculateAccurateCalories(recipe){
   return Math.max(120, calPerServing);
 }
 
-let currentSelectedSpice = "Medium";
-
-function getSpiceAdjustedIngredient(ingredient, spiceLevel, factor){
-  const text = ingredient.toLowerCase();
-  const scaled = scaledIngredient(ingredient, factor);
-
-  if(text.includes("chili") || text.includes("chilli") || text.includes("pepper") || text.includes("paprika") || text.includes("schezwan") || text.includes("peri peri")){
-    let spiceMultiplier = 1;
-    if(spiceLevel === "Mild") spiceMultiplier = 0.4;
-    else if(spiceLevel === "Medium") spiceMultiplier = 1;
-    else if(spiceLevel === "Spicy") spiceMultiplier = 1.6;
-    else if(spiceLevel === "Extra Spicy") spiceMultiplier = 2.2;
-
-    return scaledIngredient(ingredient, factor * spiceMultiplier);
-  }
-  return scaled;
-}
-
 function updateServingIngredients(){
   if(!selectedRecipe) return;
   const factor = selectedServings / originalServings;
@@ -592,14 +566,10 @@ function updateServingIngredients(){
   document.getElementById("mServings").textContent = selectedServings + (selectedServings === 1 ? " person" : " people");
   const calPerPerson = calculateAccurateCalories(selectedRecipe);
   document.getElementById("mCalories").textContent = `${calPerPerson} kcal / person`;
+  document.getElementById("mSpice").textContent = selectedRecipe.spiceLevel || "Medium 🌶️";
 
   document.getElementById("mIngredients").innerHTML =
-    selectedRecipe.ingredients.map(x=>`<li>${getSpiceAdjustedIngredient(x, currentSelectedSpice, factor)}</li>`).join("");
-}
-
-function updateSpiceLevel(level){
-  currentSelectedSpice = level;
-  updateServingIngredients();
+    selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
 }
 
 function setServings(value){
@@ -622,17 +592,6 @@ function openRecipe(index){
   selectedRecipe = r;
   originalServings = Math.max(1, Number(r.servings) || 1);
   selectedServings = originalServings;
-
-  const spiceWrap = document.getElementById("spiceControlWrap");
-  const adjustableList = ["Classic Chicken Burger", "Crispy Veg Cheese Roll", "Spicy Peri Peri French Fries", "Classic Creamy White Sauce Pasta", "Crispy Zinger Chicken Strip Wrap", "Breakfast Burrito", "Chickpea Breakfast Salad"];
-  if(adjustableList.includes(r.name) || r.category === "Fast Food" || r.category === "Biryani" || r.category === "Indian") {
-    spiceWrap.style.display = "flex";
-    currentSelectedSpice = r.spiceLevel || "Medium";
-    document.getElementById("spiceSelect").value = currentSelectedSpice;
-  } else {
-    spiceWrap.style.display = "none";
-    currentSelectedSpice = "Medium";
-  }
 
   updateServingIngredients();
 
