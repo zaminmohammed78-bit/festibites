@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v13';
+const CACHE_NAME = 'festibites-v14';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

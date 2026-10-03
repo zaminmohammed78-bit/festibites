@@ -298,7 +298,6 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
         <div class="detail"><b>Servings</b><span id="mServings"></span></div>
         <div class="detail"><b>Difficulty</b><span id="mDifficulty"></span></div>
         <div class="detail" style="background:#fff3eb;"><b>Est. Calories</b><span id="mCalories" style="color:var(--coral);font-weight:900;"></span></div>
-        <div class="detail" style="background:#fff5f2;"><b>Spice Level</b><span id="mSpice" style="color:var(--coral);font-weight:900;"></span></div>
       </div>
       <div class="serving-control">
         <label for="servingInput">Custom servings</label>
@@ -418,9 +417,8 @@ function render(list){
   shown.forEach((r,i)=>{
     const card = document.createElement("article");
     card.className = "card";
-    const spiceTag = r.spiceLevel ? ` • ${r.spiceLevel}` : '';
     card.innerHTML = `
-      <div class="tag">${r.category}${spiceTag}</div>
+      <div class="tag">${r.category}</div>
       <h3>${r.name}</h3>
       <p>${r.description}</p>
       <div class="meta"><span>${r.minutes} min</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
@@ -566,7 +564,6 @@ function updateServingIngredients(){
   document.getElementById("mServings").textContent = selectedServings + (selectedServings === 1 ? " person" : " people");
   const calPerPerson = calculateAccurateCalories(selectedRecipe);
   document.getElementById("mCalories").textContent = `${calPerPerson} kcal / person`;
-  document.getElementById("mSpice").textContent = selectedRecipe.spiceLevel || "Medium 🌶️";
 
   document.getElementById("mIngredients").innerHTML =
     selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
