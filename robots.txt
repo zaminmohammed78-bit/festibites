@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zaminmohammed78-bit.github.io/festibites/sitemap.xml
