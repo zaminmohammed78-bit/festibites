@@ -811,7 +811,31 @@ fetch("./recipes.json")
     return response.json();
   })
   .then(data => {
-    recipes = Array.isArray(data) ? data : [];
+    let raw = Array.isArray(data) ? data : [];
+    // Interleave/shuffle categories so the first 5 cards show diverse meals instead of only Breakfast
+    const grouped = {};
+    raw.forEach(item => {
+      const cat = item.category || "Other";
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push(item);
+    });
+
+    const interleaved = [];
+    const keys = Object.keys(grouped);
+    let added = true;
+    let idx = 0;
+    while(added) {
+      added = false;
+      for (let k of keys) {
+        if (grouped[k][idx]) {
+          interleaved.push(grouped[k][idx]);
+          added = true;
+        }
+      }
+      idx++;
+    }
+
+    recipes = interleaved.length ? interleaved : raw;
     document.getElementById("heroCount").textContent = recipes.length + "+";
     filterRecipes();
   })
