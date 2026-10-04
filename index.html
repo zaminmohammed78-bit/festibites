@@ -617,55 +617,6 @@ function openRecipe(index){
   document.body.style.overflow = "hidden";
 }
 
-let spinnedRecipeIndex = null;
-      answer = `To make this dairy-free, you can replace regular milk with almond milk, oat milk, soy milk, or coconut milk depending on the flavor profile.`;
-    } else if(q.includes("egg")) {
-      answer = `If you want to avoid eggs in ${r.name}, you can use mashed banana, applesauce, or a flaxseed meal mixed with water as a binder.`;
-    } else if(q.includes("sugar")) {
-      answer = `You can substitute refined white sugar with raw cane sugar, honey, jaggery, or maple syrup for a more natural sweetness.`;
-    } else {
-      answer = `For ${r.name}, most ingredients can be substituted with similar pantry staples. For example, use yogurt instead of sour cream, or whole wheat flour instead of maida for a healthier touch!`;
-    }
-  } else if(q.includes("store") || q.includes("keep") || q.includes("fridge") || q.includes("refrigerat") || q.includes("shelf life")) {
-    if(ingredientsStr.includes("chicken") || ingredientsStr.includes("fish") || ingredientsStr.includes("meat") || ingredientsStr.includes("prawn")) {
-      answer = `Because ${r.name} contains fresh meat/seafood, store it in an airtight container in the refrigerator for up to 2 days, or freeze for up to 2 weeks. Reheat thoroughly before eating.`;
-    } else if(ingredientsStr.includes("milk") || ingredientsStr.includes("yogurt") || ingredientsStr.includes("cheese")) {
-      answer = `Store in an airtight container in the refrigerator for up to 3 days due to the dairy content. Do not leave at room temperature for more than 2 hours.`;
-    } else {
-      answer = `Store ${r.name} in an airtight container in a cool, dry place or refrigerator. It stays fresh for up to 3 to 4 days. Reheat gently on a pan or microwave before serving.`;
-    }
-  } else if(q.includes("health") || q.includes("diet") || q.includes("calorie") || q.includes("weight") || q.includes("nutrit")) {
-    const cals = calculateAccurateCalories(r);
-    answer = `${r.name} has approximately ${cals} kcal per serving. To make it lighter, you can reduce the oil/butter by half, use low-fat milk/yogurt, or increase the vegetable portion.`;
-  } else if(q.includes("vegan") || q.includes("vegetarian") || q.includes("plant-based")) {
-    const isNonVeg = ["chicken", "mutton", "beef", "fish", "prawn", "egg", "meat", "lamb", "shrimp"].some(item => ingredientsStr.includes(item));
-    if(isNonVeg) {
-      answer = `Currently, ${r.name} is non-vegetarian. To make it vegan/vegetarian, replace the meat/eggs with paneer, tofu, mushrooms, or boiled lentils/chickpeas.`;
-    } else {
-      answer = `Yes! ${r.name} is already vegetarian. To make it 100% vegan, simply ensure any dairy ingredients (like butter or paneer) are substituted with plant-based alternatives like plant butter or tofu.`;
-    }
-  } else if(q.includes("gluten") || q.includes("wheat") || q.includes("maida")) {
-    if(ingredientsStr.includes("bread") || ingredientsStr.includes("maida") || ingredientsStr.includes("flour") || ingredientsStr.includes("pasta")) {
-      answer = `This recipe contains gluten from wheat/maida. To make it gluten-free, use certified gluten-free flour, rice flour, or gluten-free pasta.`;
-    } else {
-      answer = `Good news! ${r.name} is naturally low in gluten or gluten-free, provided you check store-bought seasoning labels for hidden gluten additives.`;
-    }
-  } else if(q.includes("pair") || q.includes("side") || q.includes("serve with") || q.includes("accompan")) {
-    if(r.category === "Biryani" || r.category === "Kerala Foods" || r.category === "Indian") {
-      answer = `${r.name} pairs exceptionally well with fresh mint raita, onion-tomato salad, papad, and a cold glass of fresh lime soda or buttermilk.`;
-    } else if(r.category === "Fast Food" || r.category === "Snacks") {
-      answer = `${r.name} goes amazingly well with crispy french fries, garlic mayonnaise, tomato ketchup, and an iced cold beverage.`;
-    } else {
-      answer = `You can serve ${r.name} with a side of fresh green salad, toasted garlic bread, or a warm beverage of your choice.`;
-    }
-  } else if(q.includes("tips") || q.includes("secret") || q.includes("pro") || q.includes("better") || q.includes("trick")) {
-    answer = `Pro tip for ${r.name}: Always ensure your ingredients are at room temperature before cooking, taste as you go to balance the salt and seasoning, and don't overcrowd the pan for the best texture!`;
-  } else if(q.includes("how long") || q.includes("time") || q.includes("minutes")) {
-    answer = `${r.name} takes approximately ${r.minutes} minutes to prepare and cook from scratch.`;
-  } else {
-    answer = `That is a great question about ${r.name}! For best results, follow the step-by-step instructions carefully, ensure your pan is at the correct temperature, and adjust seasoning (salt and pepper) to your personal taste preference.`;
-  }
-
 
 
 let spinnedRecipeIndex = null;
