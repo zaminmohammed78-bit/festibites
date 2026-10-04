@@ -229,13 +229,10 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 </section>
 
 <div class="search-wrap">
-  <div class="search" style="position:relative;flex-wrap:wrap;gap:8px;background:transparent;border:0;box-shadow:none;padding:0;">
-    <div style="flex:1;min-width:220px;background:white;border:1px solid #dfe8e7;border-radius:18px;display:flex;padding:6px;box-shadow:0 12px 30px rgba(21,59,58,.06);">
-      <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
-      <button onclick="filterRecipes()">Search</button>
-    </div>
-    <button type="button" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:18px;padding:0 18px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 10px 25px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;min-height:54px;flex:1;min-width:140px;" title="Surprise Me Spinner">🎲 Surprise Me</button>
-    <button type="button" onclick="openAiGeneratorModal()" style="border:0;background:linear-gradient(135deg,#155e75,#0d9488);color:#fff;border-radius:18px;padding:0 18px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 10px 25px rgba(13,148,136,.25);white-space:nowrap;font-family:inherit;min-height:54px;flex:1;min-width:140px;" title="AI Magic Recipe Generator">✨ AI Recipe Gen</button>
+  <div class="search" style="position:relative;">
+    <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
+    <button onclick="filterRecipes()">Search</button>
+    <button type="button" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:0 16px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;" title="Surprise Me Spinner">🎲 Surprise Me</button>
   </div>
 </div>
 
@@ -361,42 +358,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   </div>
 </div>
 
-<div class="modal" id="aiGeneratorModal" style="display:none;">
-  <div class="modal-box" style="max-width:560px;background:#fff;border-radius:24px;overflow:hidden;margin:auto;">
-    <div class="modal-top" style="padding:28px 24px;background:linear-gradient(135deg,#155e75,#0d9488);color:white;text-align:center;">
-      <button class="close" onclick="closeAiGeneratorModal()">×</button>
-      <div style="font-size:42px;margin-bottom:6px;">✨</div>
-      <h2 style="font-size:26px;margin:0 0 4px;">AI Magic Recipe Generator</h2>
-      <p style="opacity:.95;font-size:14px;">Enter ingredients you have at home. Gemini AI will instantly create a custom recipe!</p>
-    </div>
-    <div class="modal-body" style="padding:24px;">
-      <div style="margin-bottom:14px;">
-        <label for="aiApiKey" style="display:block;font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);">Google Gemini API Key (Free from Google AI Studio)</label>
-        <input id="aiApiKey" type="password" placeholder="Paste your AIza... key here" style="width:100%;border:1px solid #ead8ce;border-radius:12px;padding:12px;font:inherit;font-size:14px;outline:none;background:#fff;">
-        <small style="display:block;color:var(--muted);font-size:11px;margin-top:4px;">Key is saved locally in your browser and never shared.</small>
-      </div>
-      <div style="margin-bottom:18px;">
-        <label for="aiIngredientsInput" style="display:block;font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);">What ingredients do you have in your fridge?</label>
-        <textarea id="aiIngredientsInput" aria-label="Ingredients available in fridge" placeholder="e.g. 2 eggs, leftover cooked rice, onion, garlic, soy sauce" style="width:100%;height:90px;border:1px solid #ead8ce;border-radius:12px;padding:12px;font:inherit;font-size:13px;line-height:1.4;outline:none;background:#fff;resize:vertical;"></textarea>
-      </div>
-      <button class="view" style="width:100%;padding:14px;background:linear-gradient(135deg,#155e75,#0d9488);font-size:16px;font-weight:900;" onclick="generateAiRecipe()">✨ Generate Magic Recipe</button>
 
-      <div id="aiLoading" style="text-align:center;padding:20px;display:none;">
-        <div style="font-size:28px;margin-bottom:8px;animation:spin 1s linear infinite;">⏳</div>
-        <p style="font-weight:800;color:#155e75;">Gemini AI is cooking up your recipe...</p>
-      </div>
-
-      <div id="aiResultBox" style="margin-top:20px;padding:18px;border-radius:16px;background:#f0fdf4;border:1px solid #bbf7d0;display:none;max-height:280px;overflow-y:auto;">
-        <h3 id="aiResTitle" style="color:#166534;font-size:20px;margin-bottom:8px;"></h3>
-        <p id="aiResDesc" style="font-size:13px;color:#14532d;margin-bottom:12px;line-height:1.5;"></p>
-        <div style="font-weight:800;color:#166534;font-size:13px;margin-bottom:4px;">Ingredients:</div>
-        <ul id="aiResIngredients" style="margin-left:18px;font-size:13px;color:#14532d;margin-bottom:12px;"></ul>
-        <div style="font-weight:800;color:#166534;font-size:13px;margin-bottom:4px;">Instructions:</div>
-        <ol id="aiResSteps" style="margin-left:18px;font-size:13px;color:#14532d;line-height:1.5;"></ol>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="modal" id="iosInstallModal" style="display:none;">
   <div class="modal-box" style="max-width:500px;background:#fff;border-radius:24px;overflow:hidden;margin:auto;">
@@ -740,89 +702,7 @@ function triggerNativeShare(){
   }
 }
 
-function openAiGeneratorModal(){
-  const savedKey = localStorage.getItem("festibites_gemini_key") || "";
-  if(savedKey) {
-    document.getElementById("aiApiKey").value = savedKey;
-  }
-  document.getElementById("aiGeneratorModal").style.display = "block";
-  document.body.style.overflow = "hidden";
-  document.getElementById("aiResultBox").style.display = "none";
-  document.getElementById("aiLoading").style.display = "none";
-}
 
-function closeAiGeneratorModal(){
-  document.getElementById("aiGeneratorModal").style.display = "none";
-  document.body.style.overflow = "";
-}
-
-async function generateAiRecipe(){
-  const apiKey = document.getElementById("aiApiKey").value.trim();
-  const ingredients = document.getElementById("aiIngredientsInput").value.trim();
-  if(!apiKey) {
-    alert("Please enter your free Google Gemini API key.");
-    return;
-  }
-  if(!ingredients) {
-    alert("Please enter some ingredients from your fridge.");
-    return;
-  }
-
-  localStorage.setItem("festibites_gemini_key", apiKey);
-  document.getElementById("aiLoading").style.display = "block";
-  document.getElementById("aiResultBox").style.display = "none";
-
-  const prompt = `You are an expert chef. Create a delicious, creative recipe using some or all of these available ingredients: "${ingredients}".
-You must respond ONLY in valid JSON format with this exact structure, no extra markdown formatting like \`\`\`json:
-{
-  "name": "Recipe Title",
-  "category": "Quick (<30m)",
-  "minutes": 20,
-  "servings": 2,
-  "difficulty": "Easy",
-  "description": "Short appetizing description.",
-  "ingredients": ["ingredient 1", "ingredient 2"],
-  "steps": ["step 1", "step 2"]
-}`;
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
-    });
-
-    const data = await response.json();
-    document.getElementById("aiLoading").style.display = "none";
-
-    if(data.error) {
-      alert("AI Error: " + data.error.message);
-      return;
-    }
-
-    const textRes = data.candidates[0].content.parts[0].text;
-    const cleanJson = textRes.replace(/```json/g, "").replace(/```/g, "").trim();
-    const recipeObj = JSON.parse(cleanJson);
-
-    document.getElementById("aiResTitle").textContent = recipeObj.name;
-    document.getElementById("aiResDesc").textContent = recipeObj.description;
-    document.getElementById("aiResIngredients").innerHTML = recipeObj.ingredients.map(x => `<li>${x}</li>`).join("");
-    document.getElementById("aiResSteps").innerHTML = recipeObj.steps.map(x => `<li>${x}</li>`).join("");
-    document.getElementById("aiResultBox").style.display = "block";
-
-    // Add to local recipes array and render
-    recipes.unshift(recipeObj);
-    filterRecipes(true);
-  } catch(e) {
-    document.getElementById("aiLoading").style.display = "none";
-    alert("Failed to generate recipe. Please check your API key and try again.");
-    console.error(e);
-  }
-}
 
 document.getElementById("modal").addEventListener("click",e=>{
   if(e.target.id==="modal") closeRecipe();
