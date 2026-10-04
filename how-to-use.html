@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#e85d04">
+<meta name="description" content="A simple step-by-step guide to using FestiBites recipes, servings, sharing and printing.">
+<title>How to Use | FestiBites</title>
+<style>
+
+:root{
+  --ink:#3a1b0f;
+  --teal:#f26a21;
+  --teal2:#ff9a4d;
+  --coral:#e85d04;
+  --cream:#fffaf7;
+  --gold:#ffb067;
+  --white:#fff;
+  --muted:#765f54;
+  --line:#f2ddd0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--cream);color:var(--ink)}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:max(16px,env(safe-area-inset-top)) max(6%,env(safe-area-inset-right)) 16px max(6%,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 10px 35px rgba(210,80,20,.08)}
+.pwa-install-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;padding:9px 18px;border-radius:99px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);transition:transform .2s ease,box-shadow .2s ease;font-family:inherit}
+.pwa-install-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(232,93,4,.35)}
+.pwa-install-btn:active{transform:translateY(0)}
+.offline-banner{background:#3a1b0f;color:#ffb067;text-align:center;padding:10px 16px;font-size:14px;font-weight:800;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.logo{font-size:28px;font-weight:900;letter-spacing:-1px;color:var(--ink)}
+.logo span{color:var(--coral)}
+nav{display:flex;gap:25px}
+nav a{text-decoration:none;color:var(--ink);font-weight:700}
+nav a:hover{color:var(--coral)}
+.hero{padding:75px 6% 65px;background:linear-gradient(135deg,#fff 0%,#fff5ed 55%,#ffe5d1 100%);display:block}
+.badge{display:inline-block;background:#d8f4ee;color:var(--teal);font-weight:800;padding:8px 14px;border-radius:99px;margin-bottom:18px}
+.hero h1{font-size:clamp(42px,6vw,72px);line-height:.98;letter-spacing:-3px;margin-bottom:22px}
+.hero h1 em{color:var(--coral);font-style:normal}
+.hero p{max-width:650px;color:var(--muted);font-size:18px;line-height:1.75;margin-bottom:28px}
+.hero-art{display:none}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:25px}
+.stat strong{display:block;font-size:26px;color:var(--teal)}
+.stat small{color:var(--muted)}
+.search-wrap{padding:35px 6% 10px}
+.search{max-width:760px;margin:auto;background:white;border:1px solid #dfe8e7;border-radius:18px;display:flex;padding:6px;box-shadow:0 12px 30px rgba(21,59,58,.06)}
+.search input{flex:1;border:0;outline:0;padding:15px 17px;font-size:16px;background:transparent}
+.search button{border:0;border-radius:13px;background:var(--coral);color:white;padding:0 25px;font-weight:800;cursor:pointer}
+.controls{padding:22px 6%;display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid #c9ddda;background:white;color:var(--ink);padding:10px 17px;border-radius:99px;font-weight:750;cursor:pointer}
+.chip.active,.chip:hover{background:var(--teal);color:white;border-color:var(--teal)}
+.section{padding:20px 6% 80px}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:10px 0 28px}
+.section-head h2{font-size:36px;letter-spacing:-1px}
+.section-head p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;min-height:270px;display:flex;flex-direction:column;box-shadow:0 8px 25px rgba(21,59,58,.05);transition:.22s}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(21,59,58,.1);border-color:#b9d8d3}
+.icon{display:none}
+.tag{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:900;color:var(--coral)}
+.card h3{font-size:20px;margin:7px 0}
+.card p{color:var(--muted);font-size:14px;line-height:1.5;flex:1}
+.meta{display:flex;gap:10px;flex-wrap:wrap;color:#647575;font-size:12px;margin:15px 0}
+.view{border:0;background:var(--ink);color:white;border-radius:11px;padding:11px;cursor:pointer;font-weight:800}
+.view:hover{background:var(--teal)}
+.empty{text-align:center;padding:60px;color:var(--muted);grid-column:1/-1}
+footer{background:var(--ink);color:white;text-align:center;padding:45px 6%}
+footer span{color:#ff9a89}
+.modal{display:none;position:fixed;inset:0;background:rgba(10,30,30,.68);z-index:100;padding:max(20px,env(safe-area-inset-top)) 20px 20px;overflow:auto}
+.modal-box{max-width:900px;background:white;border-radius:25px;margin:auto;overflow:hidden;position:relative}
+.modal-top{padding:42px 32px 32px;background:linear-gradient(135deg,var(--teal),#155e75);color:white;position:relative}
+.modal-top h2{font-size:38px;margin-bottom:9px;padding-right:45px}
+.modal-top p{opacity:.9;line-height:1.6}
+.close{position:absolute;right:20px;top:max(20px,env(safe-area-inset-top));border:0;background:white;color:var(--ink);width:42px;height:42px;border-radius:50%;font-size:26px;font-weight:900;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.18);z-index:10;display:flex;align-items:center;justify-content:center}
+.close:active{transform:scale(.95)}
+.modal-body{padding:30px}
+.details{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:25px}
+.detail{background:#eef8f6;padding:13px 18px;border-radius:12px;flex:1;min-width:110px}
+.detail b{display:block;color:var(--teal);font-size:12px;text-transform:uppercase;margin-bottom:4px}
+.modal-body h3{margin:24px 0 12px;color:var(--teal);font-size:23px}
+.serving-control{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 8px;padding:14px;background:#fff7f1;border:1px solid var(--line);border-radius:14px}
+.serving-control label{font-weight:800;width:100%;color:var(--ink);font-size:14px;margin-bottom:2px}
+.serving-stepper{display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
+.serving-control button{width:36px;height:36px;border:0;border-radius:10px;background:var(--coral);color:#fff;font-size:20px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.serving-control input{width:54px;height:36px;text-align:center;border:1px solid #ead8ce;border-radius:10px;font:inherit;font-weight:800;color:var(--ink);background:#fff;flex-shrink:0}
+.serving-control .print-btn { margin-left: auto; }
+.serving-note{font-size:12px;color:var(--muted);margin-bottom:18px}
+.ingredients{list-style:none}
+.ingredients li{padding:9px 0;border-bottom:1px solid #edf1f0}
+.ingredients li:before{content:"";color:var(--coral);font-weight:900;margin-right:10px}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:2px 0 18px 52px;line-height:1.7;color:#526060;cursor:pointer;transition:color .2s}
+.steps li:hover{color:var(--ink)}
+.steps li.done{text-decoration:line-through;color:#b0a095}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:34px;height:34px;background:var(--coral);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900}
+.steps li.done:before{background:#a8988e}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}nav{display:none}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.hero{padding:55px 5%}.section,.search-wrap{padding-left:5%;padding-right:5%}.hero h1{letter-spacing:-2px}.search button{padding:0 16px}.modal{padding:8px}.modal-body{padding:20px}}
+.see-more-wrap{display:flex;justify-content:center;margin:28px 0 0}
+.see-more{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:13px 28px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 10px 24px rgba(232,93,4,.20);transition:.2s}
+.see-more:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(232,93,4,.28)}
+.see-more:active{transform:translateY(0)}
+
+
+/* Glossy orange & white theme */
+body{background:linear-gradient(135deg,#fffdfb 0%,#fff7f1 45%,#ffffff 100%);}
+.header,.nav,.hero,.recipe-card,.modal-card,.category-card,.search-box{border-color:rgba(242,106,33,.16);}
+.header{background:rgba(255,255,255,.88);backdrop-filter:blur(18px);box-shadow:0 10px 35px rgba(210,80,20,.08);}
+.logo{color:#e85d04;}
+.btn,.filter.active,.category-card:hover{background:linear-gradient(135deg,#ff8a3d,#e85d04);box-shadow:0 10px 24px rgba(232,93,4,.22);}
+.hero{background:radial-gradient(circle at 85% 15%,rgba(255,154,77,.32),transparent 32%),linear-gradient(135deg,#fff 0%,#fff5ed 55%,#ffe5d1 100%);box-shadow:0 18px 50px rgba(232,93,4,.09);}
+.recipe-card{background:rgba(255,255,255,.9);box-shadow:0 14px 38px rgba(102,54,28,.09);transition:transform .25s,box-shadow .25s;}
+.recipe-card:hover{transform:translateY(-5px);box-shadow:0 20px 45px rgba(232,93,4,.16);}
+.search-box{background:rgba(255,255,255,.94);box-shadow:0 10px 30px rgba(232,93,4,.08);}
+.category-card{background:linear-gradient(145deg,#fff,#fff7f1);box-shadow:0 10px 25px rgba(232,93,4,.07);}
+input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
+
+.brand-logo{display:flex;align-items:center;gap:10px}
+.brand-logo>span{font-size:28px;font-weight:900;letter-spacing:-1px;color:#3a1b0f}
+.brand-logo>span>span{color:#e85d04}
+.brand-mark{width:46px;height:46px;filter:drop-shadow(0 6px 12px rgba(232,93,4,.22))}
+
+
+/* Share / Submit Recipe */
+.submit-section{padding:70px 6%;background:linear-gradient(135deg,#fff7f1,#ffffff);border-top:1px solid var(--line)}
+.submit-box{max-width:900px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:0 14px 38px rgba(102,54,28,.09)}
+.submit-box h2{font-size:34px;margin-bottom:8px}
+.submit-box>p{color:var(--muted);line-height:1.6;margin-bottom:24px}
+.submit-form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.submit-form .full{grid-column:1/-1}
+.submit-form label{display:block;font-weight:800;font-size:14px;margin-bottom:7px}
+.submit-form input,.submit-form select,.submit-form textarea{width:100%;border:1px solid #ead8ce;border-radius:12px;padding:12px 13px;font:inherit;outline:none;background:#fff}
+.submit-form textarea{min-height:120px;resize:vertical}
+.submit-form input:focus,.submit-form select:focus,.submit-form textarea:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(242,106,33,.10)}
+.google-form-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:14px 22px;font-weight:900;font-size:16px;text-decoration:none;cursor:pointer;box-shadow:0 10px 24px rgba(232,93,4,.20);transition:transform .2s ease,box-shadow .2s ease}
+.google-form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,93,4,.28)}
+@media(max-width:650px){.submit-section{padding:55px 5%}.submit-box{padding:22px}.google-form-submit{width:100%}}
+
+.fav-btn{position:absolute;right:18px;top:18px;border:0;background:rgba(255,255,255,.9);color:#e85d04;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:.2s}
+.fav-btn:hover{transform:scale(1.1)}
+.recipe-card{position:relative}
+
+.print-btn{border:0;background:var(--ink);color:#fff;width:38px;height:38px;border-radius:10px;font-size:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;margin-left:auto;flex-shrink:0}
+.print-btn:hover{background:var(--coral);transform:scale(1.05)}
+
+/* Beautiful Print & PDF Export Template */
+@media print {
+  @page { margin: 1.5cm; }
+  body { background: #fff !important; color: #111 !important; font-family: system-ui, -apple-system, sans-serif !important; font-size: 12pt; }
+  body > * { display: none !important; }
+  #modal { display: block !important; position: static !important; inset: auto !important; background: none !important; padding: 0 !important; overflow: visible !important; }
+  .modal-box { max-width: 100% !important; box-shadow: none !important; border-radius: 0 !important; margin: 0 !important; border: 0 !important; }
+  .modal-top { background: #fff !important; color: #111 !important; border-bottom: 3px solid #e85d04; padding: 0 0 16px 0 !important; margin-bottom: 20px; }
+  .modal-top h2 { font-size: 28pt !important; color: #e85d04 !important; font-weight: 900 !important; margin-bottom: 6px !important; line-height: 1.1 !important; }
+  .modal-top p { color: #555 !important; font-size: 12pt !important; opacity: 1 !important; line-height: 1.4 !important; }
+  .modal-body { padding: 0 !important; }
+  .details { display: flex !important; justify-content: space-between !important; gap: 15px !important; margin-bottom: 20px !important; border: 1.5px solid #f2ddd0; padding: 12px 20px; border-radius: 12px; background: #fffdfb !important; }
+  .detail { background: none !important; padding: 0 !important; border: 0 !important; }
+  .detail b { color: #e85d04 !important; font-size: 10pt !important; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 2px; }
+  .detail span { color: #222 !important; font-size: 12pt !important; font-weight: 800; }
+  .serving-control, .serving-note, .close, .pwa-install-btn, .fav-btn { display: none !important; }
+  .modal-body h3 { color: #e85d04 !important; font-size: 16pt !important; font-weight: 800 !important; margin: 22px 0 10px 0 !important; border-bottom: 2px solid #f2ddd0; padding-bottom: 4px; page-break-after: avoid; }
+  .ingredients { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px 20px !important; margin-bottom: 15px; }
+  .ingredients li { border-bottom: 1px solid #f5f5f5 !important; padding: 6px 0 !important; font-size: 11pt !important; page-break-inside: avoid; }
+  .ingredients li:before { content: "• " !important; color: #e85d04 !important; font-weight: 900; }
+  .steps li { page-break-inside: avoid; padding: 0 0 14px 44px !important; color: #222 !important; font-size: 11pt !important; line-height: 1.5 !important; }
+  .steps li:before { background: #e85d04 !important; color: #fff !important; width: 28px !important; height: 28px !important; font-size: 11pt !important; }
+  body:after { content: "FestiBites Recipe Kitchen • https://zaminmohammed78-bit.github.io/festibites/"; display: block; text-align: center; margin-top: 35px; font-size: 9pt; color: #888; border-top: 1px solid #eee; padding-top: 12px; }
+}
+
+@media(max-width:560px){
+  .search{flex-wrap:wrap;gap:8px;padding:8px;}
+  .search input{flex:1 1 100%;width:100%;min-width:0;padding:13px 12px;}
+  .search button,.search .surprise-btn{flex:1 1 calc(50% - 4px);min-width:0;min-height:46px;padding:0 10px!important;font-size:14px!important;white-space:normal!important;}
+}
+
+/* Simple, readable visitor guide */
+.how-to-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.how-to-card{position:relative;background:#fff;border:1px solid rgba(242,106,33,.16);border-radius:16px;padding:20px;box-shadow:0 8px 24px rgba(80,35,15,.05)}
+.how-to-number{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#fff0e5;color:#c84b00;font-weight:900;margin-bottom:8px}
+.how-to-card h3{margin:2px 0 8px;color:var(--ink);font-size:17px}
+.how-to-card p,.how-to-note{color:var(--muted);font-size:14px;line-height:1.7;margin:0}
+.how-to-note{margin-top:16px;padding:15px 17px;background:#fff3eb;border-radius:12px;color:var(--ink)}
+@media(max-width:560px){.how-to-grid{grid-template-columns:1fr}.how-to-card{padding:17px}.how-to-card h3{font-size:16px}.how-to-card p,.how-to-note{font-size:14px;line-height:1.65}}
+
+.instruction-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 12px}
+@media(max-width:560px){.instruction-note{font-size:14px;line-height:1.65}}
+
+.how-guide-header{max-width:1100px;margin:0 auto;padding:22px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.how-guide-header a{color:var(--ink);text-decoration:none;font-weight:700}
+.how-guide-header .brand{font-size:24px;font-weight:900}
+.how-guide-header .brand span{color:var(--coral)}
+.how-guide-header .back-link{background:#fff0e5;color:#c84b00;padding:11px 15px;border-radius:12px}
+.how-to-section{max-width:1100px;margin:0 auto;padding:28px 20px 48px}
+.how-to-section .section-head{margin-bottom:22px}
+@media(max-width:560px){.how-guide-header{padding:16px}.how-guide-header .brand{font-size:21px}.how-to-section{padding:20px 16px 36px}}
+</style>
+</head>
+<body>
+<header class="how-guide-header">
+<a class="brand" href="./index.html" aria-label="FestiBites Home">Festi<span>Bites</span></a>
+<a class="back-link" href="./index.html">← Back to Recipes</a>
+</header>
+<main class="section how-to-section" id="how-to-use" aria-labelledby="howToTitle">
+  <div class="section-head">
+    <div>
+      <h2 id="howToTitle">How to Use FestiBites</h2>
+      <p>A simple guide to finding a recipe and using the kitchen tools.</p>
+    </div>
+  </div>
+  <div class="how-to-grid">
+    <article class="how-to-card">
+      <span class="how-to-number">1</span>
+      <h3>Find a recipe</h3>
+      <p>Type a recipe name, ingredient or food category in the search box, then tap <strong>Search</strong>. You can also choose a category chip to browse that kind of food. Tap <strong>Surprise Me</strong> if you want FestiBites to pick a recipe for you.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">2</span>
+      <h3>Open and prepare</h3>
+      <p>Tap <strong>View full recipe</strong> to see the ingredients, cooking time, servings and difficulty. Read all the steps first, check that you have the ingredients, and ask an adult for help with knives, hot pans, boiling water or frying.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">3</span>
+      <h3>Adjust servings</h3>
+      <p>Use the minus and plus buttons beside <strong>Custom servings</strong>, or enter a number. Ingredient amounts that FestiBites can recognize will adjust automatically. Small pinches, salt and seasonings may still need to be adjusted to taste.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">4</span>
+      <h3>Follow each step</h3>
+      <p>Follow the numbered instructions from top to bottom. Tap a step to mark it as completed while you cook. Read the whole step before starting it, and check that food is properly cooked before serving.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">5</span>
+      <h3>Share or print</h3>
+      <p>Tap the share icon to preview the recipe, copy its text or share it using an available app. Tap the printer icon to open a print view, if your browser supports it. From the print screen, you may be able to choose <strong>Save as PDF</strong>.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">6</span>
+      <h3>Browse more</h3>
+      <p>Tap <strong>Show More Recipes</strong> to load more cards. Use the category filters to narrow your choices, or return to <strong>All</strong> to browse the full collection.</p>
+    </article>
+  </div>
+  <p class="how-to-note"><strong>Beginner cooking tip:</strong> Wash your hands, clean your work area, measure ingredients before cooking, and follow food-safety guidance. Cooking times can vary with your stove, cookware and ingredient size.</p>
+</main>
+<footer id="about"><h2>Festi<span>Bites</span></h2><p>Cook something memorable, one recipe at a time.</p></footer>
+</body>
+</html>
