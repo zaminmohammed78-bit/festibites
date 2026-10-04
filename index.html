@@ -613,36 +613,11 @@ function openRecipe(index){
   document.getElementById("mSteps").innerHTML =
     r.steps.map(x=>`<li onclick="this.classList.toggle('done')" title="Click to cross off step">${x}</li>`).join("");
 
-  const answerBox = document.getElementById("chefAnswerBox");
-  if(answerBox) {
-    answerBox.style.display = "none";
-    answerBox.textContent = "";
-  }
-  const qInput = document.getElementById("chefQuestionInput");
-  if(qInput) qInput.value = "";
-
   document.getElementById("modal").style.display = "block";
   document.body.style.overflow = "hidden";
 }
 
-function askChefFesti(){
-  if(!selectedRecipe) return;
-  const inputEl = document.getElementById("chefQuestionInput");
-  const answerBox = document.getElementById("chefAnswerBox");
-  const q = inputEl.value.toLowerCase().trim();
-  if(!q) return;
-
-  let answer = "";
-  const r = selectedRecipe;
-  const name = r.name.toLowerCase();
-  const desc = r.description.toLowerCase();
-  const ingredientsStr = r.ingredients.join(" ").toLowerCase();
-
-  // Advanced Training Knowledge Base for Common & Uncommon Questions
-  if(q.includes("substit") || q.includes("replace") || q.includes("instead of")) {
-    if(q.includes("butter") || q.includes("oil")) {
-      answer = `For ${r.name}, you can substitute butter with an equal amount of cold-pressed coconut oil, olive oil, or neutral vegetable oil (or ghee if traditional).`;
-    } else if(q.includes("milk") || q.includes("dairy")) {
+let spinnedRecipeIndex = null;
       answer = `To make this dairy-free, you can replace regular milk with almond milk, oat milk, soy milk, or coconut milk depending on the flavor profile.`;
     } else if(q.includes("egg")) {
       answer = `If you want to avoid eggs in ${r.name}, you can use mashed banana, applesauce, or a flaxseed meal mixed with water as a binder.`;
