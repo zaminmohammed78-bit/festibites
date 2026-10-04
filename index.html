@@ -682,10 +682,61 @@ function closeRecipe(){
 function printRecipe(){
   if(!selectedRecipe) return;
   const recipeModal = document.getElementById("modal");
-  if(!recipeModal) return;
-  // Keep the recipe modal visible so the existing print stylesheet can print it.
-  recipeModal.style.display = "block";
-  window.print();
+  const recipeBox = recipeModal && recipeModal.querySelector(".modal-box");
+  if(!recipeBox) return;
+
+  // Print a clean recipe document in a separate window; this avoids the
+  // page-level modal/overlay styles interfering with mobile print dialogs.
+  const printWindow = window.open("", "_blank");
+  if(!printWindow){
+    // Fall back to the browser's built-in print command if popups are blocked.
+    if(typeof window.print === "function") window.print();
+    return;
+  }
+
+  const recipeHTML = recipeBox.innerHTML;
+  printWindow.document.open();
+  printWindow.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${String(selectedRecipe.name || "FestiBites Recipe").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}</title>
+<style>
+@page{margin:1.5cm}
+*{box-sizing:border-box}
+body{font-family:Arial,system-ui,sans-serif;color:#222;background:#fff;font-size:12pt;line-height:1.5;margin:0}
+.modal-box{max-width:100%;margin:0;border:0}
+.modal-top{background:#fff;color:#111;border-bottom:3px solid #e85d04;padding:0 0 16px;margin-bottom:20px}
+.modal-top h2{font-size:26pt;color:#e85d04;margin:0 0 6px;line-height:1.15}
+.modal-top p{color:#555;font-size:12pt;margin:0}
+.modal-body{padding:0}
+.details{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-bottom:20px;border:1px solid #f2ddd0;padding:12px;border-radius:10px}
+.detail{flex:1;min-width:100px;padding:0;background:#fff}
+.detail b{display:block;color:#e85d04;font-size:10pt;margin-bottom:3px}
+.detail span{font-size:12pt;font-weight:bold}
+h3{color:#e85d04;font-size:16pt;margin:20px 0 10px;border-bottom:2px solid #f2ddd0;padding-bottom:4px;break-after:avoid}
+.ingredients{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+.ingredients li{border-bottom:1px solid #eee;padding:5px 0;break-inside:avoid}
+.ingredients li:before{content:"• ";color:#e85d04;font-weight:bold}
+.steps{padding-left:24px}
+.steps li{padding:0 0 12px 4px;break-inside:avoid}
+.close,.serving-control,.serving-note,.fav-btn,.pwa-install-btn{display:none!important}
+footer{margin-top:30px;padding-top:10px;border-top:1px solid #eee;text-align:center;font-size:9pt;color:#888}
+</style>
+</head>
+<body>
+<div class="modal-box">${recipeHTML}</div>
+<footer>FestiBites Recipe Kitchen • zaminmohammed78-bit.github.io/festibites/</footer>
+<script>
+window.addEventListener("load",function(){
+  setTimeout(function(){window.focus();window.print();},250);
+});
+window.addEventListener("afterprint",function(){window.close();});
+</script>
+</body>
+</html>`);
+  printWindow.document.close();
 }
 
 function generateShareText(){
