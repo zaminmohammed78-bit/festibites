@@ -679,6 +679,15 @@ function closeRecipe(){
   document.body.style.overflow = "";
 }
 
+function printRecipe(){
+  if(!selectedRecipe) return;
+  const recipeModal = document.getElementById("modal");
+  if(!recipeModal) return;
+  // Keep the recipe modal visible so the existing print stylesheet can print it.
+  recipeModal.style.display = "block";
+  window.print();
+}
+
 function generateShareText(){
   if(!selectedRecipe) return "";
   const factor = selectedServings / originalServings;
