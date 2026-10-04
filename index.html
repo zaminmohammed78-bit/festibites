@@ -18,7 +18,7 @@
   <meta name="msapplication-TileColor" content="#ff6b35">
   <meta name="msapplication-TileImage" content="./icon-192.png">
   <meta name="google-site-verification" content="srmVmo-jNBUa6fCeCXqfgdyS2pJZVv5WVrP3X2rczwk" />
-  <link rel="canonical" href="https://zaminmohammed78-bit.github.io/festibites/">
+  <link rel="canonical" href="https://zaminmohammed78-bit.github.io/festibites/index.html">
 <style>
 :root{
   --ink:#3a1b0f;
@@ -313,16 +313,6 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       <ul class="ingredients" id="mIngredients"></ul>
       <h3>‍ Step-by-step instructions</h3>
       <ol class="steps" id="mSteps"></ol>
-
-      <div style="margin-top:35px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#fff7f1,#ffffff);border:1px solid var(--line);">
-        <h3 style="margin-top:0;color:var(--coral);font-size:18px;display:flex;align-items:center;gap:8px;">🤖 Chef Festi AI Assistant</h3>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Ask any common or uncommon question about this recipe (e.g., substitutions, storage, technique, pairings)!</p>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <input id="chefQuestionInput" aria-label="Ask Chef Festi a question about this recipe" type="text" placeholder="e.g. Can I substitute butter with oil or ghee?" style="flex:1;border:1px solid #ead8ce;border-radius:12px;padding:10px 14px;font:inherit;font-size:13px;outline:none;background:#fff;" onkeydown="if(event.key==='Enter') askChefFesti()">
-          <button class="view" style="padding:10px 20px;background:var(--coral);font-size:14px;" onclick="askChefFesti()">Ask Chef AI</button>
-        </div>
-        <div id="chefAnswerBox" style="padding:14px;border-radius:12px;background:#fff;border:1px solid #ead8ce;font-size:13px;color:var(--ink);line-height:1.6;display:none;"></div>
-      </div>
     </div>
   </div>
 </div>
@@ -701,9 +691,7 @@ function askChefFesti(){
     answer = `That is a great question about ${r.name}! For best results, follow the step-by-step instructions carefully, ensure your pan is at the correct temperature, and adjust seasoning (salt and pepper) to your personal taste preference.`;
   }
 
-  answerBox.textContent = `🤖 Chef Festi AI: ${answer}`;
-  answerBox.style.display = "block";
-}
+
 
 let spinnedRecipeIndex = null;
 
