@@ -180,6 +180,11 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   body:after { content: "FestiBites Recipe Kitchen • https://zaminmohammed78-bit.github.io/festibites/"; display: block; text-align: center; margin-top: 35px; font-size: 9pt; color: #888; border-top: 1px solid #eee; padding-top: 12px; }
 }
 
+@media(max-width:560px){
+  .search{flex-wrap:wrap;gap:8px;padding:8px;}
+  .search input{flex:1 1 100%;width:100%;min-width:0;padding:13px 12px;}
+  .search button,.search .surprise-btn{flex:1 1 calc(50% - 4px);min-width:0;min-height:46px;padding:0 10px!important;font-size:14px!important;white-space:normal!important;}
+}
 </style>
 </head>
 <body>
@@ -232,7 +237,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   <div class="search" style="position:relative;">
     <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
     <button onclick="filterRecipes()">Search</button>
-    <button type="button" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:0 16px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;" title="Surprise Me Spinner">🎲 Surprise Me</button>
+    <button type="button" class="surprise-btn" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:0 16px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;" title="Surprise Me Spinner">🎲 Surprise Me</button>
   </div>
 </div>
 
