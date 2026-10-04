@@ -313,6 +313,16 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       <ul class="ingredients" id="mIngredients"></ul>
       <h3>‍ Step-by-step instructions</h3>
       <ol class="steps" id="mSteps"></ol>
+
+      <div style="margin-top:35px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#fff7f1,#ffffff);border:1px solid var(--line);">
+        <h3 style="margin-top:0;color:var(--coral);font-size:18px;display:flex;align-items:center;gap:8px;">🤖 Chef Festi AI Assistant</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Ask any common or uncommon question about this recipe (e.g., substitutions, storage, technique, pairings)!</p>
+        <div style="display:flex;gap:8px;margin-bottom:10px;">
+          <input id="chefQuestionInput" aria-label="Ask Chef Festi a question about this recipe" type="text" placeholder="e.g. Can I substitute butter with oil or ghee?" style="flex:1;border:1px solid #ead8ce;border-radius:12px;padding:10px 14px;font:inherit;font-size:13px;outline:none;background:#fff;" onkeydown="if(event.key==='Enter') askChefFesti()">
+          <button class="view" style="padding:10px 20px;background:var(--coral);font-size:14px;" onclick="askChefFesti()">Ask Chef AI</button>
+        </div>
+        <div id="chefAnswerBox" style="padding:14px;border-radius:12px;background:#fff;border:1px solid #ead8ce;font-size:13px;color:var(--ink);line-height:1.6;display:none;"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -449,8 +459,25 @@ function filterRecipes(resetPage = true){
       const nonVeg = ["chicken", "mutton", "beef", "fish", "prawn", "egg", "meat", "lamb", "shrimp", "gelatin", "chicken stock"];
       categoryOK = !nonVeg.some(item => textAll.includes(item));
     }
-    const text = [r.name,r.category,r.description,...r.ingredients].join(" ").toLowerCase();
-    return categoryOK && text.includes(q);
+
+    // Semantic AI Smart Search (Feature 2)
+    const combinedText = [r.name, r.category, r.description, ...r.ingredients, ...r.steps].join(" ").toLowerCase();
+    if(!q) return categoryOK;
+
+    const queryWords = q.split(/\s+/).filter(w => w.length > 2);
+    const exactMatch = combinedText.includes(q);
+    if(exactMatch) return categoryOK;
+
+    if(queryWords.length > 0) {
+      let matchedCount = 0;
+      queryWords.forEach(word => {
+        if(combinedText.includes(word)) matchedCount++;
+      });
+      const matchScore = matchedCount / queryWords.length;
+      return categoryOK && matchScore >= 0.5;
+    }
+
+    return categoryOK && combinedText.includes(q);
   });
   render(list);
 }
@@ -596,8 +623,86 @@ function openRecipe(index){
   document.getElementById("mSteps").innerHTML =
     r.steps.map(x=>`<li onclick="this.classList.toggle('done')" title="Click to cross off step">${x}</li>`).join("");
 
+  const answerBox = document.getElementById("chefAnswerBox");
+  if(answerBox) {
+    answerBox.style.display = "none";
+    answerBox.textContent = "";
+  }
+  const qInput = document.getElementById("chefQuestionInput");
+  if(qInput) qInput.value = "";
+
   document.getElementById("modal").style.display = "block";
   document.body.style.overflow = "hidden";
+}
+
+function askChefFesti(){
+  if(!selectedRecipe) return;
+  const inputEl = document.getElementById("chefQuestionInput");
+  const answerBox = document.getElementById("chefAnswerBox");
+  const q = inputEl.value.toLowerCase().trim();
+  if(!q) return;
+
+  let answer = "";
+  const r = selectedRecipe;
+  const name = r.name.toLowerCase();
+  const desc = r.description.toLowerCase();
+  const ingredientsStr = r.ingredients.join(" ").toLowerCase();
+
+  // Advanced Training Knowledge Base for Common & Uncommon Questions
+  if(q.includes("substit") || q.includes("replace") || q.includes("instead of")) {
+    if(q.includes("butter") || q.includes("oil")) {
+      answer = `For ${r.name}, you can substitute butter with an equal amount of cold-pressed coconut oil, olive oil, or neutral vegetable oil (or ghee if traditional).`;
+    } else if(q.includes("milk") || q.includes("dairy")) {
+      answer = `To make this dairy-free, you can replace regular milk with almond milk, oat milk, soy milk, or coconut milk depending on the flavor profile.`;
+    } else if(q.includes("egg")) {
+      answer = `If you want to avoid eggs in ${r.name}, you can use mashed banana, applesauce, or a flaxseed meal mixed with water as a binder.`;
+    } else if(q.includes("sugar")) {
+      answer = `You can substitute refined white sugar with raw cane sugar, honey, jaggery, or maple syrup for a more natural sweetness.`;
+    } else {
+      answer = `For ${r.name}, most ingredients can be substituted with similar pantry staples. For example, use yogurt instead of sour cream, or whole wheat flour instead of maida for a healthier touch!`;
+    }
+  } else if(q.includes("store") || q.includes("keep") || q.includes("fridge") || q.includes("refrigerat") || q.includes("shelf life")) {
+    if(ingredientsStr.includes("chicken") || ingredientsStr.includes("fish") || ingredientsStr.includes("meat") || ingredientsStr.includes("prawn")) {
+      answer = `Because ${r.name} contains fresh meat/seafood, store it in an airtight container in the refrigerator for up to 2 days, or freeze for up to 2 weeks. Reheat thoroughly before eating.`;
+    } else if(ingredientsStr.includes("milk") || ingredientsStr.includes("yogurt") || ingredientsStr.includes("cheese")) {
+      answer = `Store in an airtight container in the refrigerator for up to 3 days due to the dairy content. Do not leave at room temperature for more than 2 hours.`;
+    } else {
+      answer = `Store ${r.name} in an airtight container in a cool, dry place or refrigerator. It stays fresh for up to 3 to 4 days. Reheat gently on a pan or microwave before serving.`;
+    }
+  } else if(q.includes("health") || q.includes("diet") || q.includes("calorie") || q.includes("weight") || q.includes("nutrit")) {
+    const cals = calculateAccurateCalories(r);
+    answer = `${r.name} has approximately ${cals} kcal per serving. To make it lighter, you can reduce the oil/butter by half, use low-fat milk/yogurt, or increase the vegetable portion.`;
+  } else if(q.includes("vegan") || q.includes("vegetarian") || q.includes("plant-based")) {
+    const isNonVeg = ["chicken", "mutton", "beef", "fish", "prawn", "egg", "meat", "lamb", "shrimp"].some(item => ingredientsStr.includes(item));
+    if(isNonVeg) {
+      answer = `Currently, ${r.name} is non-vegetarian. To make it vegan/vegetarian, replace the meat/eggs with paneer, tofu, mushrooms, or boiled lentils/chickpeas.`;
+    } else {
+      answer = `Yes! ${r.name} is already vegetarian. To make it 100% vegan, simply ensure any dairy ingredients (like butter or paneer) are substituted with plant-based alternatives like plant butter or tofu.`;
+    }
+  } else if(q.includes("gluten") || q.includes("wheat") || q.includes("maida")) {
+    if(ingredientsStr.includes("bread") || ingredientsStr.includes("maida") || ingredientsStr.includes("flour") || ingredientsStr.includes("pasta")) {
+      answer = `This recipe contains gluten from wheat/maida. To make it gluten-free, use certified gluten-free flour, rice flour, or gluten-free pasta.`;
+    } else {
+      answer = `Good news! ${r.name} is naturally low in gluten or gluten-free, provided you check store-bought seasoning labels for hidden gluten additives.`;
+    }
+  } else if(q.includes("pair") || q.includes("side") || q.includes("serve with") || q.includes("accompan")) {
+    if(r.category === "Biryani" || r.category === "Kerala Foods" || r.category === "Indian") {
+      answer = `${r.name} pairs exceptionally well with fresh mint raita, onion-tomato salad, papad, and a cold glass of fresh lime soda or buttermilk.`;
+    } else if(r.category === "Fast Food" || r.category === "Snacks") {
+      answer = `${r.name} goes amazingly well with crispy french fries, garlic mayonnaise, tomato ketchup, and an iced cold beverage.`;
+    } else {
+      answer = `You can serve ${r.name} with a side of fresh green salad, toasted garlic bread, or a warm beverage of your choice.`;
+    }
+  } else if(q.includes("tips") || q.includes("secret") || q.includes("pro") || q.includes("better") || q.includes("trick")) {
+    answer = `Pro tip for ${r.name}: Always ensure your ingredients are at room temperature before cooking, taste as you go to balance the salt and seasoning, and don't overcrowd the pan for the best texture!`;
+  } else if(q.includes("how long") || q.includes("time") || q.includes("minutes")) {
+    answer = `${r.name} takes approximately ${r.minutes} minutes to prepare and cook from scratch.`;
+  } else {
+    answer = `That is a great question about ${r.name}! For best results, follow the step-by-step instructions carefully, ensure your pan is at the correct temperature, and adjust seasoning (salt and pepper) to your personal taste preference.`;
+  }
+
+  answerBox.textContent = `🤖 Chef Festi AI: ${answer}`;
+  answerBox.style.display = "block";
 }
 
 let spinnedRecipeIndex = null;
