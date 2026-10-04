@@ -195,6 +195,8 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 .how-to-note{margin-top:16px;padding:15px 17px;background:#fff3eb;border-radius:12px;color:var(--ink)}
 @media(max-width:560px){.how-to-grid{grid-template-columns:1fr}.how-to-card{padding:17px}.how-to-card h3{font-size:16px}.how-to-card p,.how-to-note{font-size:14px;line-height:1.65}}
 
+.instruction-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 12px}
+@media(max-width:560px){.instruction-note{font-size:14px;line-height:1.65}}
 </style>
 </head>
 <body>
@@ -371,6 +373,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       <h3> Ingredients</h3>
       <ul class="ingredients" id="mIngredients"></ul>
       <h3>‍ Step-by-step instructions</h3>
+      <p class="instruction-note">Read each step before starting, then follow them in order. You can tap a step to mark it complete as you cook.</p>
       <ol class="steps" id="mSteps"></ol>
     </div>
   </div>
@@ -481,7 +484,7 @@ function render(list){
       <div class="tag">${r.category}</div>
       <h3>${r.name}</h3>
       <p>${r.description}</p>
-      <div class="meta"><span>${r.minutes} min</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
+      <div class="meta"><span>${r.minutes ? r.minutes + " min" : "Time varies"}</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
       <button class="view" onclick="openRecipe(${i})">View full recipe</button>
     `;
     grid.appendChild(card);
@@ -661,7 +664,7 @@ function openRecipe(index){
   const r = currentList[index];
   document.getElementById("mTitle").textContent = r.name;
   document.getElementById("mDesc").textContent = r.description;
-  document.getElementById("mTime").textContent = `${r.minutes} minutes`;
+  document.getElementById("mTime").textContent = r.minutes ? `${r.minutes} minutes` : "Time varies";
   document.getElementById("mDifficulty").textContent = r.difficulty;
   selectedRecipe = r;
   originalServings = Math.max(1, Number(r.servings) || 1);
@@ -857,6 +860,13 @@ fetch("./recipes.json")
   })
   .then(data => {
     let raw = Array.isArray(data) ? data : [];
+    // Normalize older recipe entries so optional fields do not appear blank.
+    raw = raw.map(r => ({
+      ...r,
+      minutes: Number(r.minutes) || (parseInt(r.time, 10) || 0),
+      servings: Math.max(1, Number(r.servings) || 2),
+      description: r.description || `A ${r.name || "home-style"} recipe with ingredients and step-by-step instructions.`
+    }));
     // Interleave/shuffle categories so the first 5 cards show diverse meals instead of only Breakfast
     const grouped = {};
     raw.forEach(item => {
