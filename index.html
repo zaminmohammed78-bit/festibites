@@ -185,6 +185,16 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   .search input{flex:1 1 100%;width:100%;min-width:0;padding:13px 12px;}
   .search button,.search .surprise-btn{flex:1 1 calc(50% - 4px);min-width:0;min-height:46px;padding:0 10px!important;font-size:14px!important;white-space:normal!important;}
 }
+
+/* Simple, readable visitor guide */
+.how-to-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.how-to-card{position:relative;background:#fff;border:1px solid rgba(242,106,33,.16);border-radius:16px;padding:20px;box-shadow:0 8px 24px rgba(80,35,15,.05)}
+.how-to-number{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#fff0e5;color:#c84b00;font-weight:900;margin-bottom:8px}
+.how-to-card h3{margin:2px 0 8px;color:var(--ink);font-size:17px}
+.how-to-card p,.how-to-note{color:var(--muted);font-size:14px;line-height:1.7;margin:0}
+.how-to-note{margin-top:16px;padding:15px 17px;background:#fff3eb;border-radius:12px;color:var(--ink)}
+@media(max-width:560px){.how-to-grid{grid-template-columns:1fr}.how-to-card{padding:17px}.how-to-card h3{font-size:16px}.how-to-card p,.how-to-note{font-size:14px;line-height:1.65}}
+
 </style>
 </head>
 <body>
@@ -213,6 +223,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
     <a href="#home">Home</a>
     <a href="#recipes">Recipes</a>
     <a href="#categories">Categories</a>
+    <a href="#how-to-use">How to Use</a>
     <a href="#about">About</a>
     <a href="#submit-recipe">Share Recipe</a>
   </nav>
@@ -268,6 +279,49 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   </div>
   <div class="grid" id="grid"></div>
   <div class="see-more-wrap" id="seeMoreWrap"><button class="see-more" id="seeMoreBtn">Show More Recipes</button></div>
+</section>
+
+
+<section class="section how-to-section" id="how-to-use" aria-labelledby="howToTitle">
+  <div class="section-head">
+    <div>
+      <h2 id="howToTitle">How to Use FestiBites</h2>
+      <p>A simple guide to finding a recipe and using the kitchen tools.</p>
+    </div>
+  </div>
+  <div class="how-to-grid">
+    <article class="how-to-card">
+      <span class="how-to-number">1</span>
+      <h3>Find a recipe</h3>
+      <p>Type a recipe name, ingredient or food category in the search box, then tap <strong>Search</strong>. You can also choose a category chip to browse that kind of food. Tap <strong>Surprise Me</strong> if you want FestiBites to pick a recipe for you.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">2</span>
+      <h3>Open and prepare</h3>
+      <p>Tap <strong>View full recipe</strong> to see the ingredients, cooking time, servings and difficulty. Read all the steps first, check that you have the ingredients, and ask an adult for help with knives, hot pans, boiling water or frying.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">3</span>
+      <h3>Adjust servings</h3>
+      <p>Use the minus and plus buttons beside <strong>Custom servings</strong>, or enter a number. Ingredient amounts that FestiBites can recognize will adjust automatically. Small pinches, salt and seasonings may still need to be adjusted to taste.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">4</span>
+      <h3>Follow each step</h3>
+      <p>Follow the numbered instructions from top to bottom. Tap a step to mark it as completed while you cook. Read the whole step before starting it, and check that food is properly cooked before serving.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">5</span>
+      <h3>Share or print</h3>
+      <p>Tap the share icon to preview the recipe, copy its text or share it using an available app. Tap the printer icon to open a print view, if your browser supports it. From the print screen, you may be able to choose <strong>Save as PDF</strong>.</p>
+    </article>
+    <article class="how-to-card">
+      <span class="how-to-number">6</span>
+      <h3>Browse more</h3>
+      <p>Tap <strong>Show More Recipes</strong> to load more cards. Use the category filters to narrow your choices, or return to <strong>All</strong> to browse the full collection.</p>
+    </article>
+  </div>
+  <p class="how-to-note"><strong>Beginner cooking tip:</strong> Wash your hands, clean your work area, measure ingredients before cooking, and follow food-safety guidance. Cooking times can vary with your stove, cookware and ingredient size.</p>
 </section>
 
 
