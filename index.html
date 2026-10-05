@@ -463,7 +463,8 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 let recipes = [];
 let activeCategory = "All";
 const PAGE_SIZE = 5;
-let visibleCount = PAGE_SIZE;
+const DESKTOP_PAGE_SIZE = 8;
+let visibleCount = window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE;
 let currentList = recipes;
 
 const grid = document.getElementById("grid");
@@ -508,7 +509,7 @@ function render(list){
 }
 
 function filterRecipes(resetPage = true){
-  if(resetPage) visibleCount = PAGE_SIZE;
+  if(resetPage) visibleCount = q ? list.length : (window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
 
   const q = search.value.toLowerCase().trim();
   const list = recipes.filter(r=>{
@@ -544,7 +545,7 @@ function filterRecipes(resetPage = true){
 }
 
 seeMoreBtn.addEventListener("click", ()=>{
-  visibleCount += PAGE_SIZE;
+  visibleCount += window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE;
   render(currentList);
 });
 
