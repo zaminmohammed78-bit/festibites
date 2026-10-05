@@ -16,9 +16,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
-          magick festibites-logo.jpg -resize 192x192! -strip icon-192.png
-          magick festibites-logo.jpg -resize 512x512! -strip icon-512.png
-          magick festibites-logo.jpg -resize 180x180! -strip apple-touch-icon.png
+          convert festibites-logo.jpg -resize 192x192! -strip icon-192.png
+          convert festibites-logo.jpg -resize 512x512! -strip icon-512.png
+          convert festibites-logo.jpg -resize 180x180! -strip apple-touch-icon.png
       - name: Commit generated icons
         run: |
           git config user.name 'github-actions[bot]'
