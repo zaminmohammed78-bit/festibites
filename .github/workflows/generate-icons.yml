@@ -1,0 +1,28 @@
+name: Generate FestiBites PNG icons
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'festibites-logo.jpg'
+      - '.github/workflows/generate-icons.yml'
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate PNG icons from the exact logo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          magick festibites-logo.jpg -resize 192x192! -strip icon-192.png
+          magick festibites-logo.jpg -resize 512x512! -strip icon-512.png
+          magick festibites-logo.jpg -resize 180x180! -strip apple-touch-icon.png
+      - name: Commit generated icons
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add icon-192.png icon-512.png apple-touch-icon.png
+          git diff --cached --quiet || git commit -m 'Generate PWA PNG icons from FestiBites logo'
+          git push
