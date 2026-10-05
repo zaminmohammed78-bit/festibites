@@ -18,7 +18,7 @@
   <meta name="msapplication-TileColor" content="#ff6b35">
   <meta name="msapplication-TileImage" content="./icon-192.png">
   <meta name="google-site-verification" content="srmVmo-jNBUa6fCeCXqfgdyS2pJZVv5WVrP3X2rczwk" />
-  <link rel="canonical" href="https://zaminmohammed78-bit.github.io/festibites/index.html">
+  <link rel="canonical" href="https://zaminmohammed78-bit.github.io/festibites/">
 <style>
 :root{
   --ink:#3a1b0f;
@@ -41,8 +41,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdro
 .offline-banner{background:#3a1b0f;color:#ffb067;text-align:center;padding:10px 16px;font-size:14px;font-weight:800;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .logo{font-size:28px;font-weight:900;letter-spacing:-1px;color:var(--ink)}
 .logo span{color:var(--coral)}
-nav{display:flex;gap:25px}
-nav a{text-decoration:none;color:var(--ink);font-weight:700}
+nav{display:flex;align-items:center;justify-content:center;gap:22px;flex:1}
+nav a{text-decoration:none;color:var(--ink);font-weight:700;white-space:nowrap}
 nav a:hover{color:var(--coral)}
 .hero{padding:75px 6% 65px;background:linear-gradient(135deg,#fff 0%,#fff5ed 55%,#ffe5d1 100%);display:block}
 .badge{display:inline-block;background:#d8f4ee;color:var(--teal);font-weight:800;padding:8px 14px;border-radius:99px;margin-bottom:18px}
@@ -57,6 +57,8 @@ nav a:hover{color:var(--coral)}
 .search{max-width:760px;margin:auto;background:white;border:1px solid #dfe8e7;border-radius:18px;display:flex;padding:6px;box-shadow:0 12px 30px rgba(21,59,58,.06)}
 .search input{flex:1;border:0;outline:0;padding:15px 17px;font-size:16px;background:transparent}
 .search button{border:0;border-radius:13px;background:var(--coral);color:white;padding:0 25px;font-weight:800;cursor:pointer}
+.surprise-row{max-width:760px;margin:10px auto 0;display:flex;justify-content:center}
+.surprise-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;min-height:42px}
 .controls{padding:22px 6%;display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
 .chip{border:1px solid #c9ddda;background:white;color:var(--ink);padding:10px 17px;border-radius:99px;font-weight:750;cursor:pointer}
 .chip.active,.chip:hover{background:var(--teal);color:white;border-color:var(--teal)}
@@ -74,7 +76,7 @@ nav a:hover{color:var(--coral)}
 .meta{display:flex;gap:10px;flex-wrap:wrap;color:#647575;font-size:12px;margin:15px 0}
 .view{border:0;background:var(--ink);color:white;border-radius:11px;padding:11px;cursor:pointer;font-weight:800}
 .view:hover{background:var(--teal)}
-.empty{text-align:center;padding:60px;color:var(--muted);grid-column:1/-1}
+.empty{text-align:center;padding:60px 24px;color:var(--muted);grid-column:1/-1}.empty h3{color:var(--ink);font-size:26px;margin-bottom:8px}.empty p{margin-bottom:20px;line-height:1.6}.suggest-recipe-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:13px 22px;font-weight:900;font-size:15px;text-decoration:none;cursor:pointer;box-shadow:0 10px 24px rgba(232,93,4,.20);transition:transform .2s ease,box-shadow .2s ease}.suggest-recipe-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,93,4,.28)}
 footer{background:var(--ink);color:white;text-align:center;padding:45px 6%}
 footer span{color:#ff9a89}
 .modal{display:none;position:fixed;inset:0;background:rgba(10,30,30,.68);z-index:100;padding:max(20px,env(safe-area-inset-top)) 20px 20px;overflow:auto}
@@ -106,7 +108,25 @@ footer span{color:#ff9a89}
 .steps li:before{content:counter(s);position:absolute;left:0;top:0;width:34px;height:34px;background:var(--coral);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900}
 .steps li.done:before{background:#a8988e}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}nav{display:none}}
+@media(max-width:800px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  header{flex-wrap:wrap;justify-content:center;gap:10px 14px}
+  .brand-logo{margin:0 auto}
+  nav{
+    order:3;
+    flex:0 0 100%;
+    width:100%;
+    justify-content:flex-start;
+    gap:18px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:4px 4px 7px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  nav::-webkit-scrollbar{display:none}
+  nav a{font-size:14px}
+}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.hero{padding:55px 5%}.section,.search-wrap{padding-left:5%;padding-right:5%}.hero h1{letter-spacing:-2px}.search button{padding:0 16px}.modal{padding:8px}.modal-body{padding:20px}}
 .see-more-wrap{display:flex;justify-content:center;margin:28px 0 0}
 .see-more{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:13px 28px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 10px 24px rgba(232,93,4,.20);transition:.2s}
@@ -180,6 +200,50 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   body:after { content: "FestiBites Recipe Kitchen • https://zaminmohammed78-bit.github.io/festibites/"; display: block; text-align: center; margin-top: 35px; font-size: 9pt; color: #888; border-top: 1px solid #eee; padding-top: 12px; }
 }
 
+@media(max-width:560px){
+  header{padding-left:5%;padding-right:5%;padding-bottom:10px}
+  .brand-logo>span{font-size:25px}
+  .brand-mark{width:42px;height:42px}
+  nav{
+    justify-content:center;
+    gap:20px;
+    padding-left:2px;
+    padding-right:2px;
+  }
+  nav a{font-size:13px}
+  .search{
+    flex-direction:column;
+    flex-wrap:nowrap;
+    gap:9px;
+    padding:8px;
+  }
+  .search input{
+    flex:0 0 auto;
+    width:100%;
+    min-width:0;
+    padding:14px 12px;
+    min-height:48px;
+  }
+  .search button{
+    width:100%;
+    min-height:46px;
+    padding:0 16px!important;
+    font-size:14px!important;
+  }
+  .surprise-row{
+    margin-top:10px;
+  }
+  .search .surprise-btn{
+    width:auto;
+    min-height:42px;
+    padding:0 20px!important;
+    font-size:14px!important;
+  }
+}
+
+.instruction-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 12px}
+@media(max-width:560px){.instruction-note{font-size:14px;line-height:1.65}}
+ .guide-home-link{display:inline-flex;align-items:center;justify-content:center;margin-top:2px;padding:12px 18px;border-radius:12px;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;text-decoration:none;font-weight:800;box-shadow:0 8px 20px rgba(232,93,4,.18)}.guide-home-link:hover{transform:translateY(-2px)}
 </style>
 </head>
 <body>
@@ -203,12 +267,14 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   </svg>
   <span>Festi<span>Bites</span></span>
 </div>
-  <nav>
+  <nav aria-label="Main navigation">
     <a href="#home">Home</a>
-    <a href="#recipes">Recipes</a>
     <a href="#categories">Categories</a>
+    <a href="#recipes">Recipes</a>
     <a href="#about">About</a>
     <a href="#submit-recipe">Share Recipe</a>
+    <a href="./how-to-use.html">How to Use</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4-VeQpvjAO6yTsc5qXOcJRYgT3h7r-TljGEAmVKS92aeZcQ/viewform?usp=publish-editor" target="_blank" rel="noopener">Help</a>
   </nav>
   <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
@@ -218,6 +284,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
     <div class="badge">150+ recipes • Step-by-step cooking</div>
     <h1>Good food makes every day a <em>FestiBite.</em></h1>
     <p>Explore a colorful collection of breakfast, lunch, dinner, dessert and snack recipes. Every recipe includes ingredients, cooking time, servings, difficulty and detailed instructions.</p>
+  <a class="guide-home-link" href="./how-to-use.html">📖 How to Use FestiBites</a>
     <div class="hero-stats">
       <div class="stat"><strong id="heroCount">150+</strong><small>Recipes</small></div>
       <div class="stat"><strong>11</strong><small>Categories</small></div>
@@ -231,7 +298,9 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   <div class="search" style="position:relative;">
     <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
     <button onclick="filterRecipes()">Search</button>
-    <button type="button" onclick="openSpinnerModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:0 16px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;" title="Surprise Me Spinner">🎲 Surprise Me</button>
+  </div>
+  <div class="surprise-row">
+    <button type="button" class="surprise-btn" onclick="openSpinnerModal()" title="Surprise Me Spinner">🎲 Surprise Me</button>
   </div>
 </div>
 
@@ -281,6 +350,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 <footer id="about">
   <h2>Festi<span>Bites</span> </h2>
   <p>Cook something memorable, one recipe at a time.</p>
+  <p style="margin-top:18px;font-weight:800;">Credits: Mohammed Zamin &amp; Muhammed Faizi</p>
 </footer>
 
 <div class="modal" id="modal">
@@ -311,6 +381,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       <h3> Ingredients</h3>
       <ul class="ingredients" id="mIngredients"></ul>
       <h3>‍ Step-by-step instructions</h3>
+      <p class="instruction-note">Read each step before starting, then follow them in order. You can tap a step to mark it complete as you cook.</p>
       <ol class="steps" id="mSteps"></ol>
     </div>
   </div>
@@ -391,7 +462,8 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 let recipes = [];
 let activeCategory = "All";
 const PAGE_SIZE = 5;
-let visibleCount = PAGE_SIZE;
+const DESKTOP_PAGE_SIZE = 8;
+let visibleCount = window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE;
 let currentList = recipes;
 
 const grid = document.getElementById("grid");
@@ -404,7 +476,7 @@ function render(list){
   grid.innerHTML = "";
 
   if(!list.length){
-    grid.innerHTML = '<div class="empty"><h3>No recipes found</h3><p>Try another recipe name, ingredient or category.</p></div>';
+    grid.innerHTML = '<div class="empty"><h3>No recipes found 😕</h3><p>Can\'t find what you\'re looking for? Suggest a recipe and help us grow FestiBites!</p><a class="suggest-recipe-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeVmr_K9fJRr0-kimklOkturOOcQk4Jiq3nZ4SGRJOYgSYlDQ/viewform?usp=publish-editor" target="_blank" rel="noopener">➕ Suggest a Recipe</a></div>'
     document.getElementById("resultText").textContent = "No matching recipes";
     seeMoreWrap.style.display = "none";
     return;
@@ -421,7 +493,7 @@ function render(list){
       <div class="tag">${r.category}</div>
       <h3>${r.name}</h3>
       <p>${r.description}</p>
-      <div class="meta"><span>${r.minutes} min</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
+      <div class="meta"><span>${r.minutes ? r.minutes + " min" : "Time varies"}</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
       <button class="view" onclick="openRecipe(${i})">View full recipe</button>
     `;
     grid.appendChild(card);
@@ -436,8 +508,6 @@ function render(list){
 }
 
 function filterRecipes(resetPage = true){
-  if(resetPage) visibleCount = PAGE_SIZE;
-
   const q = search.value.toLowerCase().trim();
   const list = recipes.filter(r=>{
     let categoryOK = activeCategory==="All" || r.category===activeCategory;
@@ -468,11 +538,12 @@ function filterRecipes(resetPage = true){
 
     return categoryOK && combinedText.includes(q);
   });
+  if(resetPage) visibleCount = q ? list.length : (window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
   render(list);
 }
 
 seeMoreBtn.addEventListener("click", ()=>{
-  visibleCount += PAGE_SIZE;
+  visibleCount += window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE;
   render(currentList);
 });
 
@@ -601,7 +672,7 @@ function openRecipe(index){
   const r = currentList[index];
   document.getElementById("mTitle").textContent = r.name;
   document.getElementById("mDesc").textContent = r.description;
-  document.getElementById("mTime").textContent = `${r.minutes} minutes`;
+  document.getElementById("mTime").textContent = r.minutes ? `${r.minutes} minutes` : "Time varies";
   document.getElementById("mDifficulty").textContent = r.difficulty;
   selectedRecipe = r;
   originalServings = Math.max(1, Number(r.servings) || 1);
@@ -673,6 +744,66 @@ function closeRecipe(){
   document.body.style.overflow = "";
 }
 
+function printRecipe(){
+  if(!selectedRecipe) return;
+  const recipeModal = document.getElementById("modal");
+  const recipeBox = recipeModal && recipeModal.querySelector(".modal-box");
+  if(!recipeBox) return;
+
+  // Print a clean recipe document in a separate window; this avoids the
+  // page-level modal/overlay styles interfering with mobile print dialogs.
+  const printWindow = window.open("", "_blank");
+  if(!printWindow){
+    // Fall back to the browser's built-in print command if popups are blocked.
+    if(typeof window.print === "function") window.print();
+    return;
+  }
+
+  const recipeHTML = recipeBox.innerHTML;
+  printWindow.document.open();
+  printWindow.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${String(selectedRecipe.name || "FestiBites Recipe").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}</title>
+<style>
+@page{margin:1.5cm}
+*{box-sizing:border-box}
+body{font-family:Arial,system-ui,sans-serif;color:#222;background:#fff;font-size:12pt;line-height:1.5;margin:0}
+.modal-box{max-width:100%;margin:0;border:0}
+.modal-top{background:#fff;color:#111;border-bottom:3px solid #e85d04;padding:0 0 16px;margin-bottom:20px}
+.modal-top h2{font-size:26pt;color:#e85d04;margin:0 0 6px;line-height:1.15}
+.modal-top p{color:#555;font-size:12pt;margin:0}
+.modal-body{padding:0}
+.details{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-bottom:20px;border:1px solid #f2ddd0;padding:12px;border-radius:10px}
+.detail{flex:1;min-width:100px;padding:0;background:#fff}
+.detail b{display:block;color:#e85d04;font-size:10pt;margin-bottom:3px}
+.detail span{font-size:12pt;font-weight:bold}
+h3{color:#e85d04;font-size:16pt;margin:20px 0 10px;border-bottom:2px solid #f2ddd0;padding-bottom:4px;break-after:avoid}
+.ingredients{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+.ingredients li{border-bottom:1px solid #eee;padding:5px 0;break-inside:avoid}
+.ingredients li:before{content:"• ";color:#e85d04;font-weight:bold}
+.steps{padding-left:24px}
+.steps li{padding:0 0 12px 4px;break-inside:avoid}
+.close,.serving-control,.serving-note,.fav-btn,.pwa-install-btn{display:none!important}
+footer{margin-top:30px;padding-top:10px;border-top:1px solid #eee;text-align:center;font-size:9pt;color:#888}
+</style>
+</head>
+<body>
+<div class="modal-box">${recipeHTML}</div>
+<footer>FestiBites Recipe Kitchen • zaminmohammed78-bit.github.io/festibites/</footer>
+<script>
+window.addEventListener("load",function(){
+  setTimeout(function(){window.focus();window.print();},250);
+});
+window.addEventListener("afterprint",function(){window.close();});
+<\/script>
+</body>
+</html>`);
+  printWindow.document.close();
+}
+
 function generateShareText(){
   if(!selectedRecipe) return "";
   const factor = selectedServings / originalServings;
@@ -737,6 +868,13 @@ fetch("./recipes.json")
   })
   .then(data => {
     let raw = Array.isArray(data) ? data : [];
+    // Normalize older recipe entries so optional fields do not appear blank.
+    raw = raw.map(r => ({
+      ...r,
+      minutes: Number(r.minutes) || (parseInt(r.time, 10) || 0),
+      servings: Math.max(1, Number(r.servings) || 2),
+      description: r.description || `A ${r.name || "home-style"} recipe with ingredients and step-by-step instructions.`
+    }));
     // Interleave/shuffle categories so the first 5 cards show diverse meals instead of only Breakfast
     const grouped = {};
     raw.forEach(item => {
