@@ -6,7 +6,7 @@
   <title>FestiBites — Recipe Kitchen</title>
   <meta name="description" content="A responsive web application to discover, search, and save delicious cooking recipes with ingredients, step-by-step instructions, and dietary filters on any OS.">
   <link rel="manifest" href="./manifest.json">
-  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="icon" type="image/svg+xml" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 
   <!-- Cross-Platform PWA & Mobile Meta Tags -->
@@ -254,7 +254,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 
 <header>
   <div class="logo brand-logo" aria-label="FestiBites">
-  <img class="brand-full-logo" src="./festibites-logo.jpg" alt="FestiBites — Good Food. Good Vibes.">
+  <img class="brand-full-logo" src="./icon-512.png" alt="FestiBites — Good Food. Good Vibes.">
 </div>
   <nav aria-label="Main navigation">
     <a href="#home">Home</a>
@@ -999,6 +999,6 @@ if ("serviceWorker" in navigator) {
 </html>
 
 <style>
-.brand-full-logo{display:block;width:112px;height:112px;object-fit:contain;border-radius:50%;}
-@media (min-width:700px){.brand-full-logo{width:128px;height:128px}.brand-logo{height:108px}}
+.brand-full-logo{display:block;width:64px;height:64px;object-fit:cover;border-radius:50%;clip-path:circle(50% at 50% 50%);filter:drop-shadow(0 5px 10px rgba(232,93,4,.22))}
+@media (min-width:700px){.brand-full-logo{width:70px;height:70px}}
 </style>
