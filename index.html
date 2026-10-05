@@ -74,7 +74,7 @@ nav a:hover{color:var(--coral)}
 .meta{display:flex;gap:10px;flex-wrap:wrap;color:#647575;font-size:12px;margin:15px 0}
 .view{border:0;background:var(--ink);color:white;border-radius:11px;padding:11px;cursor:pointer;font-weight:800}
 .view:hover{background:var(--teal)}
-.empty{text-align:center;padding:60px;color:var(--muted);grid-column:1/-1}
+.empty{text-align:center;padding:60px 24px;color:var(--muted);grid-column:1/-1}.empty h3{color:var(--ink);font-size:26px;margin-bottom:8px}.empty p{margin-bottom:20px;line-height:1.6}.suggest-recipe-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:13px 22px;font-weight:900;font-size:15px;text-decoration:none;cursor:pointer;box-shadow:0 10px 24px rgba(232,93,4,.20);transition:transform .2s ease,box-shadow .2s ease}.suggest-recipe-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,93,4,.28)}
 footer{background:var(--ink);color:white;text-align:center;padding:45px 6%}
 footer span{color:#ff9a89}
 .modal{display:none;position:fixed;inset:0;background:rgba(10,30,30,.68);z-index:100;padding:max(20px,env(safe-area-inset-top)) 20px 20px;overflow:auto}
@@ -419,7 +419,7 @@ function render(list){
   grid.innerHTML = "";
 
   if(!list.length){
-    grid.innerHTML = '<div class="empty"><h3>No recipes found</h3><p>Try another recipe name, ingredient or category.</p></div>';
+    grid.innerHTML = '<div class="empty"><h3>No recipes found 😕</h3><p>Can\'t find what you\'re looking for? Suggest a recipe and help us grow FestiBites!</p><a class="suggest-recipe-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSf4-VeQpvjAO6yTsc5qXOcJRYgT3h7r-TljGEAmVKS92aeZcQ/viewform?usp=publish-editor" target="_blank" rel="noopener">➕ Suggest a Recipe</a></div>'
     document.getElementById("resultText").textContent = "No matching recipes";
     seeMoreWrap.style.display = "none";
     return;
