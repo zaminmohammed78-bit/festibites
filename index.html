@@ -147,7 +147,7 @@ body{background:linear-gradient(135deg,#fffdfb 0%,#fff7f1 45%,#ffffff 100%);}
 .category-card{background:linear-gradient(145deg,#fff,#fff7f1);box-shadow:0 10px 25px rgba(232,93,4,.07);}
 input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 
-.brand-logo{display:flex;align-items:center;gap:10px}
+.brand-logo{display:flex;align-items:center;flex:0 0 auto;height:72px}
 .brand-logo>span{font-size:28px;font-weight:900;letter-spacing:-1px;color:#3a1b0f}
 .brand-logo>span>span{color:#e85d04}
 .brand-mark{width:54px;height:54px;display:block;border-radius:50%;object-fit:cover;overflow:hidden;clip-path:circle(50% at 50% 50%);filter:drop-shadow(0 5px 10px rgba(232,93,4,.22))}
@@ -254,8 +254,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 
 <header>
   <div class="logo brand-logo" aria-label="FestiBites">
-  <img class="brand-mark" src="./icon.svg" alt="" aria-hidden="true">
-  <span>Festi<span>Bites</span></span>
+  <img class="brand-full-logo" src="./festibites-logo.jpg" alt="FestiBites — Good Food. Good Vibes.">
 </div>
   <nav aria-label="Main navigation">
     <a href="#home">Home</a>
@@ -998,3 +997,8 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
+
+<style>
+.brand-full-logo{display:block;width:82px;height:82px;object-fit:contain;border-radius:50%;}
+@media (min-width:700px){.brand-full-logo{width:96px;height:96px}.brand-logo{height:82px}}
+</style>
