@@ -41,8 +41,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdro
 .offline-banner{background:#3a1b0f;color:#ffb067;text-align:center;padding:10px 16px;font-size:14px;font-weight:800;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .logo{font-size:28px;font-weight:900;letter-spacing:-1px;color:var(--ink)}
 .logo span{color:var(--coral)}
-nav{display:flex;gap:25px}
-nav a{text-decoration:none;color:var(--ink);font-weight:700}
+nav{display:flex;align-items:center;justify-content:center;gap:22px;flex:1}
+nav a{text-decoration:none;color:var(--ink);font-weight:700;white-space:nowrap}
 nav a:hover{color:var(--coral)}
 .hero{padding:75px 6% 65px;background:linear-gradient(135deg,#fff 0%,#fff5ed 55%,#ffe5d1 100%);display:block}
 .badge{display:inline-block;background:#d8f4ee;color:var(--teal);font-weight:800;padding:8px 14px;border-radius:99px;margin-bottom:18px}
@@ -106,7 +106,25 @@ footer span{color:#ff9a89}
 .steps li:before{content:counter(s);position:absolute;left:0;top:0;width:34px;height:34px;background:var(--coral);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900}
 .steps li.done:before{background:#a8988e}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}nav{display:none}}
+@media(max-width:800px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  header{flex-wrap:wrap;justify-content:center;gap:10px 14px}
+  .brand-logo{margin:0 auto}
+  nav{
+    order:3;
+    flex:0 0 100%;
+    width:100%;
+    justify-content:flex-start;
+    gap:18px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:4px 4px 7px;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  nav::-webkit-scrollbar{display:none}
+  nav a{font-size:14px}
+}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.hero{padding:55px 5%}.section,.search-wrap{padding-left:5%;padding-right:5%}.hero h1{letter-spacing:-2px}.search button{padding:0 16px}.modal{padding:8px}.modal-body{padding:20px}}
 .see-more-wrap{display:flex;justify-content:center;margin:28px 0 0}
 .see-more{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:13px 28px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 10px 24px rgba(232,93,4,.20);transition:.2s}
@@ -181,9 +199,41 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 }
 
 @media(max-width:560px){
-  .search{flex-wrap:wrap;gap:8px;padding:8px;}
-  .search input{flex:1 1 100%;width:100%;min-width:0;padding:13px 12px;}
-  .search button,.search .surprise-btn{flex:1 1 calc(50% - 4px);min-width:0;min-height:46px;padding:0 10px!important;font-size:14px!important;white-space:normal!important;}
+  header{padding-left:5%;padding-right:5%;padding-bottom:10px}
+  .brand-logo>span{font-size:25px}
+  .brand-mark{width:42px;height:42px}
+  nav{
+    justify-content:center;
+    gap:20px;
+    padding-left:2px;
+    padding-right:2px;
+  }
+  nav a{font-size:13px}
+  .search{
+    flex-direction:column;
+    flex-wrap:nowrap;
+    gap:9px;
+    padding:8px;
+  }
+  .search input{
+    flex:0 0 auto;
+    width:100%;
+    min-width:0;
+    padding:14px 12px;
+    min-height:48px;
+  }
+  .search button{
+    width:100%;
+    min-height:46px;
+    padding:0 16px!important;
+    font-size:14px!important;
+  }
+  .search .surprise-btn{
+    width:100%;
+    min-height:44px;
+    padding:0 16px!important;
+    font-size:14px!important;
+  }
 }
 
 .instruction-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 12px}
@@ -213,14 +263,14 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   </svg>
   <span>Festi<span>Bites</span></span>
 </div>
-  <nav>
+  <nav aria-label="Main navigation">
     <a href="#home">Home</a>
-    <a href="#recipes">Recipes</a>
     <a href="#categories">Categories</a>
-    <a href="./how-to-use.html">How to Use</a>
+    <a href="#recipes">Recipes</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4-VeQpvjAO6yTsc5qXOcJRYgT3h7r-TljGEAmVKS92aeZcQ/viewform?usp=publish-editor" target="_blank" rel="noopener">🆘 Help</a>
     <a href="#about">About</a>
     <a href="#submit-recipe">Share Recipe</a>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4-VeQpvjAO6yTsc5qXOcJRYgT3h7r-TljGEAmVKS92aeZcQ/viewform?usp=publish-editor" target="_blank" rel="noopener">🆘 Help</a>
+    <a href="./how-to-use.html">How to Use</a>
   </nav>
   <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
