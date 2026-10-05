@@ -1,10 +1,9 @@
-const CACHE_NAME = 'festibites-v33';
+const CACHE_NAME = 'festibites-v34';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './recipes.json',
   './manifest.json',
-  './icon.svg',
   './icon-192.png',
   './icon-512.png',
   './apple-touch-icon.png',
