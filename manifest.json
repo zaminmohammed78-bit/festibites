@@ -16,25 +16,25 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "./festibites-logo.jpg",
+      "src": "./icon.svg",
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "./festibites-logo.jpg",
+      "src": "./icon.svg",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./festibites-logo.jpg",
+      "src": "./icon.svg",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./festibites-logo.jpg",
+      "src": "./icon.svg",
       "sizes": "180x180",
       "type": "image/png"
     }
@@ -45,14 +45,14 @@
       "short_name": "Search",
       "description": "Find delicious recipes quickly",
       "url": "./index.html#search",
-      "icons": [{ "src": "./festibites-logo.jpg", "sizes": "192x192" }]
+      "icons": [{ "src": "./icon.svg", "sizes": "192x192" }]
     },
     {
       "name": "Submit a Recipe",
       "short_name": "Submit",
       "description": "Share your favorite cooking recipe",
       "url": "./index.html#submit-recipe",
-      "icons": [{ "src": "./festibites-logo.jpg", "sizes": "192x192" }]
+      "icons": [{ "src": "./icon.svg", "sizes": "192x192" }]
     }
   ]
 }
