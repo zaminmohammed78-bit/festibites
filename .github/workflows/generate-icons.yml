@@ -26,3 +26,5 @@ jobs:
           git add icon-192.png icon-512.png apple-touch-icon.png
           git diff --cached --quiet || git commit -m 'Generate PWA PNG icons from FestiBites logo'
           git push
+
+# Regenerate icon assets from the supplied FestiBites logo.
