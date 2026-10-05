@@ -509,8 +509,6 @@ function render(list){
 }
 
 function filterRecipes(resetPage = true){
-  if(resetPage) visibleCount = q ? list.length : (window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
-
   const q = search.value.toLowerCase().trim();
   const list = recipes.filter(r=>{
     let categoryOK = activeCategory==="All" || r.category===activeCategory;
@@ -541,6 +539,7 @@ function filterRecipes(resetPage = true){
 
     return categoryOK && combinedText.includes(q);
   });
+  if(resetPage) visibleCount = q ? list.length : (window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
   render(list);
 }
 
