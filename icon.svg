@@ -1,28 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ff9a4d"/>
+    <linearGradient id="flameGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8a3d"/>
       <stop offset="100%" stop-color="#e85d04"/>
     </linearGradient>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#3a1b0f" flood-opacity="0.18"/>
-    </filter>
   </defs>
 
-  <!-- Background App Tile -->
-  <rect width="512" height="512" rx="112" fill="#ffffff" filter="url(#shadow)"/>
+  <!-- Clean Rounded Square White Base -->
+  <rect width="512" height="512" rx="112" fill="#ffffff"/>
 
-  <!-- Outer Flame Circle -->
-  <circle cx="256" cy="240" r="150" fill="none" stroke="url(#bgGrad)" stroke-width="32" stroke-linecap="round"/>
+  <!-- Flame Circle Ring -->
+  <circle cx="256" cy="225" r="142" fill="none" stroke="url(#flameGrad)" stroke-width="28" stroke-linecap="round"/>
 
-  <!-- Flame Silhouette -->
-  <path d="M256 100c-25 35-50 65-50 100 0 28 22 50 50 50s50-22 50-50c0-35-25-65-50-100z" fill="#e85d04"/>
+  <!-- Flame Core -->
+  <path d="M256 110c-26 36-52 68-52 105 0 29 23 52 52 52s52-23 52-52c0-37-26-69-52-105z" fill="url(#flameGrad)"/>
 
-  <!-- Whisk & Spatula Cooking Icons -->
-  <g transform="translate(160, 160) scale(3.5)">
-    <!-- Whisk -->
-    <path d="M12 2v20M8 6h8M9 10h6M10 14h4" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Spatula -->
-    <path d="M22 17l-5-5M17 12l3-3a2.82 2.82 0 00-4-4l-3 3-4 4 4 4 4-4z" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
+  <!-- Whisk & Spatula Silhouette inside Flame -->
+  <!-- Whisk Wires -->
+  <path d="M242 202c-8-12-12-25 0-38 8 13 4 26-0 38z" fill="#ffffff" opacity="0.9"/>
+  <path d="M252 208c-9-15-12-30 0-45 9 15 5 30 0 45z" fill="#ffffff"/>
+  <!-- Spatula Head -->
+  <path d="M272 188l22-22c4-4 10-4 14 0l2 2c4 4 4 10 0 14l-22 22z" fill="#ffffff"/>
+  <line x1="280" y1="180" x2="292" y2="192" stroke="url(#flameGrad)" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- FestiBites Typography at Bottom -->
+  <text x="256" y="425" text-anchor="middle" font-family="Inter, system-ui, -apple-system, sans-serif" font-weight="900" font-size="58" letter-spacing="-1.5">
+    <tspan fill="#e85d04">Festi</tspan><tspan fill="#e85d04">Bites</tspan>
+  </text>
 </svg>
