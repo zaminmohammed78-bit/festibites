@@ -150,7 +150,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 .brand-logo{display:flex;align-items:center;gap:10px}
 .brand-logo>span{font-size:28px;font-weight:900;letter-spacing:-1px;color:#3a1b0f}
 .brand-logo>span>span{color:#e85d04}
-.brand-mark{width:54px;height:54px;display:block;filter:drop-shadow(0 5px 10px rgba(232,93,4,.22))}
+.brand-mark{width:54px;height:54px;display:block;border-radius:50%;object-fit:cover;overflow:hidden;clip-path:circle(50% at 50% 50%);filter:drop-shadow(0 5px 10px rgba(232,93,4,.22))}
 
 
 /* Share / Submit Recipe */
@@ -203,7 +203,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 @media(max-width:560px){
   header{padding-left:5%;padding-right:5%;padding-bottom:10px}
   .brand-logo>span{font-size:25px}
-  .brand-mark{width:50px;height:50px}
+  .brand-mark{width:50px;height:50px;border-radius:50%;object-fit:cover;clip-path:circle(50% at 50% 50%)}
   nav{
     justify-content:center;
     gap:20px;
