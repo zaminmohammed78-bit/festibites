@@ -19,12 +19,12 @@ jobs:
           convert festibites-logo.jpg -resize 192x192! -strip icon-192.png
           convert festibites-logo.jpg -resize 512x512! -strip icon-512.png
           convert festibites-logo.jpg -resize 180x180! -strip apple-touch-icon.png
-          cp icon-512.png icon.svg 2>/dev/null || true
+          printf '%s\n' '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><image href="./icon-512.png" width="512" height="512"/></svg>' > icon.svg
       - name: Commit generated icons
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add icon-192.png icon-512.png apple-touch-icon.png
+          git add icon.svg icon-192.png icon-512.png apple-touch-icon.png
           git diff --cached --quiet || git commit -m 'Generate PWA PNG icons from FestiBites logo'
           git push
 
