@@ -282,7 +282,10 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 
 <section class="hero" id="home">
   <div>
-    <div class="badge">150+ recipes • Step-by-step cooking</div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+      <div class="badge" style="margin-bottom:0;">150+ recipes • Step-by-step cooking</div>
+      <button id="heroAuthBtn" onclick="openAuthModal()" style="border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;padding:8px 16px;border-radius:99px;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 16px rgba(232,93,4,.25);">👤 Sign In / Account</button>
+    </div>
     <h1>Good food makes every day a <em>FestiBite.</em></h1>
     <p>Explore a colorful collection of breakfast, lunch, dinner, dessert and snack recipes. Every recipe includes ingredients, cooking time, servings, difficulty and detailed instructions.</p>
   <a class="guide-home-link" href="./how-to-use.html">📖 How to Use FestiBites</a>
@@ -294,6 +297,20 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   </div>
   <div class="hero-art"></div>
 </section>
+
+<!-- Recipe of the Day Card -->
+<div style="padding:0 6% 25px;">
+  <div id="recipeOfTheDayCard" style="max-width:900px;margin:auto;background:linear-gradient(135deg,#fffdfb,#fff3eb);border:1.5px solid var(--coral);border-radius:24px;padding:24px;box-shadow:0 12px 32px rgba(232,93,4,.12);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:18px;right:18px;background:var(--coral);color:#fff;font-weight:900;font-size:11px;padding:5px 12px;border-radius:99px;text-transform:uppercase;letter-spacing:1px;">⭐ Recipe of the Day</div>
+    <div class="tag" id="rotdCategory" style="color:var(--teal);margin-bottom:6px;">Featured Dish</div>
+    <h2 id="rotdTitle" style="font-size:26px;color:var(--ink);margin-bottom:8px;padding-right:120px;">Loading Today's Special...</h2>
+    <p id="rotdDesc" style="color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:16px;max-width:700px;"></p>
+    <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+      <span id="rotdMeta" style="color:#647575;font-size:13px;font-weight:700;"></span>
+      <button id="rotdBtn" class="see-more" style="padding:10px 22px;margin:0;font-size:14px;" onclick="openRotdRecipe()">Cook Today's Special →</button>
+    </div>
+  </div>
+</div>
 
 <div class="search-wrap">
   <div class="search" style="position:relative;">
@@ -796,7 +813,29 @@ if (typeof supabase !== "undefined" && SUPABASE_URL && SUPABASE_ANON_KEY) {
   } catch(e) { console.error("Supabase init error:", e); }
 }
 
-let currentUser = null;
+let rotdRecipeIndex = -1;
+
+function setupRecipeOfTheDay(){
+  if(!recipes || !recipes.length) return;
+  // Deterministic daily pick based on date (same recipe all day for all users)
+  const today = new Date();
+  const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+  rotdRecipeIndex = dayOfYear % recipes.length;
+  const rotd = recipes[rotdRecipeIndex];
+  if(!rotd) return;
+
+  document.getElementById("rotdTitle").textContent = rotd.name;
+  document.getElementById("rotdCategory").textContent = `⭐ Recipe of the Day • ${rotd.category}`;
+  document.getElementById("rotdDesc").textContent = rotd.description;
+  document.getElementById("rotdMeta").textContent = `⏱️ ${rotd.minutes} mins | 👥 ${rotd.servings} servings | 📊 ${rotd.difficulty}`;
+}
+
+function openRotdRecipe(){
+  if(rotdRecipeIndex >= 0){
+    currentList = recipes;
+    openRecipe(rotdRecipeIndex);
+  }
+}
 
 function openAuthModal(){
   document.getElementById("authModal").style.display = "block";
@@ -818,11 +857,15 @@ async function checkUserSession(){
     document.getElementById("authSignedInView").style.display = "block";
     document.getElementById("userGreeting").textContent = "Signed in as: " + currentUser.email;
     document.getElementById("authBtn").textContent = "👤 " + currentUser.email.split("@")[0];
+    const heroBtn = document.getElementById("heroAuthBtn");
+    if(heroBtn) heroBtn.textContent = "👤 " + currentUser.email.split("@")[0];
   } else {
     currentUser = null;
     document.getElementById("authSignedOutView").style.display = "block";
     document.getElementById("authSignedInView").style.display = "none";
     document.getElementById("authBtn").textContent = "👤 Sign In";
+    const heroBtn = document.getElementById("heroAuthBtn");
+    if(heroBtn) heroBtn.textContent = "👤 Sign In / Account";
   }
 }
 
@@ -1045,6 +1088,7 @@ fetch("./recipes.json")
 
     recipes = interleaved.length ? interleaved : raw;
     document.getElementById("heroCount").textContent = recipes.length + "+";
+    setupRecipeOfTheDay();
     filterRecipes();
   })
   .catch(error => {
