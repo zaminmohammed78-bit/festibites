@@ -19,6 +19,7 @@
   <meta name="msapplication-TileImage" content="./icon-192.png">
   <meta name="google-site-verification" content="srmVmo-jNBUa6fCeCXqfgdyS2pJZVv5WVrP3X2rczwk" />
   <link rel="canonical" href="https://zaminmohammed78-bit.github.io/festibites/">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --ink:#3a1b0f;
@@ -265,6 +266,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
     <a href="#submit-recipe">Share Recipe</a>
     <a href="./how-to-use.html">How to Use</a>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4-VeQpvjAO6yTsc5qXOcJRYgT3h7r-TljGEAmVKS92aeZcQ/viewform?usp=publish-editor" target="_blank" rel="noopener">Help</a>
+    <button id="authBtn" onclick="openAuthModal()" style="border:0;background:var(--ink);color:#fff;padding:6px 14px;border-radius:20px;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">👤 Sign In</button>
   </nav>
   <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
@@ -373,6 +375,38 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       <h3>‍ Step-by-step instructions</h3>
       <p class="instruction-note">Read each step before starting, then follow them in order. You can tap a step to mark it complete as you cook.</p>
       <ol class="steps" id="mSteps"></ol>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="authModal" style="display:none;">
+  <div class="modal-box" style="max-width:440px;background:#fff;border-radius:24px;overflow:hidden;margin:auto;">
+    <div class="modal-top" style="padding:28px 24px;text-align:center;background:linear-gradient(135deg,#ff8a3d,#e85d04);">
+      <button class="close" onclick="closeAuthModal()">×</button>
+      <div style="font-size:38px;margin-bottom:6px;">👤</div>
+      <h2 style="font-size:24px;margin:0 0 4px;">FestiBites Account</h2>
+      <p style="opacity:.95;font-size:13px;" id="authSubtitle">Sign in to save and sync your recipes across devices.</p>
+    </div>
+    <div class="modal-body" style="padding:24px;">
+      <div id="authSignedOutView">
+        <div style="margin-bottom:12px;">
+          <label for="authEmail" style="display:block;font-weight:800;font-size:13px;margin-bottom:4px;color:var(--ink);">Email</label>
+          <input id="authEmail" type="email" placeholder="you@example.com" style="width:100%;border:1px solid #ead8ce;border-radius:12px;padding:12px;font:inherit;font-size:14px;outline:none;background:#fff;">
+        </div>
+        <div style="margin-bottom:18px;">
+          <label for="authPassword" style="display:block;font-weight:800;font-size:13px;margin-bottom:4px;color:var(--ink);">Password</label>
+          <input id="authPassword" type="password" placeholder="••••••••" style="width:100%;border:1px solid #ead8ce;border-radius:12px;padding:12px;font:inherit;font-size:14px;outline:none;background:#fff;">
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <button class="view" style="flex:1;padding:12px;background:var(--coral);" onclick="handleSignIn()">Sign In</button>
+          <button class="view" style="flex:1;padding:12px;background:var(--ink);" onclick="handleSignUp()">Sign Up</button>
+        </div>
+        <p id="authMsg" style="text-align:center;font-size:13px;font-weight:800;color:var(--coral);margin-top:10px;display:none;"></p>
+      </div>
+      <div id="authSignedInView" style="display:none;text-align:center;">
+        <p style="font-size:15px;font-weight:800;color:var(--ink);margin-bottom:16px;" id="userGreeting"></p>
+        <button class="view" style="width:100%;padding:12px;background:var(--coral);" onclick="handleSignOut()">Sign Out</button>
+      </div>
     </div>
   </div>
 </div>
@@ -732,6 +766,94 @@ function openSpunRecipe(){
 function closeRecipe(){
   document.getElementById("modal").style.display = "none";
   document.body.style.overflow = "";
+}
+
+// Supabase Integration Setup
+const SUPABASE_URL = "https://ajvzgxfadnkimcilvnfs.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqdnpneGZhZG5raW1jaWx2bmZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM4MDAwMDAsImV4cCI6MjA1OTM3NjAwMH0.supabase_placeholder_key_replace_if_needed";
+let supabaseClient = null;
+if (typeof supabase !== "undefined" && SUPABASE_URL && SUPABASE_ANON_KEY) {
+  try {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch(e) { console.error("Supabase init error:", e); }
+}
+
+let currentUser = null;
+
+function openAuthModal(){
+  document.getElementById("authModal").style.display = "block";
+  document.body.style.overflow = "hidden";
+  checkUserSession();
+}
+
+function closeAuthModal(){
+  document.getElementById("authModal").style.display = "none";
+  document.body.style.overflow = "";
+}
+
+async function checkUserSession(){
+  if(!supabaseClient) return;
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if(session && session.user){
+    currentUser = session.user;
+    document.getElementById("authSignedOutView").style.display = "none";
+    document.getElementById("authSignedInView").style.display = "block";
+    document.getElementById("userGreeting").textContent = "Signed in as: " + currentUser.email;
+    document.getElementById("authBtn").textContent = "👤 " + currentUser.email.split("@")[0];
+  } else {
+    currentUser = null;
+    document.getElementById("authSignedOutView").style.display = "block";
+    document.getElementById("authSignedInView").style.display = "none";
+    document.getElementById("authBtn").textContent = "👤 Sign In";
+  }
+}
+
+async function handleSignIn(){
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value.trim();
+  const msg = document.getElementById("authMsg");
+  if(!email || !password){
+    msg.textContent = "Please enter email and password.";
+    msg.style.display = "block";
+    return;
+  }
+  msg.style.display = "none";
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if(error){
+    msg.textContent = error.message;
+    msg.style.display = "block";
+  } else {
+    checkUserSession();
+    closeAuthModal();
+  }
+}
+
+async function handleSignUp(){
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value.trim();
+  const msg = document.getElementById("authMsg");
+  if(!email || !password){
+    msg.textContent = "Please enter email and password.";
+    msg.style.display = "block";
+    return;
+  }
+  msg.style.display = "none";
+  const { data, error } = await supabaseClient.auth.signUp({ email, password });
+  if(error){
+    msg.textContent = error.message;
+    msg.style.display = "block";
+  } else {
+    msg.style.color = "var(--teal)";
+    msg.textContent = "Sign up successful! Please check your email or sign in.";
+    msg.style.display = "block";
+  }
+}
+
+async function handleSignOut(){
+  if(!supabaseClient) return;
+  await supabaseClient.auth.signOut();
+  checkUserSession();
+  closeAuthModal();
 }
 
 function printRecipe(){
