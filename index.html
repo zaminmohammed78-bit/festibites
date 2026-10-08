@@ -916,21 +916,24 @@ function closeAuthModal(){
 async function checkUserSession(){
   if(!supabaseClient) return;
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if(session && session.user){
+  // REPLACE WITH YOUR EXACT ADMIN EMAIL ADDRESS HERE:
+  const ADMIN_EMAIL = "zaminmohammed78-bit@gmail.com";
+
+  if(session && session.user && session.user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()){
     currentUser = session.user;
     document.getElementById("authSignedOutView").style.display = "none";
     document.getElementById("authSignedInView").style.display = "block";
-    document.getElementById("userGreeting").textContent = "Signed in as: " + currentUser.email;
-    document.getElementById("authBtn").textContent = "👤 " + currentUser.email.split("@")[0];
+    document.getElementById("userGreeting").textContent = "Admin: " + currentUser.email;
+    document.getElementById("authBtn").textContent = "👤 Admin";
     const heroBtn = document.getElementById("heroAuthBtn");
-    if(heroBtn) heroBtn.textContent = "👤 " + currentUser.email.split("@")[0];
+    if(heroBtn) heroBtn.textContent = "👤 Admin Dashboard";
   } else {
     currentUser = null;
     document.getElementById("authSignedOutView").style.display = "block";
     document.getElementById("authSignedInView").style.display = "none";
-    document.getElementById("authBtn").textContent = "👤 Sign In";
+    document.getElementById("authBtn").textContent = "👤 Admin";
     const heroBtn = document.getElementById("heroAuthBtn");
-    if(heroBtn) heroBtn.textContent = "👤 Sign In / Account";
+    if(heroBtn) heroBtn.textContent = "👤 Admin Sign In";
   }
 }
 
