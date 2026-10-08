@@ -1215,9 +1215,27 @@ fetch("./recipes.json")
     }
 
     recipes = interleaved.length ? interleaved : raw;
-    document.getElementById("heroCount").textContent = recipes.length + "+";
-    setupRecipeOfTheDay();
-    filterRecipes();
+
+    // Load custom recipes published by users from Supabase backend database
+    if(supabaseClient) {
+      supabaseClient.from('recipes').select('*').then(({ data: dbRecipes, error }) => {
+        if(!error && dbRecipes && dbRecipes.length > 0) {
+          // Prepend cloud database recipes to the front
+          recipes = [...dbRecipes, ...recipes];
+        }
+        document.getElementById("heroCount").textContent = recipes.length + "+";
+        setupRecipeOfTheDay();
+        filterRecipes();
+      }).catch(() => {
+        document.getElementById("heroCount").textContent = recipes.length + "+";
+        setupRecipeOfTheDay();
+        filterRecipes();
+      });
+    } else {
+      document.getElementById("heroCount").textContent = recipes.length + "+";
+      setupRecipeOfTheDay();
+      filterRecipes();
+    }
   })
   .catch(error => {
     console.error("FestiBites recipe data error:", error);
