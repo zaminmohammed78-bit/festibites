@@ -1,5 +1,30 @@
 [
   {
+    "name": "Sweet & Crispy Cheesy Toast",
+    "category": "Breakfast",
+    "icon": "",
+    "minutes": 10,
+    "servings": 2,
+    "difficulty": "Easy",
+    "ingredients": [
+      "2 slices bread",
+      "100g butter (softened at room temperature)",
+      "2 tbsp sugar",
+      "1 cheese sheet or slice"
+    ],
+    "steps": [
+      "Mix softened butter and sugar together in a small bowl until well combined.",
+      "Place one slice of bread on a flat surface and lay the cheese sheet on top.",
+      "Cover with the second slice of bread to form a sandwich.",
+      "Generously spread the sweet butter mixture evenly over the outside of both sides of the sandwich.",
+      "Heat a non-stick pan or skillet over low flame.",
+      "Place the sandwich on the pan and toast gently until the bottom is golden brown and crisp.",
+      "Carefully flip and toast the other side until golden and the cheese inside melts deliciously.",
+      "Remove from the pan, cut diagonally, and serve warm."
+    ],
+    "description": "A delightful sweet and savory butter-toasted cheesy toast recipe with crispy golden crust and melted cheese."
+  },
+  {
     "name": "Avocado Toast",
     "category": "Breakfast",
     "icon": "",
