@@ -129,15 +129,15 @@ function verifyAdmin(){
   if(pass === ADMIN_SECRET){
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("adminPanel").style.display = "block";
-    localStorage.setItem("festibites_admin_auth", "true");
+    sessionStorage.setItem("festibites_admin_auth", "true");
   } else {
     document.getElementById("loginError").style.display = "block";
   }
 }
 
-// Auto-login if previously authenticated in this browser session
+// Require password again whenever the tab/page is re-opened or returned to
 window.addEventListener("DOMContentLoaded", () => {
-  if(localStorage.getItem("festibites_admin_auth") === "true"){
+  if(sessionStorage.getItem("festibites_admin_auth") === "true"){
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("adminPanel").style.display = "block";
   }
