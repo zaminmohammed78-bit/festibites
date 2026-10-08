@@ -440,8 +440,66 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
       </div>
       <div id="authSignedInView" style="display:none;text-align:center;">
         <p style="font-size:15px;font-weight:800;color:var(--ink);margin-bottom:16px;" id="userGreeting"></p>
-        <button class="view" style="width:100%;padding:12px;background:var(--coral);" onclick="handleSignOut()">Sign Out</button>
+        <button class="view" style="width:100%;padding:12px;background:var(--coral);margin-bottom:10px;" onclick="openAddRecipeModal()">➕ Add New Recipe</button>
+        <button class="view" style="width:100%;padding:12px;background:var(--ink);" onclick="handleSignOut()">Sign Out</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="addRecipeModal" style="display:none;">
+  <div class="modal-box" style="max-width:540px;background:#fff;border-radius:24px;overflow:hidden;margin:auto;">
+    <div class="modal-top" style="padding:24px;text-align:center;background:linear-gradient(135deg,#ff8a3d,#e85d04);">
+      <button class="close" onclick="closeAddRecipeModal()">×</button>
+      <div style="font-size:36px;margin-bottom:4px;">👨‍🍳</div>
+      <h2 style="font-size:22px;margin:0;">Add New Recipe to FestiBites</h2>
+    </div>
+    <div class="modal-body" style="padding:20px;max-height:75vh;overflow-y:auto;">
+      <div style="margin-bottom:10px;">
+        <label for="newRName" style="display:block;font-weight:800;font-size:12px;margin-bottom:3px;color:var(--ink);">Recipe Name *</label>
+        <input id="newRName" type="text" placeholder="e.g. Special Kerala Parotta" style="width:100%;border:1px solid #ead8ce;border-radius:10px;padding:10px;font:inherit;font-size:13px;">
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;">
+        <div style="flex:1;">
+          <label for="newRCategory" style="display:block;font-weight:800;font-size:12px;margin-bottom:3px;color:var(--ink);">Category *</label>
+          <select id="newRCategory" style="width:100%;border:1px solid #ead8ce;border-radius:10px;padding:10px;font:inherit;font-size:13px;background:#fff;">
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Biryani">Biryani</option>
+            <option value="Kerala Foods">Kerala Foods</option>
+            <option value="Indian">Indian</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Arabic">Arabic</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Desserts">Desserts</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Fast Food">Fast Food</option>
+          </select>
+        </div>
+        <div style="flex:1;">
+          <label for="newRMinutes" style="display:block;font-weight:800;font-size:12px;margin-bottom:3px;color:var(--ink);">Time (Mins)</label>
+          <input id="newRMinutes" type="number" value="25" style="width:100%;border:1px solid #ead8ce;border-radius:10px;padding:10px;font:inherit;font-size:13px;">
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <label for="newRDesc" style="display:block;font-weight:800;font-size:12px;margin-bottom:3px;color:var(--ink);">Description</label>
+        <input id="newRDesc" type="text" placeholder="Short description..." style="width:100%;border:1px solid #ead8ce;border-radius:10px;padding:10px;font:inherit;font-size:13px;">
+      </div>
+      <div style="margin-bottom:10px;">
+        <label for="newRIngredients" style="display:block;font-weight:800;font-size:12px;margin-bottom:3px;color:var(--ink);">Ingredients (comma separated) *</label>
+        <textarea id="newRIngredients" aria-label="New recipe ingredients list" placeholder="e.g. 2 cups flour, 1 egg, 1/2 tsp salt, 2 tbsp ghee" style="width:100%;height:65px;border:1px solid #ead8ce;border-radius:10px;padding:10px;font:inherit;font-size:13px;resize:vertical;"></textarea>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label for="newRSteps" style="display:block;font-weight:800;font-size:12px;margin-bottom:3px;color:var(--ink);">Steps (one step per line) *</label>
+        <textarea id="newRSteps" aria-label="New recipe steps list" placeholder="Step 1: Mix flour and salt&#10;Step 2: Knead dough smoothly&#10;Step 3: Roll and pan roast" style="width:100%;height:85px;border:1px solid #ead8ce;border-radius:10px;padding:10px;font:inherit;font-size:13px;resize:vertical;"></textarea>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;color:var(--coral);cursor:pointer;">
+          <input id="newRSetRotd" type="checkbox"> Set as Recipe of the Day ⭐
+        </label>
+      </div>
+      <button class="view" style="width:100%;padding:13px;background:var(--coral);" onclick="submitNewRecipe()">Save & Publish Recipe</button>
     </div>
   </div>
 </div>
@@ -817,10 +875,17 @@ let rotdRecipeIndex = -1;
 
 function setupRecipeOfTheDay(){
   if(!recipes || !recipes.length) return;
-  // Deterministic daily pick based on date (same recipe all day for all users)
-  const today = new Date();
-  const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-  rotdRecipeIndex = dayOfYear % recipes.length;
+  // If user set a custom Recipe of the Day via Admin/Session, use it
+  const customRotdIdx = localStorage.getItem("festibites_custom_rotd_idx");
+  if(customRotdIdx !== null && recipes[Number(customRotdIdx)]){
+    rotdRecipeIndex = Number(customRotdIdx);
+  } else {
+    // Deterministic daily pick based on date (same recipe all day for all users)
+    const today = new Date();
+    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+    rotdRecipeIndex = dayOfYear % recipes.length;
+  }
+
   const rotd = recipes[rotdRecipeIndex];
   if(!rotd) return;
 
@@ -874,7 +939,7 @@ async function handleGoogleSignIn(){
   const { data, error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.origin + window.location.pathname
+      redirectTo: window.location.href.split('#')[0]
     }
   });
   if(error){
@@ -930,6 +995,69 @@ async function handleSignOut(){
   await supabaseClient.auth.signOut();
   checkUserSession();
   closeAuthModal();
+}
+
+function openAddRecipeModal(){
+  closeAuthModal();
+  document.getElementById("addRecipeModal").style.display = "block";
+  document.body.style.overflow = "hidden";
+}
+
+function closeAddRecipeModal(){
+  document.getElementById("addRecipeModal").style.display = "none";
+  document.body.style.overflow = "";
+}
+
+async function submitNewRecipe(){
+  const name = document.getElementById("newRName").value.trim();
+  const category = document.getElementById("newRCategory").value;
+  const minutes = Number(document.getElementById("newRMinutes").value) || 20;
+  const description = document.getElementById("newRDesc").value.trim() || `Delicious ${name} recipe with ingredients and steps.`;
+  const rawIng = document.getElementById("newRIngredients").value.trim();
+  const rawSteps = document.getElementById("newRSteps").value.trim();
+  const setRotd = document.getElementById("newRSetRotd").checked;
+
+  if(!name || !rawIng || !rawSteps){
+    alert("Please fill in recipe name, ingredients, and steps.");
+    return;
+  }
+
+  const ingredientsArr = rawIng.split(",").map(s => s.trim()).filter(Boolean);
+  const stepsArr = rawSteps.split("\n").map(s => s.trim()).filter(Boolean);
+
+  const newRecipe = {
+    name,
+    category,
+    minutes,
+    servings: 2,
+    difficulty: "Easy",
+    description,
+    ingredients: ingredientsArr,
+    steps: stepsArr
+  };
+
+  // If Supabase database is connected, push directly to 'recipes' table
+  if(supabaseClient && currentUser){
+    try {
+      const { data, error } = await supabaseClient
+        .from('recipes')
+        .insert([newRecipe]);
+      if(error) console.error("Supabase insert error:", error);
+    } catch(e) { console.error(e); }
+  }
+
+  // Prepend to active recipe list
+  recipes.unshift(newRecipe);
+
+  // If user checked "Set as Recipe of the Day", feature it live instantly
+  if(setRotd){
+    localStorage.setItem("festibites_custom_rotd_idx", "0");
+    setupRecipeOfTheDay();
+  }
+
+  filterRecipes(true);
+  closeAddRecipeModal();
+  alert("🎉 Recipe successfully published to FestiBites!");
 }
 
 function printRecipe(){
