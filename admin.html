@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>FestiBites — Secure Admin Portal</title>
+  <title>FestiBites — Advanced Admin Dashboard</title>
   <link rel="icon" type="image/svg+xml" href="./icon-192.png">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
@@ -17,7 +17,7 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--cream);color:var(--ink);padding:20px;min-height:100vh;display:flex;align-items:center;justify-content:center}
-    .card{background:#fff;border-radius:24px;border:1px solid var(--line);box-shadow:0 14px 40px rgba(102,54,28,.08);width:100%;max-width:540px;overflow:hidden}
+    .card{background:#fff;border-radius:24px;border:1px solid var(--line);box-shadow:0 14px 40px rgba(102,54,28,.08);width:100%;max-width:640px;overflow:hidden}
     .card-header{background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;padding:28px 24px;text-align:center}
     .card-header h1{font-size:26px;margin-bottom:6px}
     .card-header p{opacity:.95;font-size:13px}
@@ -25,12 +25,17 @@
     .form-group{margin-bottom:16px}
     label{display:block;font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink)}
     input,select,textarea{width:100%;border:1px solid #ead8ce;border-radius:12px;padding:12px;font:inherit;font-size:14px;outline:none;background:#fff}
-    textarea{resize:vertical;min-height:100px}
+    textarea{resize:vertical;min-height:90px}
     input:focus,select:focus,textarea:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(242,106,33,.10)}
     .btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:14px 22px;font-weight:900;font-size:15px;cursor:pointer;width:100%;box-shadow:0 8px 20px rgba(232,93,4,.22);transition:.2s}
     .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(232,93,4,.30)}
+    .btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 8px 20px rgba(220,38,38,.22)}
+    .btn-danger:hover{box-shadow:0 12px 26px rgba(220,38,38,.30)}
     .back-link{display:block;text-align:center;margin-top:20px;color:var(--muted);text-decoration:none;font-weight:700;font-size:13px}
     .back-link:hover{color:var(--coral)}
+    .tabs{display:flex;gap:10px;margin-bottom:20px}
+    .tab{flex:1;padding:12px;border:0;border-radius:12px;background:#fff7f1;color:var(--ink);font-weight:800;cursor:pointer;text-align:center;border:1px solid var(--line)}
+    .tab.active{background:var(--coral);color:#fff;border-color:var(--coral)}
     #loginSection,#adminPanel{display:none}
   </style>
 </head>
@@ -40,15 +45,15 @@
     <!-- Login Section -->
     <div id="loginSection" style="display:block;">
       <div class="card-header">
-        <h1>🔒 Admin Portal</h1>
-        <p>Enter your secret administrator password to manage FestiBites</p>
+        <h1>🔒 Secure Admin Portal</h1>
+        <p>Enter your administrator password to manage FestiBites</p>
       </div>
       <div class="card-body">
         <div class="form-group">
           <label for="adminPass">Admin Password</label>
           <input id="adminPass" type="password" placeholder="Enter admin password..." onkeydown="if(event.key==='Enter') verifyAdmin()">
         </div>
-        <button class="btn" onclick="verifyAdmin()">Access Admin Panel</button>
+        <button class="btn" onclick="verifyAdmin()">Access Dashboard</button>
         <p id="loginError" style="color:var(--coral);font-weight:800;font-size:13px;text-align:center;margin-top:12px;display:none;">Incorrect password. Please try again.</p>
         <a class="back-link" href="./index.html">← Back to FestiBites Website</a>
       </div>
@@ -57,58 +62,99 @@
     <!-- Admin Panel Dashboard -->
     <div id="adminPanel">
       <div class="card-header">
-        <h1>🍳 FestiBites Publisher</h1>
-        <p>Add new recipes or update the Recipe of the Day instantly!</p>
+        <h1>⚙️ Advanced Admin Dashboard</h1>
+        <p>Add, edit, delete recipes, and customize all recipe parameters!</p>
       </div>
       <div class="card-body" style="max-height:80vh;overflow-y:auto;">
-        <div class="form-group">
-          <label for="rName">Recipe Name *</label>
-          <input id="rName" type="text" placeholder="e.g. Special Malabar Biryani">
+
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('add')">➕ Add New Recipe</button>
+          <button class="tab" onclick="switchTab('manage')">✏️ Edit / Delete Recipes</button>
         </div>
-        <div style="display:flex;gap:12px;" class="form-group">
-          <div style="flex:1;">
-            <label for="rCategory">Category *</label>
-            <select id="rCategory">
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Dinner">Dinner</option>
-              <option value="Biryani">Biryani</option>
-              <option value="Kerala Foods">Kerala Foods</option>
-              <option value="Indian">Indian</option>
-              <option value="Chinese">Chinese</option>
-              <option value="Arabic">Arabic</option>
-              <option value="Snacks">Snacks</option>
-              <option value="Desserts">Desserts</option>
-              <option value="Beverages">Beverages</option>
-              <option value="Fast Food">Fast Food</option>
-            </select>
+
+        <!-- TAB 1: ADD / EDIT RECIPE -->
+        <div id="tabAdd">
+          <input id="rId" type="hidden">
+          <div class="form-group">
+            <label for="rName">Recipe Name *</label>
+            <input id="rName" type="text" placeholder="e.g. Special Malabar Biryani">
           </div>
-          <div style="flex:1;">
-            <label for="rMinutes">Cooking Time (Mins) *</label>
-            <input id="rMinutes" type="number" value="30">
+          <div style="display:flex;gap:12px;" class="form-group">
+            <div style="flex:1;">
+              <label for="rCategory">Category *</label>
+              <select id="rCategory">
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Biryani">Biryani</option>
+                <option value="Kerala Foods">Kerala Foods</option>
+                <option value="Indian">Indian</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Snacks">Snacks</option>
+                <option value="Desserts">Desserts</option>
+                <option value="Beverages">Beverages</option>
+                <option value="Fast Food">Fast Food</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <label for="rMinutes">Time (Mins) *</label>
+              <input id="rMinutes" type="number" value="30">
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;" class="form-group">
+            <div style="flex:1;">
+              <label for="rServings">Default Servings *</label>
+              <input id="rServings" type="number" value="2">
+            </div>
+            <div style="flex:1;">
+              <label for="rDifficulty">Difficulty *</label>
+              <select id="rDifficulty">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rCalories">Custom Calories (kcal / serving)</label>
+            <input id="rCalories" type="number" placeholder="Leave blank to auto-calculate">
+          </div>
+          <div class="form-group">
+            <label for="rDesc">Short Description *</label>
+            <input id="rDesc" type="text" placeholder="e.g. A rich aromatic rice dish with spiced chicken...">
+          </div>
+          <div class="form-group">
+            <label for="rIngredients">Ingredients (comma separated) *</label>
+            <textarea id="rIngredients" placeholder="e.g. 2 cups basmati rice, 500g chicken, 2 onions, 1 tsp ginger-garlic paste, 3 tbsp ghee"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="rSteps">Step-by-Step Instructions (one step per line) *</label>
+            <textarea id="rSteps" placeholder="Step 1: Marinate chicken with yogurt...&#10;Step 2: Parboil basmati rice..."></textarea>
+          </div>
+          <div class="form-group" style="background:#fff7f1;padding:12px 16px;border-radius:12px;border:1px solid var(--line);">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:0;">
+              <input id="rSetRotd" type="checkbox" style="width:18px;height:18px;accent-color:var(--coral);">
+              <span style="font-weight:900;color:var(--coral);">⭐ Set as Recipe of the Day on Front Page</span>
+            </label>
+          </div>
+          <button id="saveBtn" class="btn" onclick="saveRecipe()">Publish Recipe Now 🚀</button>
+          <button id="cancelEditBtn" class="btn btn-danger" style="margin-top:10px;display:none;" onclick="resetForm()">Cancel Edit</button>
+          <p id="publishSuccess" style="color:var(--teal);font-weight:900;font-size:14px;text-align:center;margin-top:12px;display:none;">🎉 Recipe saved successfully!</p>
+        </div>
+
+        <!-- TAB 2: MANAGE / EDIT / DELETE -->
+        <div id="tabManage" style="display:none;">
+          <div class="form-group">
+            <label for="recipeSearch">Search Published Recipes</label>
+            <input id="recipeSearch" type="text" placeholder="Type recipe name to search..." oninput="filterAdminRecipes()">
+          </div>
+          <div id="adminRecipeList" style="display:flex;flex-direction:column;gap:10px;max-height:450px;overflow-y:auto;margin-top:10px;">
+            <p style="text-align:center;color:var(--muted);">Loading recipes...</p>
           </div>
         </div>
-        <div class="form-group">
-          <label for="rDesc">Short Description *</label>
-          <input id="rDesc" type="text" placeholder="e.g. A rich aromatic rice dish with spiced chicken...">
-        </div>
-        <div class="form-group">
-          <label for="rIngredients">Ingredients (comma separated) *</label>
-          <textarea id="rIngredients" placeholder="e.g. 2 cups basmati rice, 500g chicken, 2 onions, 1 tsp ginger-garlic paste, 3 tbsp ghee"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="rSteps">Step-by-Step Instructions (one step per line) *</label>
-          <textarea id="rSteps" placeholder="Step 1: Marinate chicken with yogurt and spices...&#10;Step 2: Parboil basmati rice with whole spices...&#10;Step 3: Layer and dum cook for 20 minutes..."></textarea>
-        </div>
-        <div class="form-group" style="background:#fff7f1;padding:12px 16px;border-radius:12px;border:1px solid var(--line);">
-          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:0;">
-            <input id="rSetRotd" type="checkbox" style="width:18px;height:18px;accent-color:var(--coral);">
-            <span style="font-weight:900;color:var(--coral);">⭐ Set as Recipe of the Day on Front Page</span>
-          </label>
-        </div>
-        <button class="btn" onclick="publishRecipe()">Publish Recipe Now 🚀</button>
-        <p id="publishSuccess" style="color:var(--teal);font-weight:900;font-size:14px;text-align:center;margin-top:12px;display:none;">🎉 Recipe published successfully!</p>
-        <a class="back-link" href="./index.html">← Return to FestiBites Home</a>
+
+        <a class="back-link" href="./index.html" style="margin-top:25px;">← Return to FestiBites Home</a>
       </div>
     </div>
   </div>
@@ -121,8 +167,8 @@ if (typeof supabase !== "undefined") {
   supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-// Simple secure admin password (Change 'festibites2026' to whatever password you want)
 const ADMIN_SECRET = "festibites2026";
+let allCloudRecipes = [];
 
 function verifyAdmin(){
   const pass = document.getElementById("adminPass").value.trim();
@@ -130,23 +176,130 @@ function verifyAdmin(){
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("adminPanel").style.display = "block";
     sessionStorage.setItem("festibites_admin_auth", "true");
+    loadAdminRecipes();
   } else {
     document.getElementById("loginError").style.display = "block";
   }
 }
 
-// Require password again whenever the tab/page is re-opened or returned to
 window.addEventListener("DOMContentLoaded", () => {
   if(sessionStorage.getItem("festibites_admin_auth") === "true"){
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("adminPanel").style.display = "block";
+    loadAdminRecipes();
   }
 });
 
-async function publishRecipe(){
+function switchTab(tab){
+  if(tab === 'add'){
+    document.getElementById("tabAdd").style.display = "block";
+    document.getElementById("tabManage").style.display = "none";
+    document.querySelectorAll(".tab")[0].classList.add("active");
+    document.querySelectorAll(".tab")[1].classList.remove("active");
+  } else {
+    document.getElementById("tabAdd").style.display = "none";
+    document.getElementById("tabManage").style.display = "block";
+    document.querySelectorAll(".tab")[1].classList.add("active");
+    document.querySelectorAll(".tab")[0].classList.remove("active");
+    loadAdminRecipes();
+  }
+}
+
+async function loadAdminRecipes(){
+  if(!supabaseClient) return;
+  const listEl = document.getElementById("adminRecipeList");
+  listEl.innerHTML = '<p style="text-align:center;color:var(--muted);">Loading database recipes...</p>';
+
+  const { data, error } = await supabaseClient.from('recipes').select('*').order('id', { ascending: false });
+  if(error){
+    listEl.innerHTML = `<p style="text-align:center;color:var(--coral);">Error loading: ${error.message}</p>`;
+    return;
+  }
+  allCloudRecipes = data || [];
+  renderAdminList(allCloudRecipes);
+}
+
+function renderAdminList(recipes){
+  const listEl = document.getElementById("adminRecipeList");
+  if(!recipes.length){
+    listEl.innerHTML = '<p style="text-align:center;color:var(--muted);">No custom recipes found in Supabase database.</p>';
+    return;
+  }
+  listEl.innerHTML = recipes.map(r => `
+    <div style="background:#fff7f1;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <div>
+        <h4 style="font-size:16px;color:var(--ink);margin-bottom:2px;">${r.name}</h4>
+        <small style="color:var(--muted);">${r.category} • ${r.minutes} mins • ${r.servings} servings • ${r.difficulty}</small>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button class="view" style="padding:8px 12px;font-size:12px;background:var(--teal);" onclick="editRecipe(${r.id})">Edit</button>
+        <button class="view" style="padding:8px 12px;font-size:12px;background:#ef4444;" onclick="deleteRecipe(${r.id})">Delete</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function filterAdminRecipes(){
+  const q = document.getElementById("recipeSearch").value.toLowerCase().trim();
+  const filtered = allCloudRecipes.filter(r => r.name.toLowerCase().includes(q) || r.category.toLowerCase().includes(q));
+  renderAdminList(filtered);
+}
+
+function editRecipe(id){
+  const r = allCloudRecipes.find(x => x.id === id);
+  if(!r) return;
+  document.getElementById("rId").value = r.id;
+  document.getElementById("rName").value = r.name || "";
+  document.getElementById("rCategory").value = r.category || "Breakfast";
+  document.getElementById("rMinutes").value = r.minutes || 25;
+  document.getElementById("rServings").value = r.servings || 2;
+  document.getElementById("rDifficulty").value = r.difficulty || "Easy";
+  document.getElementById("rCalories").value = r.calories || "";
+  document.getElementById("rDesc").value = r.description || "";
+  document.getElementById("rIngredients").value = (r.ingredients || []).join(", ");
+  document.getElementById("rSteps").value = (r.steps || []).join("\n");
+  document.getElementById("rSetRotd").checked = false;
+
+  document.getElementById("saveBtn").textContent = "Update Recipe 💾";
+  document.getElementById("cancelEditBtn").style.display = "block";
+  switchTab('add');
+}
+
+function resetForm(){
+  document.getElementById("rId").value = "";
+  document.getElementById("rName").value = "";
+  document.getElementById("rMinutes").value = "30";
+  document.getElementById("rServings").value = "2";
+  document.getElementById("rDifficulty").value = "Easy";
+  document.getElementById("rCalories").value = "";
+  document.getElementById("rDesc").value = "";
+  document.getElementById("rIngredients").value = "";
+  document.getElementById("rSteps").value = "";
+  document.getElementById("rSetRotd").checked = false;
+
+  document.getElementById("saveBtn").textContent = "Publish Recipe Now 🚀";
+  document.getElementById("cancelEditBtn").style.display = "none";
+}
+
+async function deleteRecipe(id){
+  if(!confirm("Are you sure you want to delete this recipe from the database?")) return;
+  if(!supabaseClient) return;
+  const { error } = await supabaseClient.from('recipes').delete().eq('id', id);
+  if(error){
+    alert("Error deleting: " + error.message);
+  } else {
+    loadAdminRecipes();
+  }
+}
+
+async function saveRecipe(){
+  const id = document.getElementById("rId").value;
   const name = document.getElementById("rName").value.trim();
   const category = document.getElementById("rCategory").value;
   const minutes = Number(document.getElementById("rMinutes").value) || 25;
+  const servings = Number(document.getElementById("rServings").value) || 2;
+  const difficulty = document.getElementById("rDifficulty").value;
+  const calories = Number(document.getElementById("rCalories").value) || null;
   const description = document.getElementById("rDesc").value.trim() || `A delicious ${name} recipe with ingredients and step-by-step instructions.`;
   const rawIng = document.getElementById("rIngredients").value.trim();
   const rawSteps = document.getElementById("rSteps").value.trim();
@@ -160,12 +313,13 @@ async function publishRecipe(){
   const ingredients = rawIng.split(",").map(s => s.trim()).filter(Boolean);
   const steps = rawSteps.split("\n").map(s => s.trim()).filter(Boolean);
 
-  const newRecipe = {
+  const recipeData = {
     name,
     category,
     minutes,
-    servings: 2,
-    difficulty: "Easy",
+    servings,
+    difficulty,
+    calories,
     description,
     ingredients,
     steps
@@ -173,12 +327,14 @@ async function publishRecipe(){
 
   if(supabaseClient) {
     try {
-      const { data, error } = await supabaseClient
-        .from('recipes')
-        .insert([newRecipe]);
-      if(error) {
-        alert("Database error: " + error.message);
-        return;
+      if(id){
+        // Update existing
+        const { error } = await supabaseClient.from('recipes').update(recipeData).eq('id', id);
+        if(error) { alert("Error updating: " + error.message); return; }
+      } else {
+        // Insert new
+        const { error } = await supabaseClient.from('recipes').insert([recipeData]);
+        if(error) { alert("Error inserting: " + error.message); return; }
       }
     } catch(e) {
       console.error(e);
@@ -195,12 +351,8 @@ async function publishRecipe(){
   successEl.style.display = "block";
   setTimeout(() => { successEl.style.display = "none"; }, 4000);
 
-  // Clear form
-  document.getElementById("rName").value = "";
-  document.getElementById("rDesc").value = "";
-  document.getElementById("rIngredients").value = "";
-  document.getElementById("rSteps").value = "";
-  document.getElementById("rSetRotd").checked = false;
+  resetForm();
+  switchTab('manage');
 }
 </script>
 </body>
