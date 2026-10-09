@@ -210,7 +210,7 @@ async function loadAdminRecipes(){
   const listEl = document.getElementById("adminRecipeList");
   listEl.innerHTML = '<p style="text-align:center;color:var(--muted);">Loading database recipes...</p>';
 
-  const { data, error } = await supabaseClient.from('recipes').select('*').order('id', { ascending: false });
+  const { data, error } = await supabaseClient.from('Recipes').select('*').order('id', { ascending: false });
   if(error){
     listEl.innerHTML = `<p style="text-align:center;color:var(--coral);">Error loading: ${error.message}</p>`;
     return;
@@ -284,7 +284,7 @@ function resetForm(){
 async function deleteRecipe(id){
   if(!confirm("Are you sure you want to delete this recipe from the database?")) return;
   if(!supabaseClient) return;
-  const { error } = await supabaseClient.from('recipes').delete().eq('id', id);
+  const { error } = await supabaseClient.from('Recipes').delete().eq('id', id);
   if(error){
     alert("Error deleting: " + error.message);
   } else {
@@ -329,11 +329,11 @@ async function saveRecipe(){
     try {
       if(id){
         // Update existing
-        const { error } = await supabaseClient.from('recipes').update(recipeData).eq('id', id);
+        const { error } = await supabaseClient.from('Recipes').update(recipeData).eq('id', id);
         if(error) { alert("Error updating: " + error.message); return; }
       } else {
         // Insert new
-        const { error } = await supabaseClient.from('recipes').insert([recipeData]);
+        const { error } = await supabaseClient.from('Recipes').insert([recipeData]);
         if(error) { alert("Error inserting: " + error.message); return; }
       }
     } catch(e) {
