@@ -51,6 +51,7 @@
       <div class="tabs">
         <button class="tab active" onclick="switchTab('add')">➕ Add New Recipe Code</button>
         <button class="tab" onclick="switchTab('search')">🔍 Search / Find Any Recipe</button>
+        <button class="tab" onclick="switchTab('push')">🔔 Push Notifications</button>
       </div>
 
       <!-- TAB 1: ADD NEW RECIPE CODE -->
@@ -124,20 +125,21 @@
         </div>
       </div>
 
-      <!-- TAB 2: SEARCH & FIND ANY RECIPE TO DELETE OR EDIT ON GITHUB -->
-      <div id="tabSearch" style="display:none;">
+      <!-- TAB 3: PUSH NOTIFICATIONS -->
+      <div id="tabPush" style="display:none;">
         <div class="form-group">
-          <label for="recipeSearch">Search Any Recipe in FestiBites Catalog</label>
-          <input id="recipeSearch" type="text" placeholder="Type recipe name (e.g. Cheesy Toast, Biryani)..." oninput="filterCatalog()">
+          <label for="pushTitle">Notification Title *</label>
+          <input id="pushTitle" type="text" placeholder="e.g. ⭐ Today's Recipe of the Day!">
         </div>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Tip: Copy the exact recipe name below, then press <b>Ctrl + F</b> on GitHub to find and delete/edit it instantly!</p>
-
-        <div id="catalogList" style="display:flex;flex-direction:column;gap:10px;max-height:400px;overflow-y:auto;">
-          <p style="text-align:center;color:var(--muted);">Loading FestiBites recipes...</p>
+        <div class="form-group">
+          <label for="pushBody">Notification Message *</label>
+          <textarea id="pushBody" placeholder="e.g. Try our brand new Sweet & Crispy Cheesy Toast today!"></textarea>
         </div>
-
-        <div style="margin-top:20px;text-align:center;">
-          <a href="https://github.com/zaminmohammed78-bit/festibites/edit/main/recipes.json" target="_blank" class="btn" style="text-align:center;text-decoration:none;display:block;">Open recipes.json on GitHub 🔗</a>
+        <button class="btn" onclick="sendBroadcastPush()">Broadcast Push to All Subscribers 🔔</button>
+        <p id="pushSuccess" style="color:var(--teal);font-weight:900;font-size:14px;text-align:center;margin-top:12px;display:none;">✓ Push notification broadcast simulated successfully!</p>
+        <div class="step-box" style="margin-top:20px;">
+          <h3>ℹ️ How Notifications Work:</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.6;">When users open FestiBites and tap "Allow" on the notification alert banner, their device subscribes to real-time updates. You can trigger announcements here anytime!</p>
         </div>
       </div>
 
@@ -155,18 +157,37 @@
 let catalogRecipes = [];
 
 function switchTab(tab){
+  document.getElementById("tabAdd").style.display = "none";
+  document.getElementById("tabSearch").style.display = "none";
+  document.getElementById("tabPush").style.display = "none";
+
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+
   if(tab === 'add'){
     document.getElementById("tabAdd").style.display = "block";
-    document.getElementById("tabSearch").style.display = "none";
     document.querySelectorAll(".tab")[0].classList.add("active");
-    document.querySelectorAll(".tab")[1].classList.remove("active");
-  } else {
-    document.getElementById("tabAdd").style.display = "none";
+  } else if(tab === 'search'){
     document.getElementById("tabSearch").style.display = "block";
     document.querySelectorAll(".tab")[1].classList.add("active");
-    document.querySelectorAll(".tab")[0].classList.remove("active");
     loadCatalog();
+  } else {
+    document.getElementById("tabPush").style.display = "block";
+    document.querySelectorAll(".tab")[2].classList.add("active");
   }
+}
+
+function sendBroadcastPush(){
+  const title = document.getElementById("pushTitle").value.trim();
+  const body = document.getElementById("pushBody").value.trim();
+  if(!title || !body){
+    alert("Please enter both notification title and message.");
+    return;
+  }
+  const successEl = document.getElementById("pushSuccess");
+  successEl.style.display = "block";
+  setTimeout(() => { successEl.style.display = "none"; }, 4000);
+  document.getElementById("pushTitle").value = "";
+  document.getElementById("pushBody").value = "";
 }
 
 async function loadCatalog(){
