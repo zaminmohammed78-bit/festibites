@@ -1120,25 +1120,47 @@ fetch("./recipes.json")
 
     recipes = interleaved.length ? interleaved : raw;
 
-    // Load custom recipes published by users from Supabase backend database
-    if(supabaseClient) {
-      supabaseClient.from('recipes').select('*').then(({ data: dbRecipes, error }) => {
-        if(!error && dbRecipes && dbRecipes.length > 0) {
-          // Prepend cloud database recipes to the front
-          recipes = [...dbRecipes, ...recipes];
-        }
-        document.getElementById("heroCount").textContent = recipes.length + "+";
-        setupRecipeOfTheDay();
-        filterRecipes();
-      }).catch(() => {
-        document.getElementById("heroCount").textContent = recipes.length + "+";
-        setupRecipeOfTheDay();
-        filterRecipes();
-      });
-    } else {
+    // Supabase is the source of truth when reachable: this lets admin edits and
+    // deletions affect the public recipe list. recipes.json remains a safe fallback.
+    const showRecipes = () => {
       document.getElementById("heroCount").textContent = recipes.length + "+";
       setupRecipeOfTheDay();
       filterRecipes();
+    };
+    if(supabaseClient) {
+      supabaseClient.from('recipes').select('*').then(({ data: dbRecipes, error }) => {
+        if(!error && Array.isArray(dbRecipes)) {
+          const normalize = r => ({
+            ...r,
+            minutes: Number(r.minutes) || (parseInt(r.time, 10) || 0),
+            servings: Math.max(1, Number(r.servings) || 2),
+            ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
+            steps: Array.isArray(r.steps) ? r.steps : [],
+            description: r.description || `A ${r.name || "home-style"} recipe with ingredients and step-by-step instructions.`
+          });
+          // Use the database list, not a duplicate of recipes.json. This ensures
+          // admin edits/deletes apply to the recipes visitors actually see.
+          recipes = dbRecipes.map(normalize);
+          const groupedDb = {};
+          recipes.forEach(item => {
+            const cat = item.category || "Other";
+            if(!groupedDb[cat]) groupedDb[cat] = [];
+            groupedDb[cat].push(item);
+          });
+          const orderedDb = [];
+          const categoriesDb = Object.keys(groupedDb);
+          for(let i = 0, added = true; added; i++) {
+            added = false;
+            for(const cat of categoriesDb) {
+              if(groupedDb[cat][i]) { orderedDb.push(groupedDb[cat][i]); added = true; }
+            }
+          }
+          recipes = orderedDb;
+        }
+        showRecipes();
+      }).catch(() => showRecipes());
+    } else {
+      showRecipes();
     }
   })
   .catch(error => {
