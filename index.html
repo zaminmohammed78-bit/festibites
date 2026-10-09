@@ -777,29 +777,40 @@ let rotdRecipeIndex = -1;
 function setupRecipeOfTheDay(){
   if(!recipes || !recipes.length) return;
 
-  // Check if admin set a custom title or index for Recipe of the Day
-  const customTitle = localStorage.getItem("festibites_custom_rotd_title");
-  let foundIdx = -1;
-  if(customTitle){
-    foundIdx = recipes.findIndex(r => r.name.toLowerCase().trim() === customTitle.toLowerCase().trim());
-  }
+  // Read dedicated recipe-of-the-day.json file from GitHub
+  fetch("./recipe-of-the-day.json")
+    .then(res => res.json())
+    .then(data => {
+      let targetName = (data && data.name) ? data.name.toLowerCase().trim() : "";
+      let foundIdx = recipes.findIndex(r => r.name.toLowerCase().trim() === targetName);
 
-  if(foundIdx >= 0){
-    rotdRecipeIndex = foundIdx;
-  } else {
-    // Fallback: Deterministic daily pick based on date
-    const today = new Date();
-    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-    rotdRecipeIndex = dayOfYear % recipes.length;
-  }
+      if(foundIdx >= 0){
+        rotdRecipeIndex = foundIdx;
+      } else {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+        rotdRecipeIndex = dayOfYear % recipes.length;
+      }
 
-  const rotd = recipes[rotdRecipeIndex];
-  if(!rotd) return;
+      const rotd = recipes[rotdRecipeIndex];
+      if(!rotd) return;
 
-  document.getElementById("rotdTitle").textContent = rotd.name;
-  document.getElementById("rotdCategory").textContent = `⭐ Recipe of the Day • ${rotd.category}`;
-  document.getElementById("rotdDesc").textContent = rotd.description;
-  document.getElementById("rotdMeta").textContent = `⏱️ ${rotd.minutes} mins | 👥 ${rotd.servings} servings | 📊 ${rotd.difficulty}`;
+      document.getElementById("rotdTitle").textContent = rotd.name;
+      document.getElementById("rotdCategory").textContent = `⭐ Recipe of the Day • ${rotd.category}`;
+      document.getElementById("rotdDesc").textContent = rotd.description;
+      document.getElementById("rotdMeta").textContent = `⏱️ ${rotd.minutes} mins | 👥 ${rotd.servings} servings | 📊 ${rotd.difficulty}`;
+    })
+    .catch(() => {
+      const today = new Date();
+      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+      rotdRecipeIndex = dayOfYear % recipes.length;
+      const rotd = recipes[rotdRecipeIndex];
+      if(!rotd) return;
+      document.getElementById("rotdTitle").textContent = rotd.name;
+      document.getElementById("rotdCategory").textContent = `⭐ Recipe of the Day • ${rotd.category}`;
+      document.getElementById("rotdDesc").textContent = rotd.description;
+      document.getElementById("rotdMeta").textContent = `⏱️ ${rotd.minutes} mins | 👥 ${rotd.servings} servings | 📊 ${rotd.difficulty}`;
+    });
 }
 
 function openRotdRecipe(){
