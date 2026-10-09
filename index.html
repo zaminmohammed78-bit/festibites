@@ -944,7 +944,7 @@ async function submitNewRecipe(){
   if(supabaseClient && currentUser){
     try {
       const { data, error } = await supabaseClient
-        .from('Recipes')
+        .from('recipes')
         .insert([newRecipe]);
       if(error) console.error("Supabase insert error:", error);
     } catch(e) { console.error(e); }
@@ -1128,7 +1128,7 @@ fetch("./recipes.json")
       filterRecipes();
     };
     if(supabaseClient) {
-      supabaseClient.from('Recipes').select('*').then(({ data: dbRecipes, error }) => {
+      supabaseClient.from('recipes').select('*').then(({ data: dbRecipes, error }) => {
         if(!error && Array.isArray(dbRecipes)) {
           const normalize = r => ({
             ...r,
