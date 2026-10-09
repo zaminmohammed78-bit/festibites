@@ -776,12 +776,18 @@ let rotdRecipeIndex = -1;
 
 function setupRecipeOfTheDay(){
   if(!recipes || !recipes.length) return;
-  // If user set a custom Recipe of the Day via Admin/Session, use it
-  const customRotdIdx = localStorage.getItem("festibites_custom_rotd_idx");
-  if(customRotdIdx !== null && recipes[Number(customRotdIdx)]){
-    rotdRecipeIndex = Number(customRotdIdx);
+
+  // Check if admin set a custom title or index for Recipe of the Day
+  const customTitle = localStorage.getItem("festibites_custom_rotd_title");
+  let foundIdx = -1;
+  if(customTitle){
+    foundIdx = recipes.findIndex(r => r.name.toLowerCase().trim() === customTitle.toLowerCase().trim());
+  }
+
+  if(foundIdx >= 0){
+    rotdRecipeIndex = foundIdx;
   } else {
-    // Deterministic daily pick based on date (same recipe all day for all users)
+    // Fallback: Deterministic daily pick based on date
     const today = new Date();
     const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
     rotdRecipeIndex = dayOfYear % recipes.length;

@@ -67,6 +67,7 @@
 
         <div class="tabs">
           <button class="tab active" onclick="switchTab('add')">➕ Add / Edit Recipe</button>
+          <button class="tab" onclick="switchTab('rotd')">⭐ Set Recipe of the Day</button>
           <button class="tab" onclick="switchTab('manage')">✏️ Edit / Delete Recipes</button>
         </div>
 
@@ -126,18 +127,24 @@
             <label for="rSteps">Step-by-Step Instructions (one step per line) *</label>
             <textarea id="rSteps" placeholder="Step 1: Sauté onions until golden brown.&#10;Step 2: Add chicken and spices...&#10;Step 3: Simmer for 20 minutes and serve hot."></textarea>
           </div>
-          <div class="form-group" style="background:#fff7f1;padding:12px 16px;border-radius:12px;border:1px solid var(--line);">
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:0;">
-              <input id="rSetRotd" type="checkbox" style="width:18px;height:18px;accent-color:var(--coral);">
-              <span style="font-weight:900;color:var(--coral);">⭐ Set as Recipe of the Day on Front Page</span>
-            </label>
-          </div>
           <button id="saveBtn" class="btn" onclick="saveDirectRecipe()">Publish Recipe Directly to FestiBites 🚀</button>
           <button id="cancelEditBtn" class="btn btn-danger" style="margin-top:10px;display:none;" onclick="resetForm()">Cancel Editing</button>
           <p id="publishSuccess" style="color:var(--teal);font-weight:900;font-size:14px;text-align:center;margin-top:12px;display:none;">🎉 Published directly to FestiBites!</p>
         </div>
 
-        <!-- TAB 2: EDIT / DELETE ALL RECIPES -->
+        <!-- TAB 2: SET RECIPE OF THE DAY (SEPARATE TAB) -->
+        <div id="tabRotd" style="display:none;">
+          <div class="form-group">
+            <label for="rotdSelect">Select Recipe to Feature as "Recipe of the Day" ⭐</label>
+            <select id="rotdSelect" style="padding:14px;font-size:15px;font-weight:800;color:var(--coral);">
+              <option value="">Loading recipes...</option>
+            </select>
+          </div>
+          <button class="btn" onclick="saveRotdSelection()">⭐ Set as Recipe of the Day</button>
+          <p id="rotdSuccess" style="color:var(--teal);font-weight:900;font-size:14px;text-align:center;margin-top:12px;display:none;">✓ Recipe of the Day updated successfully!</p>
+        </div>
+
+        <!-- TAB 3: EDIT / DELETE ALL RECIPES -->
         <div id="tabManage" style="display:none;">
           <div class="form-group">
             <label for="recipeSearch">Search All FestiBites Recipes</label>
@@ -178,16 +185,22 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function switchTab(tab){
+  document.getElementById("tabAdd").style.display = "none";
+  document.getElementById("tabRotd").style.display = "none";
+  document.getElementById("tabManage").style.display = "none";
+
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+
   if(tab === 'add'){
     document.getElementById("tabAdd").style.display = "block";
-    document.getElementById("tabManage").style.display = "none";
     document.querySelectorAll(".tab")[0].classList.add("active");
-    document.querySelectorAll(".tab")[1].classList.remove("active");
-  } else {
-    document.getElementById("tabAdd").style.display = "none";
-    document.getElementById("tabManage").style.display = "block";
+  } else if(tab === 'rotd'){
+    document.getElementById("tabRotd").style.display = "block";
     document.querySelectorAll(".tab")[1].classList.add("active");
-    document.querySelectorAll(".tab")[0].classList.remove("active");
+    populateRotdDropdown();
+  } else {
+    document.getElementById("tabManage").style.display = "block";
+    document.querySelectorAll(".tab")[2].classList.add("active");
     loadAllRecipes();
   }
 }
@@ -305,7 +318,6 @@ function saveDirectRecipe(){
   const description = document.getElementById("rDesc").value.trim() || `A delicious ${name} recipe with ingredients and step-by-step instructions.`;
   const rawIng = document.getElementById("rIngredients").value.trim();
   const rawSteps = document.getElementById("rSteps").value.trim();
-  const setRotd = document.getElementById("rSetRotd").checked;
 
   if(!name || !rawIng || !rawSteps || !description){
     alert("Please fill in all required recipe fields.");
@@ -330,20 +342,17 @@ function saveDirectRecipe(){
   let customArr = customStored ? JSON.parse(customStored) : [];
 
   if(idx >= 0 && allLocalRecipes[idx]){
-    // Updating existing recipe
+    // Editing an existing recipe: remove old entry matching title to prevent duplicates
     const oldName = allLocalRecipes[idx].name;
-    customArr = customArr.filter(x => x.name !== oldName);
+    customArr = customArr.filter(x => x.name.toLowerCase().trim() !== oldName.toLowerCase().trim());
     customArr.unshift(recipeObj);
   } else {
-    // Add new
+    // Adding a new recipe: remove any existing entry with same name to prevent duplicates
+    customArr = customArr.filter(x => x.name.toLowerCase().trim() !== name.toLowerCase().trim());
     customArr.unshift(recipeObj);
   }
 
   localStorage.setItem("festibites_custom_recipes", JSON.stringify(customArr));
-
-  if(setRotd) {
-    localStorage.setItem("festibites_custom_rotd_title", name);
-  }
 
   const successEl = document.getElementById("publishSuccess");
   successEl.style.display = "block";
@@ -351,6 +360,32 @@ function saveDirectRecipe(){
 
   resetForm();
   switchTab('manage');
+}
+
+function populateRotdDropdown(){
+  const select = document.getElementById("rotdSelect");
+  if(!allLocalRecipes || !allLocalRecipes.length){
+    select.innerHTML = '<option value="">No recipes available</option>';
+    return;
+  }
+  const curRotdTitle = localStorage.getItem("festibites_custom_rotd_title") || "";
+  select.innerHTML = allLocalRecipes.map(r => `
+    <option value="${r.name}" ${r.name.toLowerCase().trim() === curRotdTitle.toLowerCase().trim() ? 'selected' : ''}>
+      ${r.name} (${r.category})
+    </option>
+  `).join("");
+}
+
+function saveRotdSelection(){
+  const select = document.getElementById("rotdSelect");
+  const selectedTitle = select.value;
+  if(!selectedTitle) return;
+
+  localStorage.setItem("festibites_custom_rotd_title", selectedTitle);
+
+  const successEl = document.getElementById("rotdSuccess");
+  successEl.style.display = "block";
+  setTimeout(() => { successEl.style.display = "none"; }, 3500);
 }
 </script>
 </body>
