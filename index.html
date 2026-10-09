@@ -671,8 +671,36 @@ function updateServingIngredients(){
   const calPerPerson = calculateAccurateCalories(selectedRecipe);
   document.getElementById("mCalories").textContent = `${calPerPerson} kcal / person`;
 
-  document.getElementById("mIngredients").innerHTML =
-    selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
+  let ingHTML = selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
+
+  // Optional Dipping Selection for eligible recipes (Snacks, Fast Food, Biryani, Fried items)
+  const cat = (selectedRecipe.category || "").toLowerCase();
+  const name = (selectedRecipe.name || "").toLowerCase();
+  const isEligible = cat.includes("snack") || cat.includes("fast food") || cat.includes("biryani") || cat.includes("kerala") || name.includes("chicken") || name.includes("parotta") || name.includes("fritter") || name.includes("roll");
+
+  if(isEligible){
+    const selectedDip = localStorage.getItem(`dip_${selectedRecipe.name}`) || "Mint Chutney / Garlic Mayo";
+    ingHTML += `
+      <li style="grid-column: 1 / -1; background: #fff3eb; padding: 10px 14px; border-radius: 12px; margin-top: 8px; border: 1px dashed var(--coral);">
+        <b style="color:var(--coral);display:block;margin-bottom:4px;">🥣 Recommended Dipping Sauce:</b>
+        <select id="dippingSelect" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ead8ce;background:#fff;font-weight:700;color:var(--ink);" onchange="saveDipping(this.value)">
+          <option value="Mint Chutney" ${selectedDip === 'Mint Chutney' ? 'selected' : ''}>🌿 Fresh Mint & Coriander Chutney</option>
+          <option value="Garlic Mayo" ${selectedDip === 'Garlic Mayo' ? 'selected' : ''}>🧄 Creamy Garlic Mayonnaise</option>
+          <option value="Spicy Tomato Ketchup" ${selectedDip === 'Spicy Tomato Ketchup' ? 'selected' : ''}>🍅 Spicy Tomato Ketchup</option>
+          <option value="Tamarind Chutney" ${selectedDip === 'Tamarind Chutney' ? 'selected' : ''}>🫙 Sweet & Tangy Tamarind Chutney</option>
+          <option value="Yogurt Raita" ${selectedDip === 'Yogurt Raita' ? 'selected' : ''}>🥒 Cucumber Mint Yogurt Raita</option>
+          <option value="Schezwan Sauce" ${selectedDip === 'Schezwan Sauce' ? 'selected' : ''}>🌶️ Spicy Schezwan Dip</option>
+        </select>
+      </li>
+    `;
+  }
+
+  document.getElementById("mIngredients").innerHTML = ingHTML;
+}
+
+function saveDipping(val){
+  if(!selectedRecipe) return;
+  localStorage.setItem(`dip_${selectedRecipe.name}`, val);
 }
 
 function setServings(value){
