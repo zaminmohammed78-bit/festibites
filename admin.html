@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>FestiBites — GitHub JSON Recipe Generator</title>
+  <title>FestiBites — Admin Dashboard</title>
   <link rel="icon" type="image/svg+xml" href="./icon-192.png">
   <style>
     :root{
@@ -24,100 +24,279 @@
     .form-group{margin-bottom:16px}
     label{display:block;font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink)}
     input,select,textarea{width:100%;border:1px solid #ead8ce;border-radius:12px;padding:12px;font:inherit;font-size:14px;outline:none;background:#fff}
-    textarea{resize:vertical;min-height:110px}
+    textarea{resize:vertical;min-height:100px}
     input:focus,select:focus,textarea:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(242,106,33,.10)}
     .btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:14px 22px;font-weight:900;font-size:15px;cursor:pointer;width:100%;box-shadow:0 8px 20px rgba(232,93,4,.22);transition:.2s}
     .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(232,93,4,.30)}
+    .btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 8px 20px rgba(220,38,38,.22)}
     .back-link{display:block;text-align:center;margin-top:20px;color:var(--muted);text-decoration:none;font-weight:700;font-size:13px}
     .back-link:hover{color:var(--coral)}
-    #outputBox{margin-top:20px;display:none;background:#2d1810;color:#ffb067;padding:18px;border-radius:14px;font-family:monospace;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-all}
-    .step-box{background:#fff7f1;padding:16px;border-radius:14px;border:1px solid var(--line);margin-top:20px}
-    .step-box h3{color:var(--coral);font-size:16px;margin-bottom:8px}
-    .step-box ol{margin-left:20px;font-size:13px;color:var(--ink);line-height:1.6}
+    .tabs{display:flex;gap:10px;margin-bottom:20px}
+    .tab{flex:1;padding:12px;border:0;border-radius:12px;background:#fff7f1;color:var(--ink);font-weight:800;cursor:pointer;text-align:center;border:1px solid var(--line)}
+    .tab.active{background:var(--coral);color:#fff;border-color:var(--coral)}
+    #loginSection,#adminPanel{display:none}
   </style>
 </head>
 <body>
 
   <div class="card">
-    <div class="card-header">
-      <h1>🛠️ GitHub Recipe Generator</h1>
-      <p>Fill out recipe details to instantly generate ready-to-paste code for GitHub's <code>recipes.json</code>!</p>
+    <!-- Login Section -->
+    <div id="loginSection" style="display:block;">
+      <div class="card-header">
+        <h1>🔒 FestiBites Admin Portal</h1>
+        <p>Enter your secret administrator password</p>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="adminPass">Admin Password</label>
+          <input id="adminPass" type="password" placeholder="Enter password..." onkeydown="if(event.key==='Enter') verifyAdmin()">
+        </div>
+        <button class="btn" onclick="verifyAdmin()">Access Dashboard</button>
+        <p id="loginError" style="color:var(--coral);font-weight:800;font-size:13px;text-align:center;margin-top:12px;display:none;">Incorrect password.</p>
+        <a class="back-link" href="./index.html">← Back to FestiBites Website</a>
+      </div>
     </div>
-    <div class="card-body" style="max-height:85vh;overflow-y:auto;">
-      <div class="form-group">
-        <label for="rName">Recipe Name *</label>
-        <input id="rName" type="text" placeholder="e.g. Special Chicken Curry">
-      </div>
-      <div style="display:flex;gap:12px;" class="form-group">
-        <div style="flex:1;">
-          <label for="rCategory">Category *</label>
-          <select id="rCategory">
-            <option value="Breakfast">Breakfast</option>
-            <option value="Lunch">Lunch</option>
-            <option value="Dinner">Dinner</option>
-            <option value="Biryani">Biryani</option>
-            <option value="Kerala Foods">Kerala Foods</option>
-            <option value="Indian">Indian</option>
-            <option value="Chinese">Chinese</option>
-            <option value="Arabic">Arabic</option>
-            <option value="Snacks">Snacks</option>
-            <option value="Desserts">Desserts</option>
-            <option value="Beverages">Beverages</option>
-            <option value="Fast Food">Fast Food</option>
-          </select>
-        </div>
-        <div style="flex:1;">
-          <label for="rMinutes">Time (Mins) *</label>
-          <input id="rMinutes" type="number" value="30">
-        </div>
-      </div>
-      <div style="display:flex;gap:12px;" class="form-group">
-        <div style="flex:1;">
-          <label for="rServings">Servings *</label>
-          <input id="rServings" type="number" value="2">
-        </div>
-        <div style="flex:1;">
-          <label for="rDifficulty">Difficulty *</label>
-          <select id="rDifficulty">
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="rDesc">Short Description *</label>
-        <input id="rDesc" type="text" placeholder="A rich flavorful chicken curry cooked in traditional spices...">
-      </div>
-      <div class="form-group">
-        <label for="rIngredients">Ingredients (comma separated) *</label>
-        <textarea id="rIngredients" placeholder="500g chicken, 2 onions, 1 tsp ginger-garlic paste, 2 tbsp oil, 1 tsp chili powder, Salt"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="rSteps">Step-by-Step Instructions (one step per line) *</label>
-        <textarea id="rSteps" placeholder="Heat oil in a pan and sauté onions until golden.&#10;Add ginger-garlic paste and chicken.&#10;Simmer with spices for 20 minutes."></textarea>
-      </div>
 
-      <button class="btn" onclick="generateCode()">Generate GitHub JSON Code 📋</button>
-
-      <textarea id="outputBox" aria-label="Generated JSON Code" readonly></textarea>
-
-      <div class="step-box" id="guideBox" style="display:none;">
-        <h3>📌 How to paste into GitHub (3 easy steps):</h3>
-        <ol>
-          <li>Click <b>Copy Code</b> below.</li>
-          <li>Open your GitHub file: <a href="https://github.com/zaminmohammed78-bit/festibites/edit/main/recipes.json" target="_blank" style="color:var(--coral);font-weight:900;">Edit recipes.json on GitHub 🔗</a></li>
-          <li>Paste this block at the top right after <code>[</code>, add a comma, and click <b>Commit changes</b>!</li>
-        </ol>
-        <button class="btn" style="margin-top:12px;background:var(--ink);" onclick="copyGeneratedCode()">📋 Copy JSON Code to Clipboard</button>
+    <!-- Admin Panel Dashboard -->
+    <div id="adminPanel">
+      <div class="card-header">
+        <h1>⚙️ FestiBites Live Admin Dashboard</h1>
+        <p>Directly add, edit, or delete recipes live on FestiBites!</p>
       </div>
+      <div class="card-body" style="max-height:80vh;overflow-y:auto;">
 
-      <a class="back-link" href="./index.html">← Return to FestiBites Home</a>
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('add')">➕ Add / Edit Recipe</button>
+          <button class="tab" onclick="switchTab('manage')">✏️ Edit / Delete Recipes</button>
+        </div>
+
+        <!-- TAB 1: ADD / EDIT RECIPE -->
+        <div id="tabAdd">
+          <input id="rIndex" type="hidden" value="-1">
+          <div class="form-group">
+            <label for="rName">Recipe Name *</label>
+            <input id="rName" type="text" placeholder="e.g. Special Malabar Chicken Biryani">
+          </div>
+          <div style="display:flex;gap:12px;" class="form-group">
+            <div style="flex:1;">
+              <label for="rCategory">Category *</label>
+              <select id="rCategory">
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Biryani">Biryani</option>
+                <option value="Kerala Foods">Kerala Foods</option>
+                <option value="Indian">Indian</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Snacks">Snacks</option>
+                <option value="Desserts">Desserts</option>
+                <option value="Beverages">Beverages</option>
+                <option value="Fast Food">Fast Food</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <label for="rMinutes">Time (Mins) *</label>
+              <input id="rMinutes" type="number" value="30">
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;" class="form-group">
+            <div style="flex:1;">
+              <label for="rServings">Default Servings *</label>
+              <input id="rServings" type="number" value="2">
+            </div>
+            <div style="flex:1;">
+              <label for="rDifficulty">Difficulty *</label>
+              <select id="rDifficulty">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rDesc">Short Description *</label>
+            <input id="rDesc" type="text" placeholder="A rich flavorful dish prepared with special herbs...">
+          </div>
+          <div class="form-group">
+            <label for="rIngredients">Ingredients (comma separated) *</label>
+            <textarea id="rIngredients" placeholder="500g chicken, 2 onions, 1 tsp ginger-garlic paste, 2 tbsp ghee, Salt"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="rSteps">Step-by-Step Instructions (one step per line) *</label>
+            <textarea id="rSteps" placeholder="Step 1: Sauté onions until golden brown.&#10;Step 2: Add chicken and spices...&#10;Step 3: Simmer for 20 minutes and serve hot."></textarea>
+          </div>
+          <div class="form-group" style="background:#fff7f1;padding:12px 16px;border-radius:12px;border:1px solid var(--line);">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:0;">
+              <input id="rSetRotd" type="checkbox" style="width:18px;height:18px;accent-color:var(--coral);">
+              <span style="font-weight:900;color:var(--coral);">⭐ Set as Recipe of the Day on Front Page</span>
+            </label>
+          </div>
+          <button id="saveBtn" class="btn" onclick="saveDirectRecipe()">Publish Recipe Directly to FestiBites 🚀</button>
+          <button id="cancelEditBtn" class="btn btn-danger" style="margin-top:10px;display:none;" onclick="resetForm()">Cancel Editing</button>
+          <p id="publishSuccess" style="color:var(--teal);font-weight:900;font-size:14px;text-align:center;margin-top:12px;display:none;">🎉 Published directly to FestiBites!</p>
+        </div>
+
+        <!-- TAB 2: EDIT / DELETE ALL RECIPES -->
+        <div id="tabManage" style="display:none;">
+          <div class="form-group">
+            <label for="recipeSearch">Search All FestiBites Recipes</label>
+            <input id="recipeSearch" type="text" placeholder="Type recipe name to search..." oninput="filterAdminRecipes()">
+          </div>
+          <div id="adminRecipeList" style="display:flex;flex-direction:column;gap:10px;max-height:450px;overflow-y:auto;margin-top:10px;">
+            <p style="text-align:center;color:var(--muted);">Loading recipes...</p>
+          </div>
+        </div>
+
+        <a class="back-link" href="./index.html" style="margin-top:25px;">← Return to FestiBites Home</a>
+      </div>
     </div>
   </div>
 
 <script>
-function generateCode(){
+const ADMIN_SECRET = "festibites2026";
+let allLocalRecipes = [];
+
+function verifyAdmin(){
+  const pass = document.getElementById("adminPass").value.trim();
+  if(pass === ADMIN_SECRET){
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    sessionStorage.setItem("festibites_admin_auth", "true");
+    loadAllRecipes();
+  } else {
+    document.getElementById("loginError").style.display = "block";
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  if(sessionStorage.getItem("festibites_admin_auth") === "true"){
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    loadAllRecipes();
+  }
+});
+
+function switchTab(tab){
+  if(tab === 'add'){
+    document.getElementById("tabAdd").style.display = "block";
+    document.getElementById("tabManage").style.display = "none";
+    document.querySelectorAll(".tab")[0].classList.add("active");
+    document.querySelectorAll(".tab")[1].classList.remove("active");
+  } else {
+    document.getElementById("tabAdd").style.display = "none";
+    document.getElementById("tabManage").style.display = "block";
+    document.querySelectorAll(".tab")[1].classList.add("active");
+    document.querySelectorAll(".tab")[0].classList.remove("active");
+    loadAllRecipes();
+  }
+}
+
+async function loadAllRecipes(){
+  const listEl = document.getElementById("adminRecipeList");
+  listEl.innerHTML = '<p style="text-align:center;color:var(--muted);">Loading recipes...</p>';
+
+  // Load base json recipes
+  try {
+    const res = await fetch("./recipes.json");
+    let jsonRecipes = await res.json();
+
+    // Load custom added/edited recipes from browser storage
+    const customStored = localStorage.getItem("festibites_custom_recipes");
+    let customArr = customStored ? JSON.parse(customStored) : [];
+
+    // Merge
+    allLocalRecipes = [...customArr, ...jsonRecipes];
+    renderAdminList(allLocalRecipes);
+  } catch(e) {
+    listEl.innerHTML = '<p style="text-align:center;color:var(--coral);">Failed to load recipes.</p>';
+  }
+}
+
+function renderAdminList(recipesArr){
+  const listEl = document.getElementById("adminRecipeList");
+  if(!recipesArr.length){
+    listEl.innerHTML = '<p style="text-align:center;color:var(--muted);">No recipes found.</p>';
+    return;
+  }
+  listEl.innerHTML = recipesArr.map((r, i) => `
+    <div style="background:#fff7f1;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <div>
+        <h4 style="font-size:15px;color:var(--ink);margin-bottom:2px;">${r.name}</h4>
+        <small style="color:var(--muted);">${r.category} • ${r.minutes || 20} mins • ${r.difficulty || 'Easy'}</small>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn" style="padding:6px 12px;font-size:12px;width:auto;background:var(--teal);" onclick="editRecipe(${i})">Edit</button>
+        <button class="btn btn-danger" style="padding:6px 12px;font-size:12px;width:auto;" onclick="deleteRecipe(${i})">Delete</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function filterAdminRecipes(){
+  const q = document.getElementById("recipeSearch").value.toLowerCase().trim();
+  const filtered = allLocalRecipes.filter(r => r.name.toLowerCase().includes(q) || r.category.toLowerCase().includes(q));
+  renderAdminList(filtered);
+}
+
+function editRecipe(index){
+  const r = allLocalRecipes[index];
+  if(!r) return;
+  document.getElementById("rIndex").value = index;
+  document.getElementById("rName").value = r.name || "";
+  document.getElementById("rCategory").value = r.category || "Breakfast";
+  document.getElementById("rMinutes").value = r.minutes || 25;
+  document.getElementById("rServings").value = r.servings || 2;
+  document.getElementById("rDifficulty").value = r.difficulty || "Easy";
+  document.getElementById("rDesc").value = r.description || "";
+  document.getElementById("rIngredients").value = (r.ingredients || []).join(", ");
+  document.getElementById("rSteps").value = (r.steps || []).join("\n");
+  document.getElementById("rSetRotd").checked = false;
+
+  document.getElementById("saveBtn").textContent = "Update & Publish Recipe 💾";
+  document.getElementById("cancelEditBtn").style.display = "block";
+  switchTab('add');
+}
+
+function resetForm(){
+  document.getElementById("rIndex").value = "-1";
+  document.getElementById("rName").value = "";
+  document.getElementById("rMinutes").value = "30";
+  document.getElementById("rServings").value = "2";
+  document.getElementById("rDifficulty").value = "Easy";
+  document.getElementById("rDesc").value = "";
+  document.getElementById("rIngredients").value = "";
+  document.getElementById("rSteps").value = "";
+  document.getElementById("rSetRotd").checked = false;
+
+  document.getElementById("saveBtn").textContent = "Publish Recipe Directly to FestiBites 🚀";
+  document.getElementById("cancelEditBtn").style.display = "none";
+}
+
+function deleteRecipe(index){
+  if(!confirm("Delete this recipe from FestiBites?")) return;
+
+  // Remove from custom local storage list
+  const customStored = localStorage.getItem("festibites_custom_recipes");
+  let customArr = customStored ? JSON.parse(customStored) : [];
+
+  const targetName = allLocalRecipes[index].name;
+  customArr = customArr.filter(x => x.name !== targetName);
+
+  // Save deleted list
+  localStorage.setItem("festibites_custom_recipes", JSON.stringify(customArr));
+
+  // Also store deleted base titles list so they don't show
+  const deletedBaseStored = localStorage.getItem("festibites_deleted_recipes") || "[]";
+  let deletedBaseArr = JSON.parse(deletedBaseStored);
+  deletedBaseArr.push(targetName);
+  localStorage.setItem("festibites_deleted_recipes", JSON.stringify(deletedBaseArr));
+
+  loadAllRecipes();
+}
+
+function saveDirectRecipe(){
+  const idx = Number(document.getElementById("rIndex").value);
   const name = document.getElementById("rName").value.trim();
   const category = document.getElementById("rCategory").value;
   const minutes = Number(document.getElementById("rMinutes").value) || 25;
@@ -126,9 +305,10 @@ function generateCode(){
   const description = document.getElementById("rDesc").value.trim() || `A delicious ${name} recipe with ingredients and step-by-step instructions.`;
   const rawIng = document.getElementById("rIngredients").value.trim();
   const rawSteps = document.getElementById("rSteps").value.trim();
+  const setRotd = document.getElementById("rSetRotd").checked;
 
-  if(!name || !rawIng || !rawSteps){
-    alert("Please fill in recipe name, ingredients, and steps.");
+  if(!name || !rawIng || !rawSteps || !description){
+    alert("Please fill in all required recipe fields.");
     return;
   }
 
@@ -138,28 +318,39 @@ function generateCode(){
   const recipeObj = {
     name,
     category,
-    icon: "",
     minutes,
     servings,
     difficulty,
+    description,
     ingredients,
-    steps,
-    description
+    steps
   };
 
-  const jsonCode = "  " + JSON.stringify(recipeObj, null, 2).replace(/\n/g, "\n  ") + ",";
-  const outputBox = document.getElementById("outputBox");
-  outputBox.value = jsonCode;
-  outputBox.style.display = "block";
-  document.getElementById("guideBox").style.display = "block";
-}
+  const customStored = localStorage.getItem("festibites_custom_recipes");
+  let customArr = customStored ? JSON.parse(customStored) : [];
 
-function copyGeneratedCode(){
-  const outputBox = document.getElementById("outputBox");
-  outputBox.select();
-  navigator.clipboard.writeText(outputBox.value).then(() => {
-    alert("✓ Code copied! Now click the link to edit recipes.json on GitHub and paste it in!");
-  });
+  if(idx >= 0 && allLocalRecipes[idx]){
+    // Updating existing recipe
+    const oldName = allLocalRecipes[idx].name;
+    customArr = customArr.filter(x => x.name !== oldName);
+    customArr.unshift(recipeObj);
+  } else {
+    // Add new
+    customArr.unshift(recipeObj);
+  }
+
+  localStorage.setItem("festibites_custom_recipes", JSON.stringify(customArr));
+
+  if(setRotd) {
+    localStorage.setItem("festibites_custom_rotd_title", name);
+  }
+
+  const successEl = document.getElementById("publishSuccess");
+  successEl.style.display = "block";
+  setTimeout(() => { successEl.style.display = "none"; }, 3500);
+
+  resetForm();
+  switchTab('manage');
 }
 </script>
 </body>

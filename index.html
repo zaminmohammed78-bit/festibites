@@ -1118,28 +1118,20 @@ fetch("./recipes.json")
       idx++;
     }
 
-    recipes = interleaved.length ? interleaved : raw;
+    // Merge locally published/edited admin recipes
+    const customStored = localStorage.getItem("festibites_custom_recipes");
+    const customRecipes = customStored ? JSON.parse(customStored) : [];
 
-    // Load custom recipes published by users from Supabase backend database
-    if(supabaseClient) {
-      supabaseClient.from('recipes').select('*').then(({ data: dbRecipes, error }) => {
-        if(!error && dbRecipes && dbRecipes.length > 0) {
-          // Prepend cloud database recipes to the front
-          recipes = [...dbRecipes, ...recipes];
-        }
-        document.getElementById("heroCount").textContent = recipes.length + "+";
-        setupRecipeOfTheDay();
-        filterRecipes();
-      }).catch(() => {
-        document.getElementById("heroCount").textContent = recipes.length + "+";
-        setupRecipeOfTheDay();
-        filterRecipes();
-      });
-    } else {
-      document.getElementById("heroCount").textContent = recipes.length + "+";
-      setupRecipeOfTheDay();
-      filterRecipes();
-    }
+    // Filter out deleted base recipes
+    const deletedStored = localStorage.getItem("festibites_deleted_recipes");
+    const deletedNames = deletedStored ? JSON.parse(deletedStored) : [];
+
+    let baseList = (interleaved.length ? interleaved : raw).filter(r => !deletedNames.includes(r.name));
+    recipes = [...customRecipes, ...baseList];
+
+    document.getElementById("heroCount").textContent = recipes.length + "+";
+    setupRecipeOfTheDay();
+    filterRecipes();
   })
   .catch(error => {
     console.error("FestiBites recipe data error:", error);
