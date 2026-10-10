@@ -834,15 +834,11 @@ function setupRecipeOfTheDay(){
       document.getElementById("rotdMeta").textContent = "⏱️ " + rotd.minutes + " mins | 👥 " + rotd.servings + " servings | 📊 " + rotd.difficulty;
     })
     .catch(() => {
-      const today = new Date();
-      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-      rotdRecipeIndex = dayOfYear % recipes.length;
-      const rotd = recipes[rotdRecipeIndex];
-      if(!rotd) return;
-      document.getElementById("rotdTitle").textContent = rotd.name;
-      document.getElementById("rotdCategory").textContent = `⭐ Recipe of the Day • ${rotd.category}`;
-      document.getElementById("rotdDesc").textContent = rotd.description;
-      document.getElementById("rotdMeta").textContent = `⏱️ ${rotd.minutes} mins | 👥 ${rotd.servings} servings | 📊 ${rotd.difficulty}`;
+      rotdRecipeIndex = -1;
+      document.getElementById("rotdTitle").textContent = "Creamy Garlic Pasta";
+      document.getElementById("rotdCategory").textContent = "⭐ Recipe of the Day";
+      document.getElementById("rotdDesc").textContent = "Today's featured recipe is temporarily unavailable. Please refresh the page shortly.";
+      document.getElementById("rotdMeta").textContent = "";
     });
 }
 
