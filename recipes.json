@@ -921,7 +921,7 @@
     "ingredients": [
       "2 cups cooked rice",
       "1 cup black beans",
-      "1 corn cup",
+      "1 cup corn",
       "1 tomato",
       "1 avocado",
       "1/2 cup lettuce",
@@ -1892,7 +1892,10 @@
       "Mix the coconut paste into the vegetables and cook gently.",
       "Turn off the heat and mix in yogurt.",
       "Finish with coconut oil and curry leaves."
-    ]
+    ],
+    "minutes": 25,
+    "servings": 4,
+    "description": "A Kerala-style mixed vegetable dish simmered with coconut, green chilli and yogurt."
   },
   {
     "name": "Idiyappam",
@@ -2027,7 +2030,10 @@
       "Add tamarind water and salt and bring to a simmer.",
       "Add fish pieces and cook gently until done.",
       "Finish with curry leaves."
-    ]
+    ],
+    "minutes": 35,
+    "servings": 4,
+    "description": "Tangy Kerala fish curry simmered with chilli, turmeric, tamarind and curry leaves."
   },
   {
     "name": "Kerala Thoran",
@@ -2161,7 +2167,10 @@
       "Dip each plantain slice in the batter.",
       "Deep-fry until golden and crisp.",
       "Drain and serve warm."
-    ]
+    ],
+    "minutes": 25,
+    "servings": 4,
+    "description": "Ripe plantain slices coated in a lightly sweetened batter and fried until golden."
   },
   {
     "name": "Aloo Tikki",
@@ -3187,7 +3196,7 @@
     "description": "A delicious tiramisu cups recipe with clear ingredients and detailed cooking instructions."
   },
   {
-    "name": "Hyderabadi Chicken Biryani",
+    "name": "Hyderabadi Chicken Biryani (Dum Style)",
     "category": "Biryani",
     "icon": "",
     "minutes": 90,
@@ -3254,7 +3263,7 @@
     "description": "Kerala's beloved Thalassery-style biryani using short-grain kaima rice and mildly spiced masala."
   },
   {
-    "name": "Mutton Biryani",
+    "name": "Mutton Biryani (Dum Style)",
     "category": "Biryani",
     "icon": "",
     "minutes": 120,
@@ -3285,7 +3294,7 @@
     "description": "Slow-cooked tender mutton layered with aromatic rice, fried onions and whole spices."
   },
   {
-    "name": "Egg Biryani",
+    "name": "Egg Biryani (Spiced Egg)",
     "category": "Biryani",
     "icon": "",
     "minutes": 45,
@@ -3317,7 +3326,7 @@
     "description": "A quick and satisfying biryani with spiced boiled eggs layered through fragrant rice."
   },
   {
-    "name": "Vegetable Biryani",
+    "name": "Vegetable Biryani (Mixed Vegetables)",
     "category": "Biryani",
     "icon": "",
     "minutes": 50,
@@ -3377,7 +3386,7 @@
     "description": "Juicy prawns tossed in spicy masala and layered with fragrant basmati rice."
   },
   {
-    "name": "Beef Biryani",
+    "name": "Beef Biryani (Slow-Cooked)",
     "category": "Biryani",
     "icon": "",
     "minutes": 110,
@@ -3438,7 +3447,7 @@
     "description": "Smoky grilled chicken tikka folded into saffron-scented rice."
   },
   {
-    "name": "Butter Chicken",
+    "name": "Butter Chicken (Creamy Tomato Gravy)",
     "category": "Indian",
     "icon": "",
     "minutes": 50,
@@ -3468,7 +3477,7 @@
     "description": "Creamy tomato-based curry with tender chicken, a North Indian favorite."
   },
   {
-    "name": "Paneer Butter Masala",
+    "name": "Paneer Butter Masala (Cashew Gravy)",
     "category": "Indian",
     "icon": "",
     "minutes": 35,
@@ -3498,7 +3507,7 @@
     "description": "Soft paneer cubes simmered in a rich buttery tomato gravy."
   },
   {
-    "name": "Dal Tadka",
+    "name": "Dal Tadka (Toor Dal)",
     "category": "Indian",
     "icon": "",
     "minutes": 35,
@@ -3554,7 +3563,7 @@
     "description": "Spiced chickpea curry that pairs perfectly with bhatura or rice."
   },
   {
-    "name": "Palak Paneer",
+    "name": "Palak Paneer (Creamy Spinach Gravy)",
     "category": "Indian",
     "icon": "",
     "minutes": 30,
@@ -3637,7 +3646,7 @@
     "description": "Wok-tossed rice with crisp vegetables and soy sauce."
   },
   {
-    "name": "Chicken Fried Rice",
+    "name": "Chicken Fried Rice (Smoky Wok Style)",
     "category": "Chinese",
     "icon": "",
     "minutes": 30,
@@ -4075,7 +4084,7 @@
     "description": "Sweet fried rice-and-jaggery balls with coconut bits and cardamom."
   },
   {
-    "name": "Chicken Samosa",
+    "name": "Chicken Samosa (Minced Chicken)",
     "category": "Snacks",
     "icon": "",
     "minutes": 50,
