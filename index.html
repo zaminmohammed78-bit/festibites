@@ -806,27 +806,32 @@ function setupRecipeOfTheDay(){
   if(!recipes || !recipes.length) return;
 
   // Read dedicated recipe-of-the-day.json file from GitHub
-  fetch("./recipe-of-the-day.json")
-    .then(res => res.json())
+  fetch("./recipe-of-the-day.json?v=" + Date.now(), { cache: "no-store" })
+    .then(res => {
+      if (!res.ok) throw new Error("Could not load Recipe of the Day setting");
+      return res.json();
+    })
     .then(data => {
-      let targetName = (data && data.name) ? data.name.toLowerCase().trim() : "";
-      let foundIdx = recipes.findIndex(r => r.name.toLowerCase().trim() === targetName);
+      const normalizeName = value => String(value || "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "");
+      const targetName = normalizeName(data && data.name);
+      const foundIdx = recipes.findIndex(r => normalizeName(r.name) === targetName);
 
-      if(foundIdx >= 0){
-        rotdRecipeIndex = foundIdx;
-      } else {
-        const today = new Date();
-        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-        rotdRecipeIndex = dayOfYear % recipes.length;
+      // Do not silently replace the chosen recipe with a random daily recipe.
+      if(foundIdx < 0){
+        document.getElementById("rotdTitle").textContent = (data && data.name) || "Recipe not found";
+        document.getElementById("rotdCategory").textContent = "⭐ Recipe of the Day";
+        document.getElementById("rotdDesc").textContent = "The selected recipe could not be found in the current recipe list.";
+        document.getElementById("rotdMeta").textContent = "";
+        rotdRecipeIndex = -1;
+        return;
       }
 
+      rotdRecipeIndex = foundIdx;
       const rotd = recipes[rotdRecipeIndex];
-      if(!rotd) return;
-
       document.getElementById("rotdTitle").textContent = rotd.name;
-      document.getElementById("rotdCategory").textContent = `⭐ Recipe of the Day • ${rotd.category}`;
+      document.getElementById("rotdCategory").textContent = "⭐ Recipe of the Day • " + rotd.category;
       document.getElementById("rotdDesc").textContent = rotd.description;
-      document.getElementById("rotdMeta").textContent = `⏱️ ${rotd.minutes} mins | 👥 ${rotd.servings} servings | 📊 ${rotd.difficulty}`;
+      document.getElementById("rotdMeta").textContent = "⏱️ " + rotd.minutes + " mins | 👥 " + rotd.servings + " servings | 📊 " + rotd.difficulty;
     })
     .catch(() => {
       const today = new Date();
