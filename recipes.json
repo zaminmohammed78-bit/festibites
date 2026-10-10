@@ -8,9 +8,9 @@
     "difficulty": "Easy",
     "ingredients": [
       "2 slices bread",
-      "100g butter (softened at room temperature)",
-      "2 tbsp sugar",
-      "1 cheese sheet or slice"
+      "2 tbsp butter (softened)",
+      "1 tbsp sugar",
+      "1 cheese slice"
     ],
     "steps": [
       "Mix softened butter and sugar together in a small bowl until well combined.",
@@ -509,7 +509,9 @@
       "1 tbsp lemon juice",
       "1 tsp mustard",
       "1 garlic clove",
-      "1 tbsp olive oil"
+      "1 tbsp olive oil",
+      "Salt to taste",
+      "Black pepper to taste"
     ],
     "steps": [
       "Wash and dry the lettuce thoroughly.",
@@ -538,7 +540,9 @@
       "1/2 onion",
       "2 garlic cloves",
       "2 tbsp soy sauce",
-      "1 tbsp oil"
+      "1 tbsp oil",
+      "Salt to taste",
+      "Black pepper to taste"
     ],
     "steps": [
       "Cut chicken into small pieces and season lightly.",
@@ -667,32 +671,32 @@
     "name": "Jeera Rice",
     "category": "Lunch",
     "icon": "",
-    "minutes": 40,
+    "minutes": 30,
     "servings": 2,
     "difficulty": "Easy",
     "ingredients": [
-      "2 cups basmati rice",
-      "1 onion, sliced",
-      "1 tomato, chopped",
-      "1 tbsp ginger-garlic paste",
-      "1 tsp cumin",
-      "1/2 tsp turmeric",
-      "1 tsp spice blend",
-      "3 tbsp oil",
-      "4 cups water",
-      "Salt",
-      "2 tbsp fresh coriander"
+      "1 cup basmati rice",
+      "2 tsp cumin seeds",
+      "1 tbsp ghee or oil",
+      "1 bay leaf",
+      "2 green cardamom pods",
+      "2 cloves",
+      "1 small cinnamon stick",
+      "1 1/2 to 2 cups water",
+      "Salt to taste",
+      "1 tbsp chopped coriander, optional"
     ],
     "steps": [
-      "Rinse the rice until the water runs mostly clear and soak for 15–20 minutes.",
-      "Heat oil in a heavy pan and sauté cumin and onion until lightly golden.",
-      "Add ginger-garlic paste, tomato and spices and cook until the tomato softens.",
-      "Add drained rice and stir gently so every grain is coated.",
-      "Pour in water and add salt.",
-      "Bring to a boil, then cover and cook on low heat until the rice is tender.",
-      "Rest covered for 5 minutes, fluff with a fork and garnish with coriander."
+      "Rinse the basmati rice until the water runs mostly clear, then soak for 15–20 minutes and drain.",
+      "Heat ghee or oil in a saucepan over medium heat.",
+      "Add cumin seeds and let them crackle without burning.",
+      "Add the bay leaf, cardamom, cloves and cinnamon; stir for a few seconds until fragrant.",
+      "Add the drained rice and stir gently for 1–2 minutes to coat the grains.",
+      "Add 1 1/2 cups water and salt; bring to a boil. Add a little more water if needed for your rice.",
+      "Cover and cook on low heat until the rice is tender and the water is absorbed, about 12–18 minutes.",
+      "Turn off the heat and rest covered for 5 minutes, then fluff gently and garnish with coriander."
     ],
-    "description": "Detailed jeera rice recipe with measured ingredients and clear step-by-step instructions."
+    "description": "Fragrant basmati rice tempered with cumin seeds and a few whole spices."
   },
   {
     "name": "Lentil Soup",
@@ -727,30 +731,35 @@
     "name": "Minestrone Soup",
     "category": "Lunch",
     "icon": "",
-    "minutes": 25,
+    "minutes": 35,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
       "1 onion, chopped",
-      "2 garlic cloves",
+      "2 garlic cloves, minced",
+      "1 carrot, diced",
+      "1 celery stalk, diced",
       "2 cups mixed vegetables",
-      "4 cups stock",
-      "1/2 tsp black pepper",
-      "1/2 tsp herbs",
-      "1 tbsp oil",
-      "Salt",
-      "1 tbsp lemon juice"
+      "1 cup chopped tomatoes or canned tomatoes",
+      "1 cup cooked kidney beans or cannellini beans, drained",
+      "1/2 cup small pasta",
+      "4 cups vegetable stock",
+      "1/2 tsp dried Italian herbs",
+      "1 tbsp olive oil",
+      "Salt to taste",
+      "Black pepper to taste",
+      "Grated Parmesan, optional"
     ],
     "steps": [
-      "Heat oil in a pot and sauté onion until soft.",
+      "Heat olive oil in a pot and sauté onion, carrot and celery until softened.",
       "Add garlic and cook for 30 seconds.",
-      "Add vegetables and stir for 2 minutes.",
-      "Pour in stock and season with herbs, pepper and salt.",
-      "Simmer until the vegetables are tender.",
-      "Taste and adjust seasoning.",
-      "Finish with lemon juice and serve hot."
+      "Stir in the chopped tomatoes and Italian herbs, then cook for 2–3 minutes.",
+      "Add mixed vegetables and vegetable stock; bring to a gentle boil.",
+      "Reduce the heat and simmer until the vegetables are nearly tender, about 10–15 minutes.",
+      "Add the cooked beans and small pasta. Simmer until the pasta is cooked according to its packet instructions, adding a little extra stock or water if the soup gets too thick.",
+      "Season with salt and black pepper, then serve hot with Parmesan if desired."
     ],
-    "description": "Detailed minestrone soup recipe with measured ingredients and clear step-by-step instructions."
+    "description": "A hearty Italian-style vegetable soup with tomatoes, beans, small pasta and herbs."
   },
   {
     "name": "Pesto Chicken Pasta",
@@ -845,7 +854,9 @@
       "2 tbsp chopped onion",
       "4 bread slices",
       "Lettuce",
-      "Tomato"
+      "Tomato",
+      "Salt to taste",
+      "Black pepper to taste"
     ],
     "steps": [
       "Drain the tuna well.",
@@ -955,7 +966,8 @@
       "1 tsp chili powder",
       "8 curry leaves",
       "2 tbsp coconut oil",
-      "Salt"
+      "Salt",
+      "Water as needed for cooking"
     ],
     "steps": [
       "Cut beef into bite-sized pieces.",
@@ -1018,7 +1030,8 @@
       "1 tsp coriander powder",
       "1/2 tsp turmeric",
       "1 tsp garam masala",
-      "2 tbsp oil"
+      "2 tbsp oil",
+      "1/2 cup water"
     ],
     "steps": [
       "Heat oil and crackle cumin.",
@@ -1203,7 +1216,8 @@
       "1/2 tsp turmeric",
       "1/2 tsp chili powder",
       "1 tbsp ghee",
-      "Salt"
+      "Salt",
+      "3 cups water, or as needed"
     ],
     "steps": [
       "Rinse lentils and cook with turmeric and enough water until soft.",
@@ -1350,7 +1364,8 @@
       "1 tsp coriander powder",
       "1 tsp garam masala",
       "2 tbsp oil",
-      "Salt"
+      "Salt",
+      "Water as needed for cooking"
     ],
     "steps": [
       "Marinate mutton with turmeric, chili powder and salt.",
@@ -1442,7 +1457,8 @@
       "1/2 tsp turmeric",
       "1 tsp garam masala",
       "2 tbsp oil",
-      "Salt"
+      "Salt",
+      "1 cup water"
     ],
     "steps": [
       "Heat oil and crackle cumin.",
@@ -1499,7 +1515,7 @@
     "ingredients": [
       "4 bell peppers",
       "1 cup cooked rice",
-      "250g minced chicken or lentils",
+      "250 g minced chicken or 1 1/2 cups cooked lentils",
       "1 onion",
       "1 tomato",
       "1/2 cup cheese",
@@ -1510,7 +1526,7 @@
     "steps": [
       "Cut the tops from the peppers and remove the seeds.",
       "Sauté onion and tomato until soft.",
-      "Add minced chicken or lentils and cook thoroughly.",
+      "Add minced chicken and cook it thoroughly, or stir in cooked lentils and heat through.",
       "Stir in cooked rice, paprika, salt and pepper.",
       "Fill each pepper with the mixture.",
       "Place peppers in a baking dish with a little water.",
@@ -1624,7 +1640,8 @@
       "1 tsp chili powder",
       "1 tsp garam masala",
       "1 tbsp oil",
-      "Salt"
+      "Salt",
+      "Water as needed"
     ],
     "steps": [
       "Cut all vegetables into similar-sized pieces.",
@@ -2123,29 +2140,26 @@
     "category": "Kerala Foods",
     "icon": "",
     "minutes": 40,
-    "servings": 2,
+    "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
-      "2 eggs",
-      "2 slices bread",
-      "1/2 onion, chopped",
-      "1/2 tomato, chopped",
-      "1 tbsp butter",
-      "1/2 tsp black pepper",
-      "1/4 tsp chili powder",
-      "Salt",
-      "2 tbsp fresh herbs"
+      "2 cups all-purpose flour (maida)",
+      "1 tsp sugar",
+      "1/2 tsp salt",
+      "2 tbsp oil, plus extra for resting and cooking",
+      "3/4 cup water, added gradually as needed"
     ],
     "steps": [
-      "Prepare the vegetables and whisk the eggs with salt and spices.",
-      "Heat butter in a pan.",
-      "Cook the onion and tomato until slightly softened.",
-      "Add the egg mixture and stir or cook according to the dish.",
-      "Toast or warm the bread if needed.",
-      "Cook until the eggs are fully set.",
-      "Add fresh herbs and serve immediately."
+      "Mix the flour, sugar and salt in a bowl.",
+      "Add oil and gradually add water, kneading until a smooth, soft and elastic dough forms.",
+      "Cover and rest the dough for at least 30 minutes.",
+      "Divide into 4 equal balls, coat each with oil and rest for another 20–30 minutes.",
+      "On an oiled surface, stretch each ball into a very thin sheet, then pleat or fold it into long layers and coil into a spiral.",
+      "Rest the coils for 10 minutes, then gently roll each into a flat round without pressing out all the layers.",
+      "Cook on a hot tawa with a little oil, turning until both sides are golden and cooked through.",
+      "Carefully clap or press the cooked parotta between your hands to loosen the layers, and serve hot."
     ],
-    "description": "Detailed parotta recipe with measured ingredients and clear step-by-step instructions."
+    "description": "Soft, flaky Kerala-style layered flatbread made by stretching, coiling and pan-cooking an elastic dough."
   },
   {
     "name": "Pazham Pori",
@@ -2537,7 +2551,8 @@
       "1 tsp garam masala",
       "1 bell pepper",
       "1 onion",
-      "1 tbsp lemon juice"
+      "1 tbsp lemon juice",
+      "Salt to taste"
     ],
     "steps": [
       "Cut paneer and vegetables into large cubes.",
@@ -2723,7 +2738,7 @@
     "category": "Desserts",
     "icon": "",
     "minutes": 45,
-    "servings": 2,
+    "servings": 8,
     "difficulty": "Easy",
     "ingredients": [
       "2 cups besan (gram flour)",
@@ -2780,7 +2795,8 @@
       "1/3 cup sugar",
       "1 tsp vanilla",
       "1 cup crushed biscuits",
-      "1 cup strawberries"
+      "1 cup strawberries",
+      "1 tbsp melted butter"
     ],
     "steps": [
       "Mix crushed biscuits with a tablespoon of melted butter if desired.",
@@ -3523,7 +3539,8 @@
       "2 dried red chilies",
       "2 tbsp ghee",
       "Coriander leaves",
-      "Salt"
+      "Salt",
+      "3 cups water, or as needed"
     ],
     "steps": [
       "Pressure cook the dal with turmeric and salt until soft and mash lightly",
@@ -3720,7 +3737,8 @@
       "1 tbsp chili sauce",
       "1 tbsp vinegar",
       "Oil for frying",
-      "Salt"
+      "Salt",
+      "1/2 tsp black pepper"
     ],
     "steps": [
       "Coat chicken with egg, cornflour, salt and pepper and deep fry until crisp",
@@ -3801,7 +3819,8 @@
       "Dried lime (loomi)",
       "Cardamom and cloves",
       "2 tbsp raisins and almonds",
-      "Salt"
+      "Salt",
+      "4 cups chicken stock or water"
     ],
     "steps": [
       "Rub the chicken with mandi spice, salt and ghee",
@@ -3953,7 +3972,7 @@
     "name": "Appam with Stew",
     "category": "Kerala Foods",
     "icon": "",
-    "minutes": 40,
+    "minutes": 50,
     "servings": 3,
     "difficulty": "Medium",
     "ingredients": [
@@ -3962,18 +3981,32 @@
       "1/2 cup cooked rice",
       "1 tsp sugar",
       "1/2 tsp yeast",
-      "Salt",
-      "Oil for greasing"
+      "Salt to taste",
+      "Oil for greasing the appam pan",
+      "1 medium potato, cubed",
+      "1 carrot, cubed",
+      "1/2 cup green beans, chopped",
+      "1 onion, sliced",
+      "2 green chilies, slit",
+      "1 1/2 cups thin coconut milk",
+      "1/2 cup thick coconut milk",
+      "1 small cinnamon stick",
+      "2 cloves",
+      "1 tbsp coconut oil",
+      "Curry leaves"
     ],
     "steps": [
-      "Grind rice, coconut and cooked rice into a smooth batter",
-      "Add sugar, yeast and salt and ferment 8 hours",
-      "Heat an appam pan and pour a ladle of batter",
-      "Swirl the pan to spread it thin at the edges",
-      "Cover and cook 2 minutes until the center is fluffy",
-      "Serve with vegetable or chicken stew"
+      "Drain the soaked rice, then grind it with the cooked rice and grated coconut into a smooth batter, adding water as needed.",
+      "Mix in the yeast, sugar and a little salt. Cover and ferment in a warm place until bubbly and risen, usually 6–8 hours.",
+      "For the stew, heat coconut oil in a saucepan and gently sauté the onion, green chilies, curry leaves, cinnamon and cloves.",
+      "Add the potato, carrot and green beans, then pour in the thin coconut milk.",
+      "Cover and simmer until the vegetables are tender, adding a little water if needed.",
+      "Stir in the thick coconut milk and warm gently without letting it boil hard. Adjust salt.",
+      "Heat and lightly grease an appam pan. Pour in a ladle of batter and swirl the pan so the batter coats the sides and leaves a thicker center.",
+      "Cover and cook for about 2–3 minutes, until the edges are lacy and the center is fluffy and cooked.",
+      "Repeat with the remaining batter and serve the appam hot with the coconut vegetable stew."
     ],
-    "description": "Lacy, soft-centered rice pancakes served with mild coconut stew."
+    "description": "Soft, lacy Kerala appam served with a mild coconut-milk vegetable stew."
   },
   {
     "name": "Puttu and Kadala Curry",
@@ -4167,7 +4200,7 @@
       "2 limes",
       "3 tbsp sugar",
       "Pinch of salt",
-      "Chilled soda",
+      "2 cups chilled soda water",
       "Ice cubes",
       "Mint leaves"
     ],
