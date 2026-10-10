@@ -523,6 +523,12 @@ function searchTokens(value){
 function editDistanceAtMostOne(a,b){
   if(a===b) return true;
   if(Math.abs(a.length-b.length)>1) return false;
+  if(a.length===b.length){
+    const differences=[];
+    for(let k=0;k<a.length;k++) if(a[k]!==b[k]) differences.push(k);
+    if(differences.length===2 && differences[1]===differences[0]+1 &&
+       a[differences[0]]===b[differences[1]] && a[differences[1]]===b[differences[0]]) return true;
+  }
   let i=0,j=0,edits=0;
   while(i<a.length && j<b.length){
     if(a[i]===b[j]){i++;j++;continue;}
@@ -533,6 +539,15 @@ function editDistanceAtMostOne(a,b){
   }
   if(i<a.length || j<b.length) edits++;
   return edits<=1;
+}
+
+function parseSearchIntent(query){
+  const normalized=normalizeSearchText(query);
+  const timed=normalized.match(/^(?:under|less than|within|ready in)\s+(\d+)\s*(?:min|mins|minute|minutes)?(?:\s+(.+))?$/);
+  if(timed) return {maxMinutes:Number(timed[1]),text:(timed[2]||"").trim()};
+  const quick=normalized.match(/^quick(?: meals?| recipes?)?(?:\s+(.+))?$/);
+  if(quick) return {maxMinutes:30,text:(quick[1]||"").trim()};
+  return {maxMinutes:null,text:normalized};
 }
 
 function tokenMatches(queryToken, fieldTokens){
@@ -596,15 +611,18 @@ function render(list){
     return;
   }
 
+  const intent=parseSearchIntent(query);
   const shown = list.slice(0, visibleCount);
   resultText.textContent = query
-    ? `Showing ${shown.length} of ${list.length} best matches for “${query}”`
+    ? (intent.maxMinutes!==null && !intent.text
+      ? `Showing ${shown.length} of ${list.length} recipes ready in ${intent.maxMinutes} min or less`
+      : `Showing ${shown.length} of ${list.length} best matches for “${query}”`)
     : `Showing ${shown.length} of ${list.length} recipe${list.length===1?"":"s"}`;
 
   shown.forEach((r,i)=>{
     const card = document.createElement("article");
     card.className = "card";
-    const matchLabel = query && i<3 ? '<span class="match-pill">★ Top match</span>' : "";
+    const matchLabel = query && intent.text && i<3 ? '<span class="match-pill">★ Top match</span>' : "";
     card.innerHTML = `
       <div class="result-tags"><div class="tag">${r.category}</div>${matchLabel}</div>
       <h3>${r.name}</h3>
@@ -625,6 +643,8 @@ function render(list){
 
 function filterRecipes(resetPage = true){
   const q=search.value.trim();
+  const intent=parseSearchIntent(q);
+  const queryText=intent.text;
   const scored=recipes.map((r,index)=>{
     let categoryOK=activeCategory==="All" || r.category===activeCategory;
     if(activeCategory==="Quick (<30m)") categoryOK=Number(r.minutes)<=30;
@@ -633,18 +653,22 @@ function filterRecipes(resetPage = true){
       const nonVeg=["chicken","mutton","beef","fish","prawn","egg","meat","lamb","shrimp","gelatin","anchovy","bacon","ham","pork"];
       categoryOK=!nonVeg.some(item=>new RegExp("\\b"+item+"\\b").test(textAll));
     }
-    if(!categoryOK) return null;
-    const score=q ? recipeSearchScore(r,q) : 0;
-    return q && score===0 ? null : {recipe:r,index,score};
+    const timeOK=intent.maxMinutes===null || Number(r.minutes)<=intent.maxMinutes;
+    if(!categoryOK || !timeOK) return null;
+    const score=queryText ? recipeSearchScore(r,queryText) : 0;
+    return q && queryText && score===0 ? null : {recipe:r,index,score};
   }).filter(Boolean);
 
-  if(q) scored.sort((a,b)=>b.score-a.score || String(a.recipe.name).localeCompare(String(b.recipe.name)));
+  if(queryText) scored.sort((a,b)=>b.score-a.score || String(a.recipe.name).localeCompare(String(b.recipe.name)));
+  else if(intent.maxMinutes!==null) scored.sort((a,b)=>Number(a.recipe.minutes)-Number(b.recipe.minutes));
   const list=scored.map(item=>item.recipe);
   const clearButton=document.getElementById("clearSearchBtn");
   if(clearButton) clearButton.style.display=q ? "block" : "none";
   const hint=document.getElementById("searchHint");
   if(hint) hint.textContent=q
-    ? `Searching names, ingredients and instructions • ${list.length} result${list.length===1?"":"s"}`
+    ? (intent.maxMinutes!==null && !queryText
+      ? `Quick recipe filter: ${intent.maxMinutes} minutes or less • ${list.length} result${list.length===1?"":"s"}`
+      : `Searching names, ingredients and instructions • ${list.length} result${list.length===1?"":"s"}`)
     : "Search recipe names, ingredients, cuisines, descriptions or cooking steps.";
   if(resetPage) visibleCount=q ? list.length : (window.innerWidth>800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
   render(list);
