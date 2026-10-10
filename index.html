@@ -1156,23 +1156,43 @@ function formatRecipeTime(value){
 }
 
 function openRecipe(index){
-  const r = currentList[index];
-  document.getElementById("mTitle").textContent = r.name;
-  document.getElementById("mDesc").textContent = r.description;
-  document.getElementById("mTime").textContent = r.minutes ? formatRecipeTime(r.minutes) : "Time varies";
-  document.getElementById("mDifficulty").textContent = r.difficulty;
+  const r = (Array.isArray(currentList) ? currentList[index] : null);
+  if(!r || typeof r !== "object"){
+    console.error("FestiBites: recipe could not be found at index", index);
+    return;
+  }
+
   selectedRecipe = r;
-  document.getElementById("mAllergens").innerHTML = allergenBadgeHTML(r);
   originalServings = Math.max(1, Number(r.servings) || 1);
   selectedServings = originalServings;
 
-  updateServingIngredients();
+  // Open the modal first so a non-essential feature cannot prevent recipe access.
+  const modal = document.getElementById("modal");
+  if(modal){
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
 
-  document.getElementById("mSteps").innerHTML =
-    r.steps.map(x=>`<li onclick="this.classList.toggle('done')" title="Click to cross off step">${x}</li>`).join("");
+  document.getElementById("mTitle").textContent = r.name || "Recipe";
+  document.getElementById("mDesc").textContent = r.description || "";
+  document.getElementById("mTime").textContent = r.minutes ? formatRecipeTime(r.minutes) : "Time varies";
+  document.getElementById("mDifficulty").textContent = r.difficulty || "Not specified";
+  document.getElementById("mAllergens").innerHTML = allergenBadgeHTML(r);
 
-  document.getElementById("modal").style.display = "block";
-  document.body.style.overflow = "hidden";
+  try {
+    updateServingIngredients();
+  } catch(error) {
+    console.error("FestiBites ingredient display error:", error);
+    const list = document.getElementById("mIngredients");
+    if(list) list.innerHTML = (Array.isArray(r.ingredients) ? r.ingredients : []).map(x => "<li>" + String(x) + "</li>").join("");
+    const dip = document.getElementById("dipRecommendation");
+    if(dip) dip.style.display = "none";
+  }
+
+  const steps = Array.isArray(r.steps) ? r.steps : [];
+  document.getElementById("mSteps").innerHTML = steps.length
+    ? steps.map(x=>`<li onclick="this.classList.toggle('done')" title="Click to cross off step">${x}</li>`).join("")
+    : "<li>Cooking instructions are not available for this recipe yet.</li>";
 }
 
 
