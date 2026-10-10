@@ -264,6 +264,120 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 .instruction-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 12px}
 @media(max-width:560px){.instruction-note{font-size:14px;line-height:1.65}}
  .guide-home-link{display:inline-flex;align-items:center;justify-content:center;margin-top:2px;padding:12px 18px;border-radius:12px;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;text-decoration:none;font-weight:800;box-shadow:0 8px 20px rgba(232,93,4,.18)}.guide-home-link:hover{transform:translateY(-2px)}
+/* FestiBites Dark Mode */
+.theme-toggle {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.theme-toggle:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #fff0e6;
+  --teal: #ff9857;
+  --teal2: #ffb77e;
+  --coral: #ff8747;
+  --cream: #171310;
+  --gold: #ffc078;
+  --white: #211c18;
+  --muted: #c8b8ac;
+  --line: #49372c;
+}
+html[data-theme="dark"] body { background: #171310 !important; color: var(--ink); }
+html[data-theme="dark"] header,
+html[data-theme="dark"] .header { background: rgba(30,24,20,.96) !important; border-color: var(--line) !important; }
+html[data-theme="dark"] .brand-logo > span,
+html[data-theme="dark"] nav a,
+html[data-theme="dark"] .hero h1,
+html[data-theme="dark"] .section-head h2,
+html[data-theme="dark"] .submit-box h2 { color: var(--ink) !important; }
+html[data-theme="dark"] .hero,
+html[data-theme="dark"] .submit-section {
+  background: linear-gradient(135deg,#211a15,#302017) !important;
+  color: var(--ink);
+}
+html[data-theme="dark"] .badge { background: #3a2a20 !important; color: #ffb77e !important; }
+html[data-theme="dark"] .search,
+html[data-theme="dark"] .search-box,
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .recipe-card,
+html[data-theme="dark"] .submit-box,
+html[data-theme="dark"] #recipeOfTheDayCard,
+html[data-theme="dark"] .category-card {
+  background: #241e19 !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: #211b17 !important;
+  color: var(--ink) !important;
+  border-color: #594438 !important;
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder { color: #c8b8ac !important; opacity: 1; }
+html[data-theme="dark"] .quick-search-btn,
+html[data-theme="dark"] .chip,
+html[data-theme="dark"] .theme-toggle {
+  background: #30251e !important;
+  color: var(--ink) !important;
+  border-color: #594438 !important;
+}
+html[data-theme="dark"] .chip.active,
+html[data-theme="dark"] .chip:hover { background: #b94b17 !important; color: #fff !important; }
+html[data-theme="dark"] .card p,
+html[data-theme="dark"] .hero p,
+html[data-theme="dark"] .section-head p,
+html[data-theme="dark"] .stat small,
+html[data-theme="dark"] .search-hint,
+html[data-theme="dark"] .quick-searches > span { color: var(--muted) !important; }
+html[data-theme="dark"] .modal-box,
+html[data-theme="dark"] #shareModal .modal-box,
+html[data-theme="dark"] #spinnerModal .modal-box,
+html[data-theme="dark"] #iosInstallModal .modal-box {
+  background: #211b17 !important;
+  color: var(--ink) !important;
+}
+html[data-theme="dark"] .modal-body,
+html[data-theme="dark"] .details .detail,
+html[data-theme="dark"] .serving-control,
+html[data-theme="dark"] #spinnerDisplay,
+html[data-theme="dark"] #shareTextArea {
+  background: #29211b !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="dark"] .modal-body h3,
+html[data-theme="dark"] .detail b,
+html[data-theme="dark"] .detail span,
+html[data-theme="dark"] .modal-body label,
+html[data-theme="dark"] .steps li,
+html[data-theme="dark"] .ingredients li,
+html[data-theme="dark"] .instruction-note,
+html[data-theme="dark"] .serving-note { color: var(--ink) !important; }
+html[data-theme="dark"] .modal-top { background: linear-gradient(135deg,#713713,#34231a) !important; }
+html[data-theme="dark"] .modal-top h2,
+html[data-theme="dark"] .modal-top p { color: #fff5ed !important; }
+html[data-theme="dark"] .close,
+html[data-theme="dark"] .fav-btn { background: #382a21 !important; color: #fff0e6 !important; }
+html[data-theme="dark"] .steps li.done { color: #a99a8f !important; }
+html[data-theme="dark"] .view,
+html[data-theme="dark"] .print-btn { background: #51301f !important; color: #fff0e6 !important; }
+html[data-theme="dark"] footer { background: #100d0b !important; }
+html[data-theme="dark"] .offline-banner { background: #302016 !important; color: #ffbd83 !important; }
+@media (max-width: 800px) {
+  .theme-toggle { font-size: 12px; padding: 9px 11px; }
+}
 </style>
 </head>
 <body>
@@ -1547,120 +1661,5 @@ if ("serviceWorker" in navigator) {
 <style>
 .brand-full-logo{display:inline-block;width:38px;height:38px;object-fit:cover;border-radius:50%;clip-path:circle(50% at 50% 50%);filter:drop-shadow(0 4px 8px rgba(232,93,4,.22));vertical-align:middle}
 @media (min-width:700px){.brand-full-logo{width:42px;height:42px}}
-
-/* FestiBites Dark Mode */
-.theme-toggle {
-  flex-shrink: 0;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--cream);
-  color: var(--ink);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background .2s, color .2s;
-}
-.theme-toggle:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-  --ink: #fff0e6;
-  --teal: #ff9857;
-  --teal2: #ffb77e;
-  --coral: #ff8747;
-  --cream: #171310;
-  --gold: #ffc078;
-  --white: #211c18;
-  --muted: #c8b8ac;
-  --line: #49372c;
-}
-html[data-theme="dark"] body { background: #171310 !important; color: var(--ink); }
-html[data-theme="dark"] header,
-html[data-theme="dark"] .header { background: rgba(30,24,20,.96) !important; border-color: var(--line) !important; }
-html[data-theme="dark"] .brand-logo > span,
-html[data-theme="dark"] nav a,
-html[data-theme="dark"] .hero h1,
-html[data-theme="dark"] .section-head h2,
-html[data-theme="dark"] .submit-box h2 { color: var(--ink) !important; }
-html[data-theme="dark"] .hero,
-html[data-theme="dark"] .submit-section {
-  background: linear-gradient(135deg,#211a15,#302017) !important;
-  color: var(--ink);
-}
-html[data-theme="dark"] .badge { background: #3a2a20 !important; color: #ffb77e !important; }
-html[data-theme="dark"] .search,
-html[data-theme="dark"] .search-box,
-html[data-theme="dark"] .card,
-html[data-theme="dark"] .recipe-card,
-html[data-theme="dark"] .submit-box,
-html[data-theme="dark"] #recipeOfTheDayCard,
-html[data-theme="dark"] .category-card {
-  background: #241e19 !important;
-  color: var(--ink) !important;
-  border-color: var(--line) !important;
-}
-html[data-theme="dark"] input,
-html[data-theme="dark"] textarea,
-html[data-theme="dark"] select {
-  background-color: #211b17 !important;
-  color: var(--ink) !important;
-  border-color: #594438 !important;
-}
-html[data-theme="dark"] input::placeholder,
-html[data-theme="dark"] textarea::placeholder { color: #c8b8ac !important; opacity: 1; }
-html[data-theme="dark"] .quick-search-btn,
-html[data-theme="dark"] .chip,
-html[data-theme="dark"] .theme-toggle {
-  background: #30251e !important;
-  color: var(--ink) !important;
-  border-color: #594438 !important;
-}
-html[data-theme="dark"] .chip.active,
-html[data-theme="dark"] .chip:hover { background: #b94b17 !important; color: #fff !important; }
-html[data-theme="dark"] .card p,
-html[data-theme="dark"] .hero p,
-html[data-theme="dark"] .section-head p,
-html[data-theme="dark"] .stat small,
-html[data-theme="dark"] .search-hint,
-html[data-theme="dark"] .quick-searches > span { color: var(--muted) !important; }
-html[data-theme="dark"] .modal-box,
-html[data-theme="dark"] #shareModal .modal-box,
-html[data-theme="dark"] #spinnerModal .modal-box,
-html[data-theme="dark"] #iosInstallModal .modal-box {
-  background: #211b17 !important;
-  color: var(--ink) !important;
-}
-html[data-theme="dark"] .modal-body,
-html[data-theme="dark"] .details .detail,
-html[data-theme="dark"] .serving-control,
-html[data-theme="dark"] #spinnerDisplay,
-html[data-theme="dark"] #shareTextArea {
-  background: #29211b !important;
-  color: var(--ink) !important;
-  border-color: var(--line) !important;
-}
-html[data-theme="dark"] .modal-body h3,
-html[data-theme="dark"] .detail b,
-html[data-theme="dark"] .detail span,
-html[data-theme="dark"] .modal-body label,
-html[data-theme="dark"] .steps li,
-html[data-theme="dark"] .ingredients li,
-html[data-theme="dark"] .instruction-note,
-html[data-theme="dark"] .serving-note { color: var(--ink) !important; }
-html[data-theme="dark"] .modal-top { background: linear-gradient(135deg,#713713,#34231a) !important; }
-html[data-theme="dark"] .modal-top h2,
-html[data-theme="dark"] .modal-top p { color: #fff5ed !important; }
-html[data-theme="dark"] .close,
-html[data-theme="dark"] .fav-btn { background: #382a21 !important; color: #fff0e6 !important; }
-html[data-theme="dark"] .steps li.done { color: #a99a8f !important; }
-html[data-theme="dark"] .view,
-html[data-theme="dark"] .print-btn { background: #51301f !important; color: #fff0e6 !important; }
-html[data-theme="dark"] footer { background: #100d0b !important; }
-html[data-theme="dark"] .offline-banner { background: #302016 !important; color: #ffbd83 !important; }
-@media (max-width: 800px) {
-  .theme-toggle { font-size: 12px; padding: 9px 11px; }
-}
 
 </style>
