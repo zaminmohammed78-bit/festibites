@@ -511,7 +511,7 @@ function render(list){
       <div class="tag">${r.category}</div>
       <h3>${r.name}</h3>
       <p>${r.description}</p>
-      <div class="meta"><span>${r.minutes ? r.minutes + " min" : "Time varies"}</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
+      <div class="meta"><span>${r.minutes ? formatRecipeTime(r.minutes) : "Time varies"}</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
       <button class="view" onclick="openRecipe(${i})">View full recipe</button>
     `;
     grid.appendChild(card);
@@ -738,11 +738,20 @@ function changeServings(amount){
   setServings(selectedServings + amount);
 }
 
+function formatRecipeTime(value){
+  const minutes = Number(value);
+  if(!Number.isFinite(minutes) || minutes <= 0) return "Time varies";
+  if(minutes < 60) return minutes + " min";
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  return remainder ? hours + " hr " + remainder + " min" : hours + " hr";
+}
+
 function openRecipe(index){
   const r = currentList[index];
   document.getElementById("mTitle").textContent = r.name;
   document.getElementById("mDesc").textContent = r.description;
-  document.getElementById("mTime").textContent = r.minutes ? `${r.minutes} minutes` : "Time varies";
+  document.getElementById("mTime").textContent = r.minutes ? formatRecipeTime(r.minutes) : "Time varies";
   document.getElementById("mDifficulty").textContent = r.difficulty;
   selectedRecipe = r;
   originalServings = Math.max(1, Number(r.servings) || 1);
@@ -855,7 +864,7 @@ function setupRecipeOfTheDay(){
       document.getElementById("rotdTitle").textContent = rotd.name;
       document.getElementById("rotdCategory").textContent = "⭐ Recipe of the Day • " + rotd.category;
       document.getElementById("rotdDesc").textContent = rotd.description;
-      document.getElementById("rotdMeta").textContent = "⏱️ " + rotd.minutes + " mins | 👥 " + rotd.servings + " servings | 📊 " + rotd.difficulty;
+      document.getElementById("rotdMeta").textContent = "⏱️ " + formatRecipeTime(rotd.minutes) + " | 👥 " + rotd.servings + " servings | 📊 " + rotd.difficulty;
     })
     .catch(() => {
       rotdRecipeIndex = -1;
@@ -1099,7 +1108,7 @@ function generateShareText(){
   const factor = selectedServings / originalServings;
   const ingredients = selectedRecipe.ingredients.map(x => "• " + scaledIngredient(x, factor)).join("\n");
   const steps = selectedRecipe.steps.map((x, i) => `${i + 1}. ${x}`).join("\n");
-  return `🍳 *${selectedRecipe.name}* (${selectedRecipe.category})\n⏱️ Time: ${selectedRecipe.minutes} mins | 👥 Servings: ${selectedServings} | 📊 ${selectedRecipe.difficulty}\n\n${selectedRecipe.description}\n\n🛒 *INGREDIENTS:*\n${ingredients}\n\n👨‍🍳 *INSTRUCTIONS:*\n${steps}\n\nShared from FestiBites Recipe Kitchen: https://zaminmohammed78-bit.github.io/festibites/`;
+  return `🍳 *${selectedRecipe.name}* (${selectedRecipe.category})\n⏱️ Time: ${formatRecipeTime(selectedRecipe.minutes)} | 👥 Servings: ${selectedServings} | 📊 ${selectedRecipe.difficulty}\n\n${selectedRecipe.description}\n\n🛒 *INGREDIENTS:*\n${ingredients}\n\n👨‍🍳 *INSTRUCTIONS:*\n${steps}\n\nShared from FestiBites Recipe Kitchen: https://zaminmohammed78-bit.github.io/festibites/`;
 }
 
 function shareRecipe(){
