@@ -546,6 +546,7 @@ html[data-theme="dark"] .offline-banner { background: #302016 !important; color:
       <p class="serving-note">Ingredient amounts adjust automatically when quantities are provided.</p>
       <h3> Ingredients</h3>
       <ul class="ingredients" id="mIngredients"></ul>
+      <section id="dipRecommendation" style="margin-top:22px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#fff7f1;"><h3 style="margin:0 0 8px;color:var(--coral);font-size:20px;">🥣 Recommended dipping sauce</h3><p style="font-size:13px;line-height:1.5;color:var(--muted);margin-bottom:10px;">Choose a dip to see its ingredients and how to make it.</p><div id="dipSelector"></div><div id="dipDetails" style="margin-top:12px;"></div></section>
       <h3>‍ Step-by-step instructions</h3>
       <p class="instruction-note">Read each step before starting, then follow them in order. You can tap a step to mark it complete as you cook.</p>
       <ol class="steps" id="mSteps"></ol>
@@ -1031,24 +1032,28 @@ function updateServingIngredients(){
 
   let ingHTML = selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
 
-  // Recommended dip with selectable alternatives and full mini-recipes.
-  const recommendedDip = getRecommendedDip(selectedRecipe);
-  const storedDip = localStorage.getItem("dip_" + selectedRecipe.name);
-  const selectedDip = storedDip && DIP_SAUCES[storedDip] ? storedDip : recommendedDip;
-  ingHTML += '<li style="grid-column:1/-1;list-style:none;background:var(--dip-bg,#fff3eb);padding:14px;border-radius:14px;margin-top:14px;border:1px solid var(--line);">' +
-    '<b style="color:var(--coral);display:block;margin-bottom:5px;">🥣 Recommended dip / dipping sauce</b>' +
-    '<p style="margin:0 0 9px;color:var(--muted);font-size:13px;line-height:1.45;">Suggested pairing for this dish. Choose another option to see its ingredients and method.</p>' +
-    '<select id="dippingSelect" style="width:100%;padding:10px;border-radius:9px;border:1px solid #ead8ce;background:#fff;font-weight:700;color:#3a1b0f;" onchange="saveDipping(this.value);updateDipDetails(this.value)">' +
-    '<option value="mint"' + (selectedDip === "mint" ? " selected" : "") + '>🌿 Mint & coriander chutney</option>' +
-    '<option value="garlicMayo"' + (selectedDip === "garlicMayo" ? " selected" : "") + '>🧄 Creamy garlic mayo</option>' +
-    '<option value="tomato"' + (selectedDip === "tomato" ? " selected" : "") + '>🍅 Quick tomato chilli dip</option>' +
-    '<option value="tamarind"' + (selectedDip === "tamarind" ? " selected" : "") + '>🫙 Sweet-tangy tamarind chutney</option>' +
-    '<option value="yogurt"' + (selectedDip === "yogurt" ? " selected" : "") + '>🥒 Mint yogurt dip</option>' +
-    '<option value="schezwan"' + (selectedDip === "schezwan" ? " selected" : "") + '>🌶️ Schezwan-style chilli dip</option>' +
-    '<option value="cheese"' + (selectedDip === "cheese" ? " selected" : "") + '>🧀 Quick cheese dip</option>' +
-    '</select><div id="dipDetails" style="margin-top:12px;"></div></li>';
 
   document.getElementById("mIngredients").innerHTML = ingHTML;
+  const dipSection = document.getElementById("dipRecommendation");
+  const dipSelector = document.getElementById("dipSelector");
+  if (dipSection && dipSelector) {
+    const recommendedDip = getRecommendedDip(selectedRecipe);
+    const storedDip = localStorage.getItem("dip_" + selectedRecipe.name);
+    const selectedDip = storedDip && DIP_SAUCES[storedDip] ? storedDip : recommendedDip;
+    dipSelector.innerHTML = '<select id="dippingSelect" style="width:100%;padding:10px;border-radius:9px;border:1px solid #ead8ce;background:#fff;font-weight:700;color:#3a1b0f;" onchange="saveDipping(this.value);updateDipDetails(this.value)">' +
+      '<option value="mint"' + (selectedDip === "mint" ? " selected" : "") + '>🌿 Mint & coriander chutney</option>' +
+      '<option value="garlicMayo"' + (selectedDip === "garlicMayo" ? " selected" : "") + '>🧄 Creamy garlic mayo</option>' +
+      '<option value="tomato"' + (selectedDip === "tomato" ? " selected" : "") + '>🍅 Quick tomato chilli dip</option>' +
+      '<option value="tamarind"' + (selectedDip === "tamarind" ? " selected" : "") + '>🫙 Sweet-tangy tamarind chutney</option>' +
+      '<option value="yogurt"' + (selectedDip === "yogurt" ? " selected" : "") + '>🥒 Mint yogurt dip</option>' +
+      '<option value="schezwan"' + (selectedDip === "schezwan" ? " selected" : "") + '>🌶️ Schezwan-style chilli dip</option>' +
+      '<option value="cheese"' + (selectedDip === "cheese" ? " selected" : "") + '>🧀 Quick cheese dip</option>' +
+      '</select>';
+    updateDipDetails(selectedDip);
+  } else {
+    const fallback = document.getElementById("dipDetails");
+    if (fallback) fallback.textContent = "Recommended dip details could not load. Please refresh and try again.";
+  }
   updateDipDetails(selectedDip);
 }
 
