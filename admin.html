@@ -200,7 +200,6 @@ async function loadCatalog(){
     listEl.appendChild(empty);
     return;
   }
-
   arr.forEach(recipe => {
     const row = document.createElement("div");
     row.style.cssText = "background:#fff7f1;border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;";
@@ -212,7 +211,6 @@ async function loadCatalog(){
     meta.style.cssText = "color:var(--muted);";
     meta.textContent = String(recipe.category || "Other") + " • " + (Number(recipe.minutes) || 20) + " mins";
     info.append(title, meta);
-
     const button = document.createElement("button");
     button.className = "btn";
     button.style.cssText = "padding:8px 14px;font-size:12px;width:auto;background:var(--ink);";
@@ -221,9 +219,7 @@ async function loadCatalog(){
     row.append(info, button);
     listEl.appendChild(row);
   });
-}join("");
 }
-
 function filterCatalog(){
   const q = document.getElementById("recipeSearch").value.toLowerCase().trim();
   const filtered = catalogRecipes.filter(r => r.name.toLowerCase().includes(q) || r.category.toLowerCase().includes(q));
