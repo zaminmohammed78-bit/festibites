@@ -58,6 +58,16 @@ nav a:hover{color:var(--coral)}
 .search{max-width:760px;margin:auto;background:white;border:1px solid #dfe8e7;border-radius:18px;display:flex;padding:6px;box-shadow:0 12px 30px rgba(21,59,58,.06)}
 .search input{flex:1;border:0;outline:0;padding:15px 17px;font-size:16px;background:transparent}
 .search button{border:0;border-radius:13px;background:var(--coral);color:white;padding:0 25px;font-weight:800;cursor:pointer}
+.search .search-clear{background:transparent;color:var(--muted);padding:0 10px;border-radius:10px;font-size:18px;box-shadow:none}
+.search .search-clear:hover{background:#fff0e6;color:var(--coral)}
+.search-hint{max-width:760px;margin:9px auto 0;padding:0 4px;color:var(--muted);font-size:12px;line-height:1.5}
+.quick-searches{max-width:760px;margin:11px auto 0;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.quick-searches>span{font-size:12px;color:var(--muted);font-weight:800;margin-right:2px}
+.quick-search-btn{border:1px solid #f2ddd0;background:#fff;color:var(--ink);border-radius:99px;padding:7px 11px;font:inherit;font-size:12px;font-weight:750;cursor:pointer;transition:background .18s,border-color .18s,transform .18s}
+.quick-search-btn:hover,.quick-search-btn:focus-visible{background:#fff0e6;border-color:var(--coral);transform:translateY(-1px)}
+.match-pill{display:inline-flex;align-items:center;border-radius:99px;background:#fff0e6;color:#b9480a;padding:4px 8px;font-size:10px;font-weight:900;letter-spacing:.2px}
+.result-tags{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+@media(max-width:560px){.quick-searches{gap:6px}.quick-search-btn{padding:7px 9px}.search .search-clear{padding:0 7px}.search-hint{font-size:11px}}
 .surprise-row{max-width:760px;margin:10px auto 0;display:flex;justify-content:center}
 .surprise-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;min-height:42px}
 .controls{padding:22px 6%;display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
@@ -311,9 +321,20 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 </div>
 
 <div class="search-wrap">
-  <div class="search" style="position:relative;">
-    <input id="search" aria-label="Search recipes, ingredients or categories" placeholder="Search recipes, ingredients or categories...">
-    <button onclick="filterRecipes()">Search</button>
+  <div class="search" style="position:relative;" role="search">
+    <input id="search" type="search" aria-label="Search recipes, ingredients, cuisine or cooking steps" placeholder="Try “chicken biryani”, “garlic” or “under 30 min”…" autocomplete="off" enterkeyhint="search">
+    <button type="button" class="search-clear" id="clearSearchBtn" aria-label="Clear search" title="Clear search" style="display:none;">✕</button>
+    <button type="button" onclick="filterRecipes()" aria-label="Search recipes">Search</button>
+  </div>
+  <p class="search-hint" id="searchHint" aria-live="polite">Search recipe names, ingredients, cuisines, descriptions or cooking steps.</p>
+  <div class="quick-searches" aria-label="Popular searches">
+    <span>Try:</span>
+    <button type="button" class="quick-search-btn" data-query="biryani">🍛 Biryani</button>
+    <button type="button" class="quick-search-btn" data-query="chicken">🍗 Chicken</button>
+    <button type="button" class="quick-search-btn" data-query="pasta">🍝 Pasta</button>
+    <button type="button" class="quick-search-btn" data-query="paneer">🌱 Paneer</button>
+    <button type="button" class="quick-search-btn" data-query="chocolate">🍫 Chocolate</button>
+    <button type="button" class="quick-search-btn" data-query="garlic">🧄 Garlic</button>
   </div>
   <div class="surprise-row">
     <button type="button" class="surprise-btn" onclick="openSpinnerModal()" title="Surprise Me Spinner">🎲 Surprise Me</button>
@@ -489,29 +510,106 @@ const search = document.getElementById("search");
 const seeMoreWrap = document.getElementById("seeMoreWrap");
 const seeMoreBtn = document.getElementById("seeMoreBtn");
 
+function normalizeSearchText(value){
+  return String(value ?? "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase().replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").trim().replace(/\s+/g," ");
+}
+
+function searchTokens(value){
+  return normalizeSearchText(value).split(" ").filter(Boolean);
+}
+
+function editDistanceAtMostOne(a,b){
+  if(a===b) return true;
+  if(Math.abs(a.length-b.length)>1) return false;
+  let i=0,j=0,edits=0;
+  while(i<a.length && j<b.length){
+    if(a[i]===b[j]){i++;j++;continue;}
+    if(++edits>1) return false;
+    if(a.length>b.length) i++;
+    else if(b.length>a.length) j++;
+    else {i++;j++;}
+  }
+  if(i<a.length || j<b.length) edits++;
+  return edits<=1;
+}
+
+function tokenMatches(queryToken, fieldTokens){
+  const singular = queryToken.length>4 && queryToken.endsWith("ies")
+    ? queryToken.slice(0,-3)+"y"
+    : queryToken.length>4 && queryToken.endsWith("s") ? queryToken.slice(0,-1) : queryToken;
+  return fieldTokens.some(token=>{
+    if(token===queryToken || token===singular) return true;
+    if(queryToken.length>=3 && (token.startsWith(queryToken) || token.startsWith(singular))) return true;
+    return queryToken.length>=4 && editDistanceAtMostOne(queryToken,token);
+  });
+}
+
+function recipeSearchScore(recipe, query){
+  const q=normalizeSearchText(query);
+  if(!q) return 0;
+  const name=normalizeSearchText(recipe.name);
+  const category=normalizeSearchText(recipe.category);
+  const description=normalizeSearchText(recipe.description);
+  const ingredients=normalizeSearchText((Array.isArray(recipe.ingredients)?recipe.ingredients:[]).join(" "));
+  const steps=normalizeSearchText((Array.isArray(recipe.steps)?recipe.steps:[]).join(" "));
+  const all=[name,category,description,ingredients,steps].filter(Boolean).join(" ");
+  const fields={name:searchTokens(name),category:searchTokens(category),description:searchTokens(description),ingredients:searchTokens(ingredients),steps:searchTokens(steps)};
+  let score=0;
+  if(name===q) score+=180;
+  else if(name.startsWith(q)) score+=125;
+  else if(name.includes(q)) score+=95;
+  if(category===q) score+=55;
+  else if(category.includes(q)) score+=38;
+  if(ingredients.includes(q)) score+=62;
+  if(description.includes(q)) score+=28;
+  if(steps.includes(q)) score+=15;
+  if(all.includes(q)) score+=12;
+
+  const queryTokens=searchTokens(q);
+  let matched=0;
+  queryTokens.forEach(token=>{
+    let tokenScore=0;
+    if(tokenMatches(token,fields.name)) tokenScore=24;
+    else if(tokenMatches(token,fields.category)) tokenScore=18;
+    else if(tokenMatches(token,fields.ingredients)) tokenScore=15;
+    else if(tokenMatches(token,fields.description)) tokenScore=9;
+    else if(tokenMatches(token,fields.steps)) tokenScore=5;
+    if(tokenScore){matched++;score+=tokenScore;}
+  });
+  if(queryTokens.length>1 && matched<Math.ceil(queryTokens.length/2)) return 0;
+  if(queryTokens.length===1 && matched===0 && score<12) return 0;
+  return score;
+}
+
 function render(list){
   currentList = list;
   grid.innerHTML = "";
+  const query=search.value.trim();
+  const resultText=document.getElementById("resultText");
 
   if(!list.length){
-    grid.innerHTML = '<div class="empty"><h3>No recipes found 😕</h3><p>Can\'t find what you\'re looking for? Suggest a recipe and help us grow FestiBites!</p><a class="suggest-recipe-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeVmr_K9fJRr0-kimklOkturOOcQk4Jiq3nZ4SGRJOYgSYlDQ/viewform?usp=publish-editor" target="_blank" rel="noopener">➕ Suggest a Recipe</a></div>'
-    document.getElementById("resultText").textContent = "No matching recipes";
+    grid.innerHTML = '<div class="empty"><h3>No close matches found 😕</h3><p>Try a shorter search, check the spelling, or search for an ingredient like <b>garlic</b>, <b>chicken</b> or <b>paneer</b>.</p><a class="suggest-recipe-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeVmr_K9fJRr0-kimklOkturOOcQk4Jiq3nZ4SGRJOYgSYlDQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">➕ Suggest a Recipe</a></div>';
+    resultText.textContent = query ? `No matches for “${query}”` : "No matching recipes";
     seeMoreWrap.style.display = "none";
     return;
   }
 
   const shown = list.slice(0, visibleCount);
-  document.getElementById("resultText").textContent =
-    `Showing ${shown.length} of ${list.length} recipe${list.length===1?"":"s"}`;
+  resultText.textContent = query
+    ? `Showing ${shown.length} of ${list.length} best matches for “${query}”`
+    : `Showing ${shown.length} of ${list.length} recipe${list.length===1?"":"s"}`;
 
   shown.forEach((r,i)=>{
     const card = document.createElement("article");
     card.className = "card";
+    const matchLabel = query && i<3 ? '<span class="match-pill">★ Top match</span>' : "";
     card.innerHTML = `
-      <div class="tag">${r.category}</div>
+      <div class="result-tags"><div class="tag">${r.category}</div>${matchLabel}</div>
       <h3>${r.name}</h3>
-      <p>${r.description}</p>
-      <div class="meta"><span>${r.minutes ? formatRecipeTime(r.minutes) : "Time varies"}</span><span>${r.servings} servings</span><span>${r.difficulty}</span></div>
+      <p>${r.description || "Explore this recipe on FestiBites."}</p>
+      <div class="meta"><span>⏱ ${r.minutes ? formatRecipeTime(r.minutes) : "Time varies"}</span><span>🍽 ${r.servings} servings</span><span>${r.difficulty}</span></div>
       <button class="view" onclick="openRecipe(${i})">View full recipe</button>
     `;
     grid.appendChild(card);
@@ -526,42 +624,34 @@ function render(list){
 }
 
 function filterRecipes(resetPage = true){
-  const q = search.value.toLowerCase().trim();
-  const list = recipes.filter(r=>{
-    let categoryOK = activeCategory==="All" || r.category===activeCategory;
-    if(activeCategory==="Quick (<30m)") {
-      categoryOK = Number(r.minutes) <= 30;
-    } else if(activeCategory==="Vegetarian") {
-      const textAll = [r.name, r.description, ...r.ingredients].join(" ").toLowerCase();
-      const nonVeg = ["chicken", "mutton", "beef", "fish", "prawn", "egg", "meat", "lamb", "shrimp", "gelatin", "chicken stock"];
-      categoryOK = !nonVeg.some(item => textAll.includes(item));
+  const q=search.value.trim();
+  const scored=recipes.map((r,index)=>{
+    let categoryOK=activeCategory==="All" || r.category===activeCategory;
+    if(activeCategory==="Quick (<30m)") categoryOK=Number(r.minutes)<=30;
+    else if(activeCategory==="Vegetarian"){
+      const textAll=normalizeSearchText([r.name,r.description,...(Array.isArray(r.ingredients)?r.ingredients:[])].join(" "));
+      const nonVeg=["chicken","mutton","beef","fish","prawn","egg","meat","lamb","shrimp","gelatin","anchovy","bacon","ham","pork"];
+      categoryOK=!nonVeg.some(item=>new RegExp("\\b"+item+"\\b").test(textAll));
     }
+    if(!categoryOK) return null;
+    const score=q ? recipeSearchScore(r,q) : 0;
+    return q && score===0 ? null : {recipe:r,index,score};
+  }).filter(Boolean);
 
-    // Semantic AI Smart Search (Feature 2)
-    const combinedText = [r.name, r.category, r.description, ...r.ingredients, ...r.steps].join(" ").toLowerCase();
-    if(!q) return categoryOK;
-
-    const queryWords = q.split(/\s+/).filter(w => w.length > 2);
-    const exactMatch = combinedText.includes(q);
-    if(exactMatch) return categoryOK;
-
-    if(queryWords.length > 0) {
-      let matchedCount = 0;
-      queryWords.forEach(word => {
-        if(combinedText.includes(word)) matchedCount++;
-      });
-      const matchScore = matchedCount / queryWords.length;
-      return categoryOK && matchScore >= 0.5;
-    }
-
-    return categoryOK && combinedText.includes(q);
-  });
-  if(resetPage) visibleCount = q ? list.length : (window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
+  if(q) scored.sort((a,b)=>b.score-a.score || String(a.recipe.name).localeCompare(String(b.recipe.name)));
+  const list=scored.map(item=>item.recipe);
+  const clearButton=document.getElementById("clearSearchBtn");
+  if(clearButton) clearButton.style.display=q ? "block" : "none";
+  const hint=document.getElementById("searchHint");
+  if(hint) hint.textContent=q
+    ? `Searching names, ingredients and instructions • ${list.length} result${list.length===1?"":"s"}`
+    : "Search recipe names, ingredients, cuisines, descriptions or cooking steps.";
+  if(resetPage) visibleCount=q ? list.length : (window.innerWidth>800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
   render(list);
 }
 
-seeMoreBtn.addEventListener("click", ()=>{
-  visibleCount += window.innerWidth > 800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE;
+seeMoreBtn.addEventListener("click",()=>{
+  visibleCount+=window.innerWidth>800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE;
   render(currentList);
 });
 
@@ -569,12 +659,31 @@ document.querySelectorAll(".chip").forEach(btn=>{
   btn.addEventListener("click",()=>{
     document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
     btn.classList.add("active");
-    activeCategory = btn.dataset.cat;
+    activeCategory=btn.dataset.cat;
     filterRecipes();
   });
 });
 
-search.addEventListener("input", filterRecipes);
+search.addEventListener("input",()=>filterRecipes());
+search.addEventListener("keydown",event=>{
+  if(event.key==="Enter"){
+    event.preventDefault();
+    filterRecipes();
+    document.getElementById("recipes").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+});
+document.getElementById("clearSearchBtn").addEventListener("click",()=>{
+  search.value="";
+  filterRecipes();
+  search.focus();
+});
+document.querySelectorAll(".quick-search-btn").forEach(button=>{
+  button.addEventListener("click",()=>{
+    search.value=button.dataset.query || button.textContent.trim();
+    filterRecipes();
+    document.getElementById("recipes").scrollIntoView({behavior:"smooth",block:"start"});
+  });
+});
 
 let selectedRecipe = null;
 let originalServings = 1;
