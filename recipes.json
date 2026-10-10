@@ -371,30 +371,36 @@
     "name": "Rava Dosa",
     "category": "Breakfast",
     "icon": "",
-    "minutes": 20,
-    "servings": 5,
+    "minutes": 30,
+    "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
-      "2 eggs",
-      "2 slices bread",
-      "1/2 onion, chopped",
-      "1/2 tomato, chopped",
-      "1 tbsp butter",
-      "1/2 tsp black pepper",
-      "1/4 tsp chili powder",
-      "Salt",
-      "2 tbsp fresh herbs"
+      "1/2 cup rava (semolina)",
+      "1/2 cup rice flour",
+      "1/4 cup all-purpose flour (maida)",
+      "1 tsp cumin seeds",
+      "1 green chili, finely chopped",
+      "1 tsp finely chopped ginger",
+      "1 small onion, finely chopped (optional)",
+      "2 tbsp chopped coriander leaves",
+      "6–8 curry leaves, finely chopped",
+      "2 1/2 to 3 cups water, as needed for a thin batter",
+      "Salt to taste",
+      "Oil or ghee, for cooking"
     ],
     "steps": [
-      "Prepare the vegetables and whisk the eggs with salt and spices.",
-      "Heat butter in a pan.",
-      "Cook the onion and tomato until slightly softened.",
-      "Add the egg mixture and stir or cook according to the dish.",
-      "Toast or warm the bread if needed.",
-      "Cook until the eggs are fully set.",
-      "Add fresh herbs and serve immediately."
+      "In a bowl, mix the rava, rice flour, all-purpose flour, cumin seeds, chopped green chili, ginger, coriander leaves, curry leaves, and salt.",
+      "Gradually whisk in 2 1/2 cups of water to make a thin, pourable batter. Add a little more water if needed; rava dosa batter should be much thinner than regular dosa batter.",
+      "Rest the batter for 15–20 minutes so the rava can hydrate. Stir well before cooking because the flour may settle.",
+      "If using onion, stir it into the batter or sprinkle a little onto the pan before pouring each dosa.",
+      "Heat a flat non-stick or cast-iron tawa over medium-high heat and lightly grease it.",
+      "Stir the batter, then pour it from the outer edge toward the center in a thin layer. Small holes and a lacy pattern are normal; do not spread it with a ladle like regular dosa batter.",
+      "Drizzle a little oil or ghee around the edges and cook for 2–4 minutes, until the underside is golden and crisp and the top looks set.",
+      "Carefully loosen the edges and flip the dosa if needed; cook the second side for about 30–60 seconds. For a very crisp traditional-style rava dosa, it can also be cooked on one side until fully crisp.",
+      "Repeat with the remaining batter, stirring it before each dosa and adjusting with a splash of water if it thickens.",
+      "Serve hot with coconut chutney and sambar."
     ],
-    "description": "Detailed rava dosa recipe with measured ingredients and clear step-by-step instructions."
+    "description": "Crispy, lacy South Indian rava dosa made with semolina and rice flour. The thin batter is poured onto a hot tawa rather than spread, giving the dosa its signature texture."
   },
   {
     "name": "Vegetable Poha",
@@ -1865,7 +1871,6 @@
     ],
     "description": "A delicious Vegetable Biryani recipe with clear ingredients and step-by-step cooking instructions."
   },
-
   {
     "name": "Avial",
     "category": "Kerala Foods",
@@ -1889,7 +1894,6 @@
       "Finish with coconut oil and curry leaves."
     ]
   },
-
   {
     "name": "Idiyappam",
     "category": "Kerala Foods",
@@ -2025,7 +2029,6 @@
       "Finish with curry leaves."
     ]
   },
-
   {
     "name": "Kerala Thoran",
     "category": "Kerala Foods",
@@ -2160,7 +2163,6 @@
       "Drain and serve warm."
     ]
   },
-
   {
     "name": "Aloo Tikki",
     "category": "Snacks",
