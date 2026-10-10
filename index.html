@@ -379,6 +379,10 @@ html[data-theme="dark"] .offline-banner { background: #302016 !important; color:
   .theme-toggle { font-size: 12px; padding: 9px 11px; }
 }
 
+/* Nutrition badge: approximate calories only; not verified nutrition data. */
+.nutrition-badge{display:inline-flex;align-items:center;gap:4px;margin:0;padding:5px 8px;border:1px solid #f4c18c;border-radius:999px;background:#fff4e8;color:#8a3d08;font-size:10px;font-weight:850;line-height:1.25;white-space:nowrap}
+html[data-theme="dark"] .nutrition-badge{background:#3a2a20;border-color:#8c5b37;color:#ffd1a6}
+
 /* Recipe allergen badges: deliberately cautious and ingredient-list based. */
 .allergen-badge{display:block;margin:12px 0 4px;padding:9px 11px;border:1px solid #e8b86b;border-radius:10px;background:#fff4d8;color:#70400b;font-size:12px;font-weight:850;line-height:1.45;overflow-wrap:anywhere}
 .allergen-note{margin:0 0 7px;color:var(--muted);font-size:10px;line-height:1.45}
@@ -816,7 +820,7 @@ function render(list){
     card.className = "card";
     const matchLabel = query && intent.text && i<3 ? '<span class="match-pill">★ Top match</span>' : "";
     card.innerHTML = `
-      <div class="result-tags"><div class="tag">${r.category}</div>${matchLabel}</div>
+      <div class="result-tags"><div class="tag">${r.category}</div><span class="nutrition-badge" title="Rough estimate from ingredient text only; not verified nutrition information">🔥 Est. ~${calculateAccurateCalories(r)} kcal/serving</span>${matchLabel}</div>
       <h3>${r.name}</h3>
       <p>${r.description || "Explore this recipe on FestiBites."}</p>
       ${allergenBadgeHTML(r)}
