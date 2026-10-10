@@ -1283,7 +1283,7 @@
       "Coat chicken and marinate for at least 20 minutes.",
       "Heat grill or grill pan.",
       "Cook chicken for 5–7 minutes per side depending on thickness.",
-      "Check that the center is fully cooked.",
+      "Check that the thickest part reaches 75°C (165°F) internally.",
       "Rest for 5 minutes before slicing."
     ],
     "description": "A delicious grilled chicken recipe with clear ingredients and detailed cooking instructions."
@@ -2290,7 +2290,7 @@
     "steps": [
       "Mix chicken with yogurt, ginger-garlic paste, lemon juice, rice flour, cornflour, spices and salt.",
       "Cover and refrigerate for 30 minutes.",
-      "Heat oil in a pan over medium heat. Cook chicken in batches until crisp and fully cooked, avoiding overcrowding.",
+      "Heat oil in a pan over medium heat. Cook chicken in batches until crisp and the center reaches 75°C (165°F), avoiding overcrowding.",
       "In a separate pan, warm a little oil and briefly fry curry leaves.",
       "Toss cooked chicken with curry leaves and serve hot."
     ],
@@ -2318,7 +2318,7 @@
       "Season flour with paprika, salt and pepper.",
       "Coat chicken in flour, then beaten egg, then breadcrumbs.",
       "Heat oil over medium heat.",
-      "Fry nuggets in batches until golden and cooked through.",
+      "Fry nuggets in batches until golden and the center reaches 75°C (165°F) internally.",
       "Drain well and serve with your favorite dip."
     ],
     "description": "A delicious chicken nuggets recipe with clear ingredients and detailed cooking instructions."
@@ -3121,7 +3121,7 @@
       "2 ripe mangoes",
       "1 cup cream",
       "1/2 cup condensed milk",
-      "1 tsp gelatin",
+      "2 tsp gelatin",
       "3 tbsp water"
     ],
     "steps": [
@@ -3267,7 +3267,8 @@
       "1/4 cup ghee",
       "2 tbsp cashews and raisins",
       "Juice of 1 lemon",
-      "Salt"
+      "Salt",
+      "Whole spices (cardamom, cloves and cinnamon)"
     ],
     "steps": [
       "Fry cashews and raisins in ghee and set aside, then fry onions until golden",
@@ -3740,7 +3741,9 @@
       "1 tbsp vinegar",
       "Oil for frying",
       "Salt",
-      "1/2 tsp black pepper"
+      "1/2 tsp black pepper",
+      "1 tbsp cornflour for the sauce slurry",
+      "1/4 cup water for the sauce"
     ],
     "steps": [
       "Coat chicken with egg, cornflour, salt and pepper and deep fry until crisp",
@@ -3768,7 +3771,8 @@
       "1 tbsp chili sauce",
       "Spring onions",
       "Oil for frying",
-      "Salt and pepper"
+      "Salt and pepper",
+      "1 cup water for the gravy"
     ],
     "steps": [
       "Mix vegetables, flour, 1 tbsp cornflour and seasoning and shape into balls",
@@ -3826,7 +3830,7 @@
     ],
     "steps": [
       "Rub the chicken with mandi spice, salt and ghee",
-      "Roast or cook it until tender and lightly smoky",
+      "Roast or cook it until tender, lightly smoky and the thickest part reaches 75°C (165°F) internally",
       "Sauté rice with whole spices, then cook in stock with dried lime until fluffy",
       "Layer rice on a platter and top with the chicken",
       "Garnish with fried raisins and almonds and serve with tomato chili sauce"
@@ -3854,7 +3858,7 @@
     ],
     "steps": [
       "Marinate chicken with yogurt, lemon, garlic and spices for at least 2 hours",
-      "Cook on a hot grill or pan until charred and cooked through",
+      "Cook on a hot grill or pan until charred and the thickest pieces reach 75°C (165°F) internally",
       "Slice thinly",
       "Warm the pita and spread with garlic sauce",
       "Fill with chicken, pickles, lettuce and tomato",
@@ -3932,7 +3936,8 @@
       "Cinnamon, cardamom, bay leaf",
       "3 tbsp oil",
       "Raisins and almonds",
-      "Salt"
+      "Salt",
+      "4 cups chicken stock or water"
     ],
     "steps": [
       "Brown the meat with onions and whole spices",
@@ -4023,7 +4028,7 @@
       "1/2 cup grated coconut for kadala curry",
       "1/2 cup warm water",
       "1/2 tsp salt",
-      "1 cup black chickpeas, cooked",
+      "1 1/2 cups black chickpeas, cooked",
       "1 tsp chili powder",
       "1 tsp coriander powder"
     ],
@@ -4312,7 +4317,7 @@
       "In a mixing bowl, combine minced chicken with ginger-garlic paste, black pepper powder, chili powder, and salt. Mix thoroughly to blend the spices.",
       "Divide the seasoned chicken mixture into 2 equal portions and shape them into firm round patties slightly wider than your burger buns.",
       "Heat 1 tablespoon of oil in a non-stick frying pan or skillet over medium heat.",
-      "Place the chicken patties in the pan and pan-fry for 4 to 5 minutes on each side until golden brown and cooked completely through.",
+      "Place the chicken patties in the pan and pan-fry for 4 to 5 minutes on each side until golden brown and the center reaches 75°C (165°F) and is cooked completely through.",
       "Slice the burger buns horizontally and toast them lightly on a dry pan until golden and warm.",
       "Mix mayonnaise and tomato ketchup together in a small bowl to create a creamy burger sauce.",
       "Assemble the burgers by spreading the sauce on both halves of the toasted buns.",
