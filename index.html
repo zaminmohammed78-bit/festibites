@@ -844,7 +844,7 @@ function filterRecipes(resetPage = true){
     else if(activeCategory==="Vegetarian"){
       const textAll=normalizeSearchText([r.name,r.description,...(Array.isArray(r.ingredients)?r.ingredients:[])].join(" "));
       const nonVeg=["chicken","mutton","beef","fish","prawn","egg","meat","lamb","shrimp","gelatin","anchovy","bacon","ham","pork"];
-      categoryOK=!nonVeg.some(item=>new RegExp("\b"+item+"\b").test(textAll));
+      categoryOK=!nonVeg.some(item=>new RegExp("\\b"+item+"\\b").test(textAll));
     }
     const timeOK=intent.maxMinutes===null || Number(r.minutes)<=intent.maxMinutes;
     if(!categoryOK || !timeOK) return null;
