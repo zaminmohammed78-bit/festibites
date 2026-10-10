@@ -612,6 +612,7 @@ function parseIngredientNumber(raw){
 }
 
 function scaledIngredient(ingredient, factor){
+  if(!Number.isFinite(factor) || factor === 1) return ingredient;
   const match = ingredient.match(/(^|[^\w.])((?:\d+\s+\d+\/\d+|\d+\/\d+|\d+\s+[¼½¾⅓⅔⅛⅜⅝⅞]|\d+(?:\.\d+)?[¼½¾⅓⅔⅛⅝⅞]?|[¼½¾⅓⅔⅛⅜⅝⅞])(?:\s*(?:-|–|—|to)\s*(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+\s+[¼½¾⅓⅔⅛⅜⅝⅞]|\d+(?:\.\d+)?[¼½¾⅓⅔⅛⅜⅝⅞]?|[¼½¾⅓⅔⅛⅜⅝⅞]))?)(?=\s|[a-zA-Z]|$)/);
   if(!match) return ingredient;
 
