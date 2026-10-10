@@ -748,7 +748,7 @@ function getRecipeAllergens(recipe){
 function allergenBadgeHTML(recipe){
   const allergens = getRecipeAllergens(recipe);
   const label = allergens.length ? "⚠ Possible allergens in listed ingredients: " + allergens.join(", ") : "ℹ No listed major allergens detected";
-  return '<div class="allergen-badge" role="note">' + label + '</div><div class="allergen-note">Automated ingredient check only—not a safety guarantee. Check every product label and prevent cross-contact. Hidden or missing ingredients may not be detected.</div>';
+  return '<div class="allergen-badge" role="note">' + label + '</div><div class="allergen-note"></div>';
 }
 
 function render(list){
