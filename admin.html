@@ -184,13 +184,19 @@ function sendBroadcastPush(){
 
 async function loadCatalog(){
   const listEl = document.getElementById("catalogList");
-  listEl.innerHTML = '<p style="text-align:center;color:var(--muted);">Loading FestiBites recipes...</p>';
+  listEl.textContent = "Loading FestiBites recipes...";
   try {
     const res = await fetch("./recipes.json");
-    catalogRecipes = await res.json();
+    if (!res.ok) throw new Error("Could not load recipes.json");
+    const data = await res.json();
+    catalogRecipes = Array.isArray(data) ? data : [];
     renderCatalogList(catalogRecipes);
   } catch(e) {
-    listEl.innerHTML = '<p style="text-align:center;color:var(--coral);">Failed to load recipes.</function renderCatalogList(arr){
+    listEl.textContent = "Failed to load recipes. Please refresh and try again.";
+  }
+}
+
+function renderCatalogList(arr){
   const listEl = document.getElementById("catalogList");
   listEl.replaceChildren();
   if(!Array.isArray(arr) || !arr.length){
@@ -220,6 +226,7 @@ async function loadCatalog(){
     listEl.appendChild(row);
   });
 }
+
 function filterCatalog(){
   const q = document.getElementById("recipeSearch").value.toLowerCase().trim();
   const filtered = catalogRecipes.filter(r => r.name.toLowerCase().includes(q) || r.category.toLowerCase().includes(q));
