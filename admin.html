@@ -101,8 +101,8 @@
           <input id="rDesc" type="text" placeholder="A famous flaky Kerala parotta...">
         </div>
         <div class="form-group">
-          <label for="rIngredients">Ingredients (comma separated) *</label>
-          <textarea id="rIngredients" placeholder="2 cups maida, 2 tbsp oil, Salt"></textarea>
+          <label for="rIngredients">Ingredients (one per line) *</label>
+          <textarea id="rIngredients" placeholder="2 cups maida&#10;2 tbsp oil&#10;Salt to taste"></textarea>
         </div>
         <div class="form-group">
           <label for="rSteps">Instructions (one step per line) *</label>
@@ -190,25 +190,38 @@ async function loadCatalog(){
     catalogRecipes = await res.json();
     renderCatalogList(catalogRecipes);
   } catch(e) {
-    listEl.innerHTML = '<p style="text-align:center;color:var(--coral);">Failed to load recipes.</p>';
-  }
-}
-
-function renderCatalogList(arr){
+    listEl.innerHTML = '<p style="text-align:center;color:var(--coral);">Failed to load recipes.</function renderCatalogList(arr){
   const listEl = document.getElementById("catalogList");
-  if(!arr || !arr.length){
-    listEl.innerHTML = '<p style="text-align:center;color:var(--muted);">No recipes found matching your search.</p>';
+  listEl.replaceChildren();
+  if(!Array.isArray(arr) || !arr.length){
+    const empty = document.createElement("p");
+    empty.textContent = "No recipes found matching your search.";
+    empty.style.cssText = "text-align:center;color:var(--muted);";
+    listEl.appendChild(empty);
     return;
   }
-  listEl.innerHTML = arr.map(r => `
-    <div style="background:#fff7f1;border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
-      <div>
-        <h4 style="font-size:15px;color:var(--ink);margin-bottom:2px;">${r.name}</h4>
-        <small style="color:var(--muted);">${r.category} • ${r.minutes || 20} mins</small>
-      </div>
-      <button class="btn" style="padding:8px 14px;font-size:12px;width:auto;background:var(--ink);" onclick="copyName('${r.name.replace(/'/g, "\\'")}')">📋 Copy Name</button>
-    </div>
-  `).join("");
+
+  arr.forEach(recipe => {
+    const row = document.createElement("div");
+    row.style.cssText = "background:#fff7f1;border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;";
+    const info = document.createElement("div");
+    const title = document.createElement("h4");
+    title.style.cssText = "font-size:15px;color:var(--ink);margin-bottom:2px;";
+    title.textContent = String(recipe.name || "Untitled recipe");
+    const meta = document.createElement("small");
+    meta.style.cssText = "color:var(--muted);";
+    meta.textContent = String(recipe.category || "Other") + " • " + (Number(recipe.minutes) || 20) + " mins";
+    info.append(title, meta);
+
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.style.cssText = "padding:8px 14px;font-size:12px;width:auto;background:var(--ink);";
+    button.textContent = "📋 Copy Name";
+    button.addEventListener("click", () => copyName(String(recipe.name || "")));
+    row.append(info, button);
+    listEl.appendChild(row);
+  });
+}join("");
 }
 
 function filterCatalog(){
@@ -238,7 +251,7 @@ function generateCode(){
     return;
   }
 
-  const ingredients = rawIng.split(",").map(s => s.trim()).filter(Boolean);
+  const ingredients = rawIng.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
   const steps = rawSteps.split("\n").map(s => s.trim()).filter(Boolean);
 
   const recipeObj = {
