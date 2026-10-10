@@ -611,21 +611,67 @@ function parseIngredientNumber(raw){
   return {range:false, value:parseSingle(text)};
 }
 
+function adjustIngredientUnit(rest, amount){
+  const pairs = {
+    cup:["cup","cups"], tablespoon:["tablespoon","tablespoons"], teaspoon:["teaspoon","teaspoons"],
+    clove:["clove","cloves"], slice:["slice","slices"], egg:["egg","eggs"], onion:["onion","onions"],
+    tomato:["tomato","tomatoes"], potato:["potato","potatoes"], lemon:["lemon","lemons"], lime:["lime","limes"],
+    tortilla:["tortilla","tortillas"], banana:["banana","bananas"], apple:["apple","apples"], carrot:["carrot","carrots"],
+    pepper:["pepper","peppers"], sprig:["sprig","sprigs"], stick:["stick","sticks"], piece:["piece","pieces"],
+    pod:["pod","pods"], leaf:["leaf","leaves"], fillet:["fillet","fillets"], breast:["breast","breasts"],
+    bun:["bun","buns"], wrapper:["wrapper","wrappers"], stalk:["stalk","stalks"], plantain:["plantain","plantains"]
+  };
+  const shouldPlural = amount > 1;
+  const adjustWord = word => {
+    const lower = word.toLowerCase();
+    for(const pair of Object.values(pairs)){
+      if(pair.includes(lower)){
+        const wanted = shouldPlural ? pair[1] : pair[0];
+        return word[0] === word[0].toUpperCase() ? wanted[0].toUpperCase()+wanted.slice(1) : wanted;
+      }
+    }
+    return null;
+  };
+  const first = rest.match(/^(\s+)([A-Za-z]+)(.*)$/);
+  if(!first) return rest;
+  const direct = adjustWord(first[2]);
+  if(direct) return first[1]+direct+first[3];
+
+  // Also handle a simple descriptor before a countable ingredient: "1 small onion".
+  const descriptors = new Set(["small","medium","large","ripe","fresh","chopped","diced","sliced","minced","whole","green","red","yellow","boiled","cooked","raw","dried","freshly","finely","roughly"]);
+  if(descriptors.has(first[2].toLowerCase())){
+    const second = first[3].match(/^(\s+)([A-Za-z]+)(.*)$/);
+    if(second){
+      const adjusted = adjustWord(second[2]);
+      if(adjusted) return first[1]+first[2]+second[1]+adjusted+second[3];
+    }
+  }
+  if(first[2].toLowerCase()==="bell"){
+    const second = first[3].match(/^(\s+)(pepper)(.*)$/i);
+    if(second){
+      const adjusted = shouldPlural ? "peppers" : "pepper";
+      return first[1]+first[2]+second[1]+adjusted+second[3];
+    }
+  }
+  return rest;
+}
+
 function scaledIngredient(ingredient, factor){
   if(!Number.isFinite(factor) || factor === 1) return ingredient;
-  const match = ingredient.match(/(^|[^\w.])((?:\d+\s+\d+\/\d+|\d+\/\d+|\d+\s+[¼½¾⅓⅔⅛⅜⅝⅞]|\d+(?:\.\d+)?[¼½¾⅓⅔⅛⅝⅞]?|[¼½¾⅓⅔⅛⅜⅝⅞])(?:\s*(?:-|–|—|to)\s*(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+\s+[¼½¾⅓⅔⅛⅜⅝⅞]|\d+(?:\.\d+)?[¼½¾⅓⅔⅛⅜⅝⅞]?|[¼½¾⅓⅔⅛⅜⅝⅞]))?)(?=\s|[a-zA-Z]|$)/);
+  const match = ingredient.match(/(^|[^\w.])((?:\d+\s+\d+\/\d+|\d+\/\d+|\d+\s+[¼½¾⅓⅔⅛⅜⅝⅞]|\d+(?:\.\d+)?[¼½¾⅓⅔⅛⅜⅝⅞]?|[¼½¾⅓⅔⅛⅜⅝⅞])(?:\s*(?:-|–|—|to)\s*(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+\s+[¼½¾⅓⅔⅛⅜⅝⅞]|\d+(?:\.\d+)?[¼½¾⅓⅔⅛⅝⅞]?|[¼½¾⅓⅔⅛⅜⅝⅞]))?)(?=\s|[a-zA-Z]|$)/);
   if(!match) return ingredient;
 
   const parsed = parseIngredientNumber(match[2]);
   let scaled;
   if(parsed.range){
     scaled = formatQuantity(parsed.first * factor) + parsed.separator + formatQuantity(parsed.second * factor);
-  } else {
-    if(!Number.isFinite(parsed.value)) return ingredient;
-    scaled = formatQuantity(parsed.value * factor);
+    return ingredient.slice(0, match.index) + match[1] + scaled + ingredient.slice(match.index + match[0].length);
   }
-
-  return ingredient.slice(0, match.index) + match[1] + scaled + ingredient.slice(match.index + match[0].length);
+  if(!Number.isFinite(parsed.value)) return ingredient;
+  const scaledValue = parsed.value * factor;
+  scaled = formatQuantity(scaledValue);
+  const rest = ingredient.slice(match.index + match[0].length);
+  return ingredient.slice(0, match.index) + match[1] + scaled + adjustIngredientUnit(rest, scaledValue);
 }
 
 function calculateAccurateCalories(recipe){
