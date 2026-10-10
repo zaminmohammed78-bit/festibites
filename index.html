@@ -382,7 +382,7 @@ html[data-theme="dark"] .offline-banner { background: #302016 !important; color:
 /* Recipe allergen badges: deliberately cautious and ingredient-list based. */
 .allergen-badge{display:block;margin:12px 0 4px;padding:9px 11px;border:1px solid #e8b86b;border-radius:10px;background:#fff4d8;color:#70400b;font-size:12px;font-weight:850;line-height:1.45;overflow-wrap:anywhere}
 .allergen-note{margin:0 0 7px;color:var(--muted);font-size:10px;line-height:1.45}
-# mAllergens{margin-bottom:16px}
+#mAllergens{margin-bottom:16px}
 [data-theme="dark"] .allergen-badge{background:#3a2b17;border-color:#8c6a35;color:#ffe1a1}
 </style>
 </head>
@@ -731,16 +731,16 @@ function recipeSearchScore(recipe, query){
 function getRecipeAllergens(recipe){
   const ingredients = (Array.isArray(recipe.ingredients) ? recipe.ingredients : []).join(" ").toLowerCase();
   const checks = [
-    ["Milk", /\\b(milk|butter|cheese|cream|yogurt|yoghurt|ghee|paneer|whey|casein|curd|buttermilk|condensed milk|milk powder)\\b/],
-    ["Egg", /\\b(egg|eggs|mayonnaise|mayo)\\b/],
-    ["Wheat/Gluten", /\\b(wheat|flour|bread|breadcrumbs|pasta|noodles|semolina|suji|sooji|maida|seitan|bulgur|couscous|tortilla|roti|chapati|pita|soy sauce)\\b/],
-    ["Peanuts", /\\b(peanut|peanuts|groundnut|groundnuts|peanut butter)\\b/],
-    ["Tree nuts", /\\b(almond|almonds|cashew|cashews|walnut|walnuts|pistachio|pistachios|pecan|pecans|hazelnut|hazelnuts|macadamia|brazil nuts|pine nuts)\\b/],
-    ["Soy", /\\b(soy|soya|tofu|tempeh|edamame|soybean|soybeans)\\b/],
-    ["Sesame", /\\b(sesame|tahini|til)\\b/],
-    ["Fish", /\\b(fish|salmon|tuna|cod|anchovy|anchovies|sardine|sardines|fish sauce)\\b/],
-    ["Crustacean shellfish", /\\b(prawn|prawns|shrimp|crab|lobster|crayfish)\\b/],
-    ["Molluscs", /\\b(oyster|oysters|mussel|mussels|clam|clams|scallop|scallops|squid|octopus)\\b/]
+    ["Milk", /\b(milk|butter|cheese|cream|yogurt|yoghurt|ghee|paneer|whey|casein|curd|buttermilk|condensed milk|milk powder)\b/],
+    ["Egg", /\b(egg|eggs|mayonnaise|mayo)\b/],
+    ["Wheat/Gluten", /\b(wheat|flour|bread|breadcrumbs|pasta|noodles|semolina|suji|sooji|maida|seitan|bulgur|couscous|tortilla|roti|chapati|pita|soy sauce)\b/],
+    ["Peanuts", /\b(peanut|peanuts|groundnut|groundnuts|peanut butter)\b/],
+    ["Tree nuts", /\b(almond|almonds|cashew|cashews|walnut|walnuts|pistachio|pistachios|pecan|pecans|hazelnut|hazelnuts|macadamia|brazil nuts|pine nuts)\b/],
+    ["Soy", /\b(soy|soya|tofu|tempeh|edamame|soybean|soybeans)\b/],
+    ["Sesame", /\b(sesame|tahini|til)\b/],
+    ["Fish", /\b(fish|salmon|tuna|cod|anchovy|anchovies|sardine|sardines|fish sauce)\b/],
+    ["Crustacean shellfish", /\b(prawn|prawns|shrimp|crab|lobster|crayfish)\b/],
+    ["Molluscs", /\b(oyster|oysters|mussel|mussels|clam|clams|scallop|scallops|squid|octopus)\b/]
   ];
   return checks.filter(([,pattern]) => pattern.test(ingredients)).map(([name]) => name);
 }
@@ -805,7 +805,7 @@ function filterRecipes(resetPage = true){
     else if(activeCategory==="Vegetarian"){
       const textAll=normalizeSearchText([r.name,r.description,...(Array.isArray(r.ingredients)?r.ingredients:[])].join(" "));
       const nonVeg=["chicken","mutton","beef","fish","prawn","egg","meat","lamb","shrimp","gelatin","anchovy","bacon","ham","pork"];
-      categoryOK=!nonVeg.some(item=>new RegExp("\\b"+item+"\\b").test(textAll));
+      categoryOK=!nonVeg.some(item=>new RegExp("\b"+item+"\b").test(textAll));
     }
     const timeOK=intent.maxMinutes===null || Number(r.minutes)<=intent.maxMinutes;
     if(!categoryOK || !timeOK) return null;
