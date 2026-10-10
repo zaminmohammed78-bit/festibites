@@ -1031,33 +1031,64 @@ function updateServingIngredients(){
 
   let ingHTML = selectedRecipe.ingredients.map(x=>`<li>${scaledIngredient(x, factor)}</li>`).join("");
 
-  // Optional Dipping Selection for eligible recipes (Snacks, Fast Food, Biryani, Fried items)
-  const cat = (selectedRecipe.category || "").toLowerCase();
-  const name = (selectedRecipe.name || "").toLowerCase();
-  const isEligible = cat.includes("snack") || cat.includes("fast food") || cat.includes("biryani") || cat.includes("kerala") || name.includes("chicken") || name.includes("parotta") || name.includes("fritter") || name.includes("roll");
-
-  if(isEligible){
-    const selectedDip = localStorage.getItem(`dip_${selectedRecipe.name}`) || "Mint Chutney / Garlic Mayo";
-    ingHTML += `
-      <li style="grid-column: 1 / -1; background: #fff3eb; padding: 10px 14px; border-radius: 12px; margin-top: 8px; border: 1px dashed var(--coral);">
-        <b style="color:var(--coral);display:block;margin-bottom:4px;">🥣 Recommended Dipping Sauce:</b>
-        <select id="dippingSelect" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ead8ce;background:#fff;font-weight:700;color:var(--ink);" onchange="saveDipping(this.value)">
-          <option value="Mint Chutney" ${selectedDip === 'Mint Chutney' ? 'selected' : ''}>🌿 Fresh Mint & Coriander Chutney</option>
-          <option value="Garlic Mayo" ${selectedDip === 'Garlic Mayo' ? 'selected' : ''}>🧄 Creamy Garlic Mayonnaise</option>
-          <option value="Spicy Tomato Ketchup" ${selectedDip === 'Spicy Tomato Ketchup' ? 'selected' : ''}>🍅 Spicy Tomato Ketchup</option>
-          <option value="Tamarind Chutney" ${selectedDip === 'Tamarind Chutney' ? 'selected' : ''}>🫙 Sweet & Tangy Tamarind Chutney</option>
-          <option value="Yogurt Raita" ${selectedDip === 'Yogurt Raita' ? 'selected' : ''}>🥒 Cucumber Mint Yogurt Raita</option>
-          <option value="Schezwan Sauce" ${selectedDip === 'Schezwan Sauce' ? 'selected' : ''}>🌶️ Spicy Schezwan Dip</option>
-        </select>
-      </li>
-    `;
-  }
+  // Recommended dip with selectable alternatives and full mini-recipes.
+  const recommendedDip = getRecommendedDip(selectedRecipe);
+  const storedDip = localStorage.getItem("dip_" + selectedRecipe.name);
+  const selectedDip = storedDip && DIP_SAUCES[storedDip] ? storedDip : recommendedDip;
+  ingHTML += '<li style="grid-column:1/-1;list-style:none;background:var(--dip-bg,#fff3eb);padding:14px;border-radius:14px;margin-top:14px;border:1px solid var(--line);">' +
+    '<b style="color:var(--coral);display:block;margin-bottom:5px;">🥣 Recommended dip / dipping sauce</b>' +
+    '<p style="margin:0 0 9px;color:var(--muted);font-size:13px;line-height:1.45;">Suggested pairing for this dish. Choose another option to see its ingredients and method.</p>' +
+    '<select id="dippingSelect" style="width:100%;padding:10px;border-radius:9px;border:1px solid #ead8ce;background:#fff;font-weight:700;color:#3a1b0f;" onchange="saveDipping(this.value);updateDipDetails(this.value)">' +
+    '<option value="mint"' + (selectedDip === "mint" ? " selected" : "") + '>🌿 Mint & coriander chutney</option>' +
+    '<option value="garlicMayo"' + (selectedDip === "garlicMayo" ? " selected" : "") + '>🧄 Creamy garlic mayo</option>' +
+    '<option value="tomato"' + (selectedDip === "tomato" ? " selected" : "") + '>🍅 Quick tomato chilli dip</option>' +
+    '<option value="tamarind"' + (selectedDip === "tamarind" ? " selected" : "") + '>🫙 Sweet-tangy tamarind chutney</option>' +
+    '<option value="yogurt"' + (selectedDip === "yogurt" ? " selected" : "") + '>🥒 Mint yogurt dip</option>' +
+    '<option value="schezwan"' + (selectedDip === "schezwan" ? " selected" : "") + '>🌶️ Schezwan-style chilli dip</option>' +
+    '<option value="cheese"' + (selectedDip === "cheese" ? " selected" : "") + '>🧀 Quick cheese dip</option>' +
+    '</select><div id="dipDetails" style="margin-top:12px;"></div></li>';
 
   document.getElementById("mIngredients").innerHTML = ingHTML;
 }
 
+const DIP_SAUCES = {
+  mint: {name:"Mint & coriander chutney",time:"10 min",yield:"about ½ cup",best:"samosas, pakoras, kebabs, cutlets and potato snacks",ingredients:["1 cup fresh coriander leaves","½ cup fresh mint leaves","1 small green chilli (optional)","1 tbsp lemon juice","¼ tsp ground cumin","¼ tsp salt, or to taste","2–4 tbsp water, as needed"],method:"Blend the herbs, chilli, lemon juice, cumin and salt. Add water a little at a time until spoonable. Taste and adjust lemon and salt.",note:"Serve chilled and refrigerate promptly."},
+  garlicMayo: {name:"Creamy garlic mayo",time:"5 min",yield:"about ½ cup",best:"fries, burgers, wraps, nuggets and roasted potatoes",ingredients:["½ cup mayonnaise","1 small garlic clove, finely grated","1 tsp lemon juice","1–2 tsp water, only if needed","Black pepper, to taste"],method:"Mix the mayonnaise, garlic, lemon juice and pepper. Add a little water if you prefer a thinner dip. Chill for 10 minutes for a fuller garlic flavour.",note:"Contains egg unless you use egg-free mayonnaise. Keep refrigerated."},
+  tomato: {name:"Quick tomato chilli dip",time:"5 min",yield:"about ⅓ cup",best:"fries, cutlets, pakoras, nuggets and crispy snacks",ingredients:["4 tbsp tomato ketchup","½ tsp chilli sauce or chilli powder, to taste","½ tsp lemon juice or vinegar","¼ tsp garlic powder (optional)"],method:"Stir all ingredients together until smooth. Taste before adding extra chilli, as the sauces may already be salty or spicy.",note:"Check packaged sauce labels for allergens and dietary needs."},
+  tamarind: {name:"Sweet-tangy tamarind chutney",time:"15 min",yield:"about ½ cup",best:"samosas, pakoras, chaat, aloo tikki and other Indian snacks",ingredients:["2 tbsp seedless tamarind pulp","3 tbsp jaggery or brown sugar","½ cup water","¼ tsp roasted cumin powder","¼ tsp ground ginger (optional)","A pinch of salt"],method:"Simmer tamarind pulp, jaggery and water for 8–10 minutes, stirring until dissolved and lightly thickened. Stir in cumin, ginger and salt. Cool before serving; it thickens as it cools.",note:"Adjust jaggery and tamarind to taste; pulp strength varies."},
+  yogurt: {name:"Mint yogurt dip",time:"5 min",yield:"about ½ cup",best:"spicy kebabs, tikka, fritters, wraps and grilled vegetables",ingredients:["½ cup plain unsweetened yogurt","1 tbsp finely chopped mint","1 tbsp finely chopped coriander (optional)","1 tsp lemon juice","¼ tsp roasted cumin powder","Salt, to taste"],method:"Whisk the yogurt until smooth. Stir in mint, coriander, lemon juice, cumin and salt. Chill briefly before serving.",note:"Contains dairy. Keep refrigerated and serve cold."},
+  schezwan: {name:"Schezwan-style chilli dip",time:"5 min",yield:"about ⅓ cup",best:"momos, spring rolls, fries and Indo-Chinese snacks",ingredients:["2 tbsp chilli-garlic sauce","2 tbsp tomato ketchup","1 tsp soy sauce","1 tsp vinegar or lemon juice","1–2 tsp water, as needed"],method:"Whisk everything together. Add water a little at a time to reach dipping consistency. Taste before adding salt.",note:"May contain soy and other allergens depending on packaged sauces; check labels."},
+  cheese: {name:"Quick cheese dip",time:"8 min",yield:"about ½ cup",best:"wedges, nachos, fries and mild savoury snacks",ingredients:["½ cup grated cheddar cheese","¼ cup milk","1 tsp butter","1 tsp cornflour mixed with 1 tbsp cold milk (optional, for thickening)"],method:"Warm milk and butter in a small pan over low heat. Add cheese gradually, stirring until melted. If needed, stir in the cornflour slurry and heat gently until thickened. Do not boil.",note:"Contains dairy; texture may thicken as it cools."}
+};
+
+function getRecommendedDip(recipe){
+  const t = ((recipe.name || "") + " " + (recipe.category || "") + " " + (recipe.description || "") + " " + (recipe.ingredients || []).join(" ")).toLowerCase();
+  if(/momo|dumpling|spring roll|schezwan|manchurian|indo.?chinese/.test(t)) return "schezwan";
+  if(/samosa|pakora|pakoda|aloo tikki|cutlet|chaat|bhaji|vada|bonda|fritter|puff/.test(t)) return "mint";
+  if(/kebab|tikka|shawarma|grill|tandoori|spicy chicken/.test(t)) return "yogurt";
+  if(/fries|nugget|burger|sandwich|wrap|potato wedge/.test(t)) return "garlicMayo";
+  if(/nachos|cheese fries/.test(t)) return "cheese";
+  if(/biryani|parotta|roti|chapati|puri/.test(t)) return "mint";
+  if(/fried|crispy|snack/.test(t)) return "tomato";
+  return "tomato";
+}
+
+function updateDipDetails(key){
+  const sauce = DIP_SAUCES[key];
+  const target = document.getElementById("dipDetails");
+  if(!sauce || !target) return;
+  target.innerHTML = '<div style="font-weight:850;font-size:15px;margin-bottom:5px;">' + sauce.name + '</div>' +
+    '<div style="font-size:12px;color:var(--muted);margin-bottom:8px;">⏱ ' + sauce.time + ' · Makes ' + sauce.yield + '</div>' +
+    '<div style="font-size:13px;margin-bottom:5px;"><b>Best with:</b> ' + sauce.best + '.</div>' +
+    '<div style="font-size:13px;font-weight:800;margin:8px 0 4px;">Ingredients</div>' +
+    '<ul style="padding-left:20px;font-size:13px;line-height:1.6;">' + sauce.ingredients.map(item => '<li>' + item + '</li>').join("") + '</ul>' +
+    '<div style="font-size:13px;font-weight:800;margin:8px 0 4px;">How to make it</div>' +
+    '<p style="font-size:13px;line-height:1.55;">' + sauce.method + '</p>' +
+    '<p style="font-size:12px;color:var(--muted);line-height:1.5;margin-top:7px;">' + sauce.note + '</p>';
+}
+
 function saveDipping(val){
-  if(!selectedRecipe) return;
+  if(!selectedRecipe || !DIP_SAUCES[val]) return;
   localStorage.setItem(`dip_${selectedRecipe.name}`, val);
 }
 
