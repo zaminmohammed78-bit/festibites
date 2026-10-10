@@ -384,6 +384,44 @@ html[data-theme="dark"] .offline-banner { background: #302016 !important; color:
 .allergen-note{margin:0 0 7px;color:var(--muted);font-size:10px;line-height:1.45}
 #mAllergens{margin-bottom:16px}
 [data-theme="dark"] .allergen-badge{background:#3a2b17;border-color:#8c6a35;color:#ffe1a1}
+
+/* Keep the dipping-sauce panel readable in both themes. */
+#dipRecommendation {
+  background: #fff7f1 !important;
+  color: #2d211b !important;
+  border-color: #ead8ce !important;
+}
+#dipRecommendation h3,
+#dipRecommendation b,
+#dipRecommendation strong,
+#dipRecommendation #dipDetails,
+#dipRecommendation #dipDetails li,
+#dipRecommendation #dipDetails p,
+#dipRecommendation #dipDetails div {
+  color: #2d211b !important;
+}
+#dipRecommendation p { color: #55443a !important; }
+#dipRecommendation select { color: #2d211b !important; background: #ffffff !important; }
+html[data-theme="dark"] #dipRecommendation {
+  background: #30251e !important;
+  color: #fff0e6 !important;
+  border-color: #624633 !important;
+}
+html[data-theme="dark"] #dipRecommendation h3,
+html[data-theme="dark"] #dipRecommendation b,
+html[data-theme="dark"] #dipRecommendation strong,
+html[data-theme="dark"] #dipRecommendation #dipDetails,
+html[data-theme="dark"] #dipRecommendation #dipDetails li,
+html[data-theme="dark"] #dipRecommendation #dipDetails p,
+html[data-theme="dark"] #dipRecommendation #dipDetails div {
+  color: #fff0e6 !important;
+}
+html[data-theme="dark"] #dipRecommendation p { color: #e0cfc2 !important; }
+html[data-theme="dark"] #dipRecommendation select {
+  background: #211b17 !important;
+  color: #fff0e6 !important;
+  border-color: #765640 !important;
+}
 </style>
 </head>
 <body>
