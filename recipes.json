@@ -985,7 +985,7 @@
     "name": "Butter Chicken",
     "category": "Dinner",
     "icon": "",
-    "minutes": 50,
+    "minutes": 80,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1108,7 +1108,7 @@
     "name": "Chicken Tikka Masala",
     "category": "Dinner",
     "icon": "",
-    "minutes": 55,
+    "minutes": 85,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1265,7 +1265,7 @@
     "name": "Grilled Chicken",
     "category": "Dinner",
     "icon": "",
-    "minutes": 35,
+    "minutes": 55,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -1521,7 +1521,8 @@
       "1/2 cup cheese",
       "1 tsp paprika",
       "Salt",
-      "Pepper"
+      "Pepper",
+      "1/4 cup water for the baking dish"
     ],
     "steps": [
       "Cut the tops from the peppers and remove the seeds.",
@@ -1539,7 +1540,7 @@
     "name": "Tandoori Chicken",
     "category": "Dinner",
     "icon": "",
-    "minutes": 40,
+    "minutes": 100,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -2139,7 +2140,7 @@
     "name": "Parotta",
     "category": "Kerala Foods",
     "icon": "",
-    "minutes": 40,
+    "minutes": 180,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -2267,7 +2268,7 @@
     "name": "Chicken 65",
     "category": "Snacks",
     "icon": "",
-    "minutes": 35,
+    "minutes": 65,
     "servings": 3,
     "difficulty": "Medium",
     "ingredients": [
@@ -2457,7 +2458,7 @@
     "name": "Medu Vada",
     "category": "Snacks",
     "icon": "",
-    "minutes": 30,
+    "minutes": 270,
     "servings": 8,
     "difficulty": "Medium",
     "ingredients": [
@@ -2786,7 +2787,7 @@
     "name": "Cheesecake Cups",
     "category": "Desserts",
     "icon": "",
-    "minutes": 25,
+    "minutes": 145,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -2795,7 +2796,7 @@
       "1/3 cup sugar",
       "1 tsp vanilla",
       "1 cup crushed biscuits",
-      "1 cup strawberries",
+      "1 cup strawberries, sliced",
       "1 tbsp melted butter"
     ],
     "steps": [
@@ -2901,12 +2902,12 @@
     "name": "Chocolate Mousse",
     "category": "Desserts",
     "icon": "",
-    "minutes": 20,
+    "minutes": 200,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
       "200g dark chocolate",
-      "3 eggs",
+      "3 pasteurized eggs (the recipe uses uncooked eggs)",
       "2 tbsp sugar",
       "1 cup cream"
     ],
@@ -2973,7 +2974,7 @@
     "name": "Donuts",
     "category": "Desserts",
     "icon": "",
-    "minutes": 20,
+    "minutes": 120,
     "servings": 5,
     "difficulty": "Medium",
     "ingredients": [
@@ -3030,7 +3031,7 @@
     "name": "Gulab Jamun",
     "category": "Desserts",
     "icon": "",
-    "minutes": 45,
+    "minutes": 105,
     "servings": 6,
     "difficulty": "Medium",
     "ingredients": [
@@ -3060,7 +3061,7 @@
     "name": "Jalebi",
     "category": "Desserts",
     "icon": "",
-    "minutes": 25,
+    "minutes": 445,
     "servings": 3,
     "difficulty": "Easy",
     "ingredients": [
@@ -3090,7 +3091,7 @@
     "name": "Mango Ice Cream",
     "category": "Desserts",
     "icon": "",
-    "minutes": 20,
+    "minutes": 380,
     "servings": 6,
     "difficulty": "Easy",
     "ingredients": [
@@ -3112,7 +3113,7 @@
     "name": "Mango Pudding",
     "category": "Desserts",
     "icon": "",
-    "minutes": 20,
+    "minutes": 200,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -3137,7 +3138,7 @@
     "name": "Pistachio Kulfi",
     "category": "Desserts",
     "icon": "",
-    "minutes": 30,
+    "minutes": 390,
     "servings": 6,
     "difficulty": "Easy",
     "ingredients": [
@@ -3188,7 +3189,7 @@
     "name": "Tiramisu Cups",
     "category": "Desserts",
     "icon": "☕",
-    "minutes": 30,
+    "minutes": 150,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -3198,7 +3199,7 @@
       "1 tsp vanilla",
       "1 cup strong coffee",
       "12 ladyfinger biscuits",
-      "Cocoa powder"
+      "Cocoa powder, for dusting"
     ],
     "steps": [
       "Whisk mascarpone, sugar and vanilla until smooth.",
@@ -3835,7 +3836,7 @@
     "name": "Chicken Shawarma",
     "category": "Arabic",
     "icon": "",
-    "minutes": 45,
+    "minutes": 165,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -3972,7 +3973,7 @@
     "name": "Appam with Stew",
     "category": "Kerala Foods",
     "icon": "",
-    "minutes": 50,
+    "minutes": 470,
     "servings": 3,
     "difficulty": "Medium",
     "ingredients": [
@@ -4017,7 +4018,7 @@
     "difficulty": "Easy",
     "ingredients": [
       "2 cups puttu podi",
-      "1 cup grated coconut",
+      "1 cup grated coconut for puttu, plus 1/2 cup grated coconut for kadala curry",
       "1/2 cup warm water",
       "1/2 tsp salt",
       "1 cup black chickpeas, cooked",
@@ -4025,11 +4026,11 @@
       "1 tsp coriander powder"
     ],
     "steps": [
-      "Sprinkle warm salted water on the flour and rub until crumbly",
-      "Fill a puttu maker with alternating layers of coconut and flour",
-      "Steam 8-10 minutes",
-      "Simmer the chickpeas with spices and coconut for the curry",
-      "Serve puttu hot with the curry"
+      "Mix the puttu flour with salt and sprinkle warm water over it gradually, rubbing with your fingertips until the flour is moist and crumbly rather than doughy.",
+      "Layer the puttu maker with a little grated coconut, the moistened flour, and more coconut; repeat, finishing with coconut.",
+      "Steam for 8–10 minutes, or until the puttu is hot and cooked through.",
+      "For the kadala curry, simmer the cooked black chickpeas with chili powder, coriander powder, the reserved grated coconut and enough water to make a thick curry.",
+      "Season to taste and serve the hot puttu with the kadala curry."
     ],
     "description": "Steamed rice-and-coconut cylinders with spicy black chickpea curry."
   },
