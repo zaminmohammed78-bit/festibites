@@ -263,7 +263,8 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 
 .instruction-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 12px}
 @media(max-width:560px){.instruction-note{font-size:14px;line-height:1.65}}
- .guide-home-link{display:inline-flex;align-items:center;justify-content:center;margin-top:2px;padding:12px 18px;border-radius:12px;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;text-decoration:none;font-weight:800;box-shadow:0 8px 20px rgba(232,93,4,.18)}.guide-home-link:hover{transform:translateY(-2px)}
+ .swap-feature-link{display:flex;align-items:center;gap:12px;width:min(100%,470px);margin:0 0 14px;padding:14px 16px;border:2px solid #f26a21;border-radius:16px;background:#fff;color:#3a1b0f;text-align:left;font:inherit;cursor:pointer;box-shadow:0 8px 22px rgba(232,93,4,.15);transition:transform .18s ease,box-shadow .18s ease}.swap-feature-link:hover,.swap-feature-link:focus-visible{transform:translateY(-2px);box-shadow:0 12px 26px rgba(232,93,4,.23);outline:3px solid rgba(242,106,33,.25);outline-offset:2px}.swap-feature-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:12px;background:#fff0e6;font-size:23px}.swap-feature-copy{display:flex;flex:1;flex-direction:column;gap:3px;min-width:0}.swap-feature-copy strong{font-size:15px;font-weight:900;line-height:1.3}.swap-feature-copy small{font-size:12px;color:#765f54;line-height:1.4}.swap-feature-arrow{font-size:24px;font-weight:900;color:#e85d04}.guide-home-link{display:inline-flex;align-items:center;justify-content:center;margin-top:2px;padding:12px 18px;border-radius:12px;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;text-decoration:none;font-weight:800;box-shadow:0 8px 20px rgba(232,93,4,.18)}.guide-home-link:hover{transform:translateY(-2px)}
+@media(max-width:560px){.swap-feature-link{padding:12px;gap:10px}.swap-feature-icon{flex-basis:38px;width:38px;height:38px}.swap-feature-copy strong{font-size:14px}.swap-feature-copy small{font-size:11px}}
 /* FestiBites Dark Mode */
 .theme-toggle {
   flex-shrink: 0;
@@ -467,6 +468,11 @@ html[data-theme="dark"] #dipRecommendation select {
     </div>
     <h1>Good food makes every day a <em>FestiBite.</em></h1>
     <p>Explore a colorful collection of breakfast, lunch, dinner, dessert and snack recipes. Every recipe includes ingredients, cooking time, servings, difficulty and detailed instructions.</p>
+    <button class="swap-feature-link" type="button" onclick="openSubstitutionGuide()" aria-haspopup="dialog" aria-controls="substitutionGuide">
+      <span class="swap-feature-icon" aria-hidden="true">🥄</span>
+      <span class="swap-feature-copy"><strong>Missing an ingredient?</strong><small>Find easy ingredient swaps in our guide</small></span>
+      <span class="swap-feature-arrow" aria-hidden="true">→</span>
+    </button>
   <a class="guide-home-link" href="./how-to-use.html">📖 How to Use FestiBites</a>
     <div class="hero-stats">
       <div class="stat"><strong id="heroCount">150+</strong><small>Recipes</small></div>
