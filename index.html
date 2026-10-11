@@ -547,29 +547,7 @@ html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
   </div>
 </div>
 
-<section class="pantry-section" id="pantryFinder" aria-labelledby="pantryTitle">
-  <div class="pantry-panel">
-    <div class="pantry-heading">
-      <span class="pantry-eyebrow">LESS WASTE • MORE TASTE</span>
-      <h2 id="pantryTitle">🥕 What’s in Your Fridge?</h2>
-      <p>Tell us what you have at home. We’ll find recipes from FestiBites that use the most of your ingredients.</p>
-    </div>
-    <label class="pantry-label" for="pantryIngredients">Your ingredients</label>
-    <textarea id="pantryIngredients" rows="3" placeholder="e.g. chicken, rice, onion, tomato, garlic" aria-describedby="pantryHelp"></textarea>
-    <p class="pantry-help" id="pantryHelp">Separate ingredients with commas or new lines. Add at least one ingredient.</p>
-    <div class="pantry-actions">
-      <button type="button" class="pantry-find-btn" id="findPantryRecipes">✨ Find My Recipes</button>
-      <button type="button" class="pantry-clear-btn" id="clearPantryIngredients">Clear</button>
-    </div>
-    <div class="pantry-results-wrap" id="pantryResultsWrap" aria-live="polite" style="display:none;">
-      <div class="pantry-results-heading">
-        <h3 id="pantryResultsTitle">Your matches</h3>
-        <p id="pantryResultsNote"></p>
-      </div>
-      <div class="pantry-grid" id="pantryGrid"></div>
-    </div>
-  </div>
-</section>
+
 
 <div class="controls" id="categories">
   <button class="chip active" data-cat="All">All</button>
@@ -599,6 +577,31 @@ html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
   <div class="grid" id="grid"></div>
   <div class="see-more-wrap" id="seeMoreWrap"><button class="see-more" id="seeMoreBtn">Show More Recipes</button></div>
 </section>
+
+<section class="pantry-section" id="pantryFinder" aria-labelledby="pantryTitle">
+  <div class="pantry-panel">
+    <div class="pantry-heading">
+      <span class="pantry-eyebrow">LESS WASTE • MORE TASTE</span>
+      <h2 id="pantryTitle">🥕 What’s in Your Fridge?</h2>
+      <p>Tell us what ingredients you have. We’ll compare them with FestiBites recipes, rank the closest matches, and show what is still missing.</p>
+    </div>
+    <label class="pantry-label" for="pantryIngredients">Your ingredients</label>
+    <textarea id="pantryIngredients" rows="3" placeholder="e.g. chicken, rice, onion, tomato, garlic" aria-describedby="pantryHelp"></textarea>
+    <p class="pantry-help" id="pantryHelp">Separate ingredients with commas or new lines. Example: chicken, rice, onion. Matching is automatic, so check the full recipe before cooking.</p>
+    <div class="pantry-actions">
+      <button type="button" class="pantry-find-btn" id="findPantryRecipes">✨ Find My Recipes</button>
+      <button type="button" class="pantry-clear-btn" id="clearPantryIngredients">Clear</button>
+    </div>
+    <div class="pantry-results-wrap" id="pantryResultsWrap" aria-live="polite" style="display:none;">
+      <div class="pantry-results-heading">
+        <h3 id="pantryResultsTitle">Your matches</h3>
+        <p id="pantryResultsNote"></p>
+      </div>
+      <div class="pantry-grid" id="pantryGrid"></div>
+    </div>
+  </div>
+</section>
+
 
 
 <section class="submit-section" id="submit-recipe">
@@ -935,32 +938,34 @@ function filterRecipes(resetPage = true){
 let pantryResults = [];
 
 const PANTRY_INGREDIENT_ALIASES = {
-  chilli:"chili", chillies:"chili", cilantro:"coriander", scallions:"spring onion",
+  chilli:"chili", chillies:"chili", cilantro:"coriander", "cilantro leaves":"coriander",
+  "coriander leaves":"coriander", scallions:"spring onion", "spring onions":"spring onion",
   "green onion":"spring onion", "green onions":"spring onion", aubergine:"eggplant",
-  brinjal:"eggplant", baingan:"eggplant", capsicum:"bell pepper", pepper:"black pepper",
+  brinjal:"eggplant", baingan:"eggplant", capsicum:"bell pepper",
   curd:"yogurt", yoghurt:"yogurt", dahi:"yogurt", maida:"all purpose flour",
   atta:"whole wheat flour", besan:"gram flour", chickpea:"chickpeas",
-  "chick pea":"chickpeas", "garbanzo beans":"chickpeas", prawns:"shrimp",
-  prawn:"shrimp", lime:"lime", lemon:"lemon", "coriander leaves":"coriander",
-  "cilantro leaves":"coriander", "spring onions":"spring onion", potatoes:"potato",
-  tomatoes:"tomato", onions:"onion", eggs:"egg", mushrooms:"mushroom",
-  noodles:"noodle", spaghetti:"pasta", macaroni:"pasta", paneer:"paneer",
-  "coconut milk":"coconut milk", "heavy cream":"cream", "fresh cream":"cream"
+  "chick pea":"chickpeas", "garbanzo beans":"chickpeas", prawns:"shrimp", prawn:"shrimp",
+  potatoes:"potato", tomatoes:"tomato", onions:"onion", eggs:"egg", mushrooms:"mushroom",
+  noodles:"noodle", spaghetti:"pasta", macaroni:"pasta", "heavy cream":"cream",
+  "fresh cream":"cream", "greek yoghurt":"greek yogurt"
 };
 
 function pantryCleanIngredient(value){
-  let text=normalizeSearchText(String(value||""));
-  text=text.replace(/\([^)]*\)/g," ");
-  text=text.replace(/^\s*(?:about\s+)?(?:\d+(?:\.\d+)?|\d+\/\d+|\d+\s+\d+\/\d+)\s*(?:g|kg|ml|l|litres?|liters?|cups?|tbsp|tsp|tablespoons?|teaspoons?|slices?|pieces?|cloves?|cans?|packets?|bunches?|pinches?|handfuls?)?\s*/i," ");
-  text=text.replace(/\b(finely chopped|roughly chopped|chopped|sliced|diced|minced|grated|crushed|softened|melted|optional|to taste|for garnish|as needed|freshly|boneless|skinless)\b/g," ");
-  text=text.replace(/\s+/g," ").trim();
+  let raw=String(value||"").toLowerCase();
+  raw=raw.replace(/\\([^)]*\\)/g," ");
+  raw=raw.replace(/[½¼¾⅓⅔⅛⅜⅝⅞]/g," ");
+  // Strip leading recipe quantities BEFORE punctuation normalization converts fractions.
+  raw=raw.replace(/^\\s*(?:about\\s+)?(?:\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+(?:\\.\\d+)?)(?:\\s*(?:g|kg|mg|ml|l|litres?|liters?|cups?|tbsp|tbsps|tsp|tsps|tablespoons?|teaspoons?|slices?|pieces?|cloves?|cans?|packets?|bunches?|pinches?|handfuls?|large|medium|small))?\\s*/i," ");
+  raw=raw.replace(/\\b(finely chopped|roughly chopped|chopped|sliced|diced|minced|grated|crushed|softened|melted|optional|to taste|for garnish|as needed|freshly|boneless|skinless|ripe)\\b/g," ");
+  let text=normalizeSearchText(raw).replace(/\\s+/g," ").trim();
   if(PANTRY_INGREDIENT_ALIASES[text]) text=PANTRY_INGREDIENT_ALIASES[text];
   const words=text.split(" ").filter(Boolean).map(word=>{
     if(word.endsWith("ies") && word.length>4) return word.slice(0,-3)+"y";
     if(word.endsWith("s") && !word.endsWith("ss") && word.length>3) return word.slice(0,-1);
     return word;
   });
-  return words.join(" ");
+  text=words.join(" ");
+  return PANTRY_INGREDIENT_ALIASES[text] || text;
 }
 
 function pantryIngredientMatches(userIngredient, recipeIngredient){
@@ -968,10 +973,12 @@ function pantryIngredientMatches(userIngredient, recipeIngredient){
   const available=pantryCleanIngredient(recipeIngredient);
   if(!wanted||!available) return false;
   if(wanted===available) return true;
-  // Alias-aware phrase matching; avoid treating a single short word as a substring.
-  const w= wanted.split(" "), a=available.split(" ");
-  if(w.length>1) return (" "+available+" ").includes(" "+wanted+" ") || w.every(word=>a.includes(word));
-  return a.includes(wanted);
+  const wantedWords=wanted.split(" ");
+  const availableWords=available.split(" ");
+  // Single ingredients may be found inside a descriptive ingredient line.
+  if(wantedWords.length===1) return availableWords.includes(wanted);
+  // Multi-word ingredients must match as a phrase; don't count "olive oil" as plain "oil".
+  return (" "+available+" ").includes(" "+wanted+" ");
 }
 
 function findPantryRecipes(){
@@ -1002,7 +1009,7 @@ function findPantryRecipes(){
   pantryResults=ranked.map(item=>item.recipe);
   title.textContent=ranked.length ? "Best ingredient matches" : "No matches yet";
   note.textContent=ranked.length
-    ? "Ranked by the share of each recipe’s listed ingredients you appear to have. Please check the missing list before cooking; matching is automatic, not chef-verified."
+    ? "Ranked by listed ingredient coverage. This is a name-based estimate—not a guarantee of cookability. Check quantities, substitutions, and the full instructions before cooking."
     : "We couldn't match these to the current recipe list. Try common ingredient names such as onion, potato, rice, egg or chicken.";
   if(!ranked.length){
     gridEl.innerHTML='<div class="pantry-empty">Try adding a different ingredient or two. Your recipe collection has not been changed.</div>';
