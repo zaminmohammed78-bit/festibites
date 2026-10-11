@@ -1078,23 +1078,23 @@ function updateServingIngredients(){
   document.getElementById("mIngredients").innerHTML = ingHTML;
   const dipSection = document.getElementById("dipRecommendation");
   const dipSelector = document.getElementById("dipSelector");
-  if (dipSection && dipSelector) {
+  const dipDetails = document.getElementById("dipDetails");
+  if (dipSection && dipSelector && dipDetails) {
+    const availableDips = getAvailableDips(selectedRecipe);
+    if (!availableDips.length) {
+      dipSection.hidden = true;
+      dipSelector.innerHTML = "";
+      dipDetails.innerHTML = "";
+      return;
+    }
+    dipSection.hidden = false;
     const recommendedDip = getRecommendedDip(selectedRecipe);
     const storedDip = localStorage.getItem("dip_" + selectedRecipe.name);
-    const selectedDip = storedDip && DIP_SAUCES[storedDip] ? storedDip : recommendedDip;
+    const selectedDip = availableDips.some(dip => dip.key === storedDip) ? storedDip : recommendedDip;
     dipSelector.innerHTML = '<select id="dippingSelect" style="width:100%;padding:10px;border-radius:9px;border:1px solid #ead8ce;background:#fff;font-weight:700;color:#3a1b0f;" onchange="saveDipping(this.value);updateDipDetails(this.value)">' +
-      '<option value="mint"' + (selectedDip === "mint" ? " selected" : "") + '>🌿 Mint & coriander chutney</option>' +
-      '<option value="garlicMayo"' + (selectedDip === "garlicMayo" ? " selected" : "") + '>🧄 Creamy garlic mayo</option>' +
-      '<option value="tomato"' + (selectedDip === "tomato" ? " selected" : "") + '>🍅 Quick tomato chilli dip</option>' +
-      '<option value="tamarind"' + (selectedDip === "tamarind" ? " selected" : "") + '>🫙 Sweet-tangy tamarind chutney</option>' +
-      '<option value="yogurt"' + (selectedDip === "yogurt" ? " selected" : "") + '>🥒 Mint yogurt dip</option>' +
-      '<option value="schezwan"' + (selectedDip === "schezwan" ? " selected" : "") + '>🌶️ Schezwan-style chilli dip</option>' +
-      '<option value="cheese"' + (selectedDip === "cheese" ? " selected" : "") + '>🧀 Quick cheese dip</option>' +
+      availableDips.map(dip => '<option value="' + dip.key + '"' + (selectedDip === dip.key ? ' selected' : '') + '>' + dip.label + '</option>').join("") +
       '</select>';
     updateDipDetails(selectedDip);
-  } else {
-    const fallback = document.getElementById("dipDetails");
-    if (fallback) fallback.textContent = "Recommended dip details could not load. Please refresh and try again.";
   }
 }
 
@@ -1108,16 +1108,46 @@ const DIP_SAUCES = {
   cheese: {name:"Quick cheese dip",time:"8 min",yield:"about ½ cup",best:"wedges, nachos, fries and mild savoury snacks",ingredients:["½ cup grated cheddar cheese","¼ cup milk","1 tsp butter","1 tsp cornflour mixed with 1 tbsp cold milk (optional, for thickening)"],method:"Warm milk and butter in a small pan over low heat. Add cheese gradually, stirring until melted. If needed, stir in the cornflour slurry and heat gently until thickened. Do not boil.",note:"Contains dairy; texture may thicken as it cools."}
 };
 
+function getAvailableDips(recipe){
+  const name = (recipe && recipe.name || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  // Keep dip suggestions limited to recipes where a side dip is a natural pairing.
+  if (/chicken samosa/.test(name)) return [
+    {key:"mint",label:"🌿 Mint & coriander chutney"},
+    {key:"tamarind",label:"🫙 Sweet-tangy tamarind chutney"}
+  ];
+  if (/vegetable spring rolls/.test(name)) return [
+    {key:"schezwan",label:"🌶️ Schezwan-style chilli dip"},
+    {key:"tomato",label:"🍅 Quick tomato chilli dip"}
+  ];
+  if (/chicken nuggets|onion rings|corn cheese balls|crispy french fries|sweet potato fries|spicy peri peri french fries/.test(name)) return [
+    {key:"garlicMayo",label:"🧄 Creamy garlic mayo"},
+    {key:"tomato",label:"🍅 Quick tomato chilli dip"},
+    {key:"cheese",label:"🧀 Quick cheese dip"}
+  ];
+  if (/paneer tikka/.test(name)) return [
+    {key:"mint",label:"🌿 Mint & coriander chutney"},
+    {key:"yogurt",label:"🥒 Mint yogurt dip"}
+  ];
+  if (/chicken shawarma/.test(name)) return [
+    {key:"garlicMayo",label:"🧄 Creamy garlic mayo"},
+    {key:"yogurt",label:"🥒 Mint yogurt dip"}
+  ];
+  if (/classic chicken burger|chicken wrap|crispy zinger chicken strip wrap/.test(name)) return [
+    {key:"garlicMayo",label:"🧄 Creamy garlic mayo"},
+    {key:"tomato",label:"🍅 Quick tomato chilli dip"}
+  ];
+  return [];
+}
+
 function getRecommendedDip(recipe){
-  const t = ((recipe.name || "") + " " + (recipe.category || "") + " " + (recipe.description || "") + " " + (recipe.ingredients || []).join(" ")).toLowerCase();
-  if(/momo|dumpling|spring roll|schezwan|manchurian|indo.?chinese/.test(t)) return "schezwan";
-  if(/samosa|pakora|pakoda|aloo tikki|cutlet|chaat|bhaji|vada|bonda|fritter|puff/.test(t)) return "mint";
-  if(/kebab|tikka|shawarma|grill|tandoori|spicy chicken/.test(t)) return "yogurt";
-  if(/fries|nugget|burger|sandwich|wrap|potato wedge/.test(t)) return "garlicMayo";
-  if(/nachos|cheese fries/.test(t)) return "cheese";
-  if(/biryani|parotta|roti|chapati|puri/.test(t)) return "mint";
-  if(/fried|crispy|snack/.test(t)) return "tomato";
-  return "tomato";
+  const available = getAvailableDips(recipe);
+  if (!available.length) return null;
+  const name = (recipe && recipe.name || "").toLowerCase();
+  if (/chicken samosa/.test(name)) return "mint";
+  if (/vegetable spring rolls/.test(name)) return "schezwan";
+  if (/paneer tikka/.test(name)) return "mint";
+  if (/chicken shawarma|chicken wrap|crispy zinger chicken strip wrap|classic chicken burger/.test(name)) return "garlicMayo";
+  return available[0].key;
 }
 
 function updateDipDetails(key){
@@ -1135,7 +1165,7 @@ function updateDipDetails(key){
 }
 
 function saveDipping(val){
-  if(!selectedRecipe || !DIP_SAUCES[val]) return;
+  if(!selectedRecipe || !DIP_SAUCES[val] || !getAvailableDips(selectedRecipe).some(dip => dip.key === val)) return;
   localStorage.setItem(`dip_${selectedRecipe.name}`, val);
 }
 
