@@ -467,6 +467,17 @@ html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
 @media(max-width:800px){.pantry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.pantry-section{padding:24px 5%}.pantry-panel{padding:21px 17px;border-radius:20px}.pantry-grid{grid-template-columns:1fr}.pantry-actions button{flex:1}.pantry-card{padding:16px}}
 
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 10px}
+.hero-action{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:13px 20px;border-radius:14px;font-size:15px;font-weight:900;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.hero-action:hover{transform:translateY(-2px)}
+.hero-action-primary{background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border:2px solid #e85d04;box-shadow:0 8px 22px rgba(232,93,4,.22)}
+.hero-action-secondary{background:#fff;color:#9e3c08;border:2px solid #e85d04;box-shadow:0 5px 16px rgba(232,93,4,.08)}
+.hero-action:focus-visible{outline:3px solid #3a1b0f;outline-offset:3px}
+.hero-action-hint{font-size:13px!important;line-height:1.5!important;margin:0 0 20px!important;color:var(--muted)}
+#pantryFinder{scroll-margin-top:110px}
+html[data-theme="dark"] .hero-action-secondary{background:#211b17;color:#ffb77e;border-color:#ff8747}
+html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
+@media(max-width:560px){.hero-actions{display:grid;grid-template-columns:1fr;gap:10px}.hero-action{width:100%;min-height:52px;font-size:15px}.hero-action-hint{font-size:12px!important}}
 </style>
 </head>
 <body>
@@ -508,7 +519,11 @@ html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
     </div>
     <h1>Good food makes every day a <em>FestiBite.</em></h1>
     <p>Explore a colorful collection of breakfast, lunch, dinner, dessert and snack recipes. Every recipe includes ingredients, cooking time, servings, difficulty and detailed instructions.</p>
-  <a class="guide-home-link" href="./how-to-use.html">📖 How to Use FestiBites</a>
+    <div class="hero-actions" aria-label="Quick start">
+      <a class="hero-action hero-action-primary" href="#pantryFinder">🥕 Open Pantry Finder</a>
+      <a class="hero-action hero-action-secondary" href="./how-to-use.html">📖 How to Use FestiBites</a>
+    </div>
+    <p class="hero-action-hint">Find recipes from ingredients you already have, or open the quick guide to learn every feature.</p>
     <div class="hero-stats">
       <div class="stat"><strong id="heroCount">150+</strong><small>Recipes</small></div>
       <div class="stat"><strong>11</strong><small>Categories</small></div>
