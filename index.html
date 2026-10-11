@@ -952,12 +952,12 @@ const PANTRY_INGREDIENT_ALIASES = {
 
 function pantryCleanIngredient(value){
   let raw=String(value||"").toLowerCase();
-  raw=raw.replace(/\\([^)]*\\)/g," ");
+  raw=raw.replace(/\([^)]*\)/g," ");
   raw=raw.replace(/[½¼¾⅓⅔⅛⅜⅝⅞]/g," ");
   // Strip leading recipe quantities BEFORE punctuation normalization converts fractions.
-  raw=raw.replace(/^\\s*(?:about\\s+)?(?:\\d+\\s+\\d+\\/\\d+|\\d+\\/\\d+|\\d+(?:\\.\\d+)?)(?:\\s*(?:g|kg|mg|ml|l|litres?|liters?|cups?|tbsp|tbsps|tsp|tsps|tablespoons?|teaspoons?|slices?|pieces?|cloves?|cans?|packets?|bunches?|pinches?|handfuls?|large|medium|small))?\\s*/i," ");
-  raw=raw.replace(/\\b(finely chopped|roughly chopped|chopped|sliced|diced|minced|grated|crushed|softened|melted|optional|to taste|for garnish|as needed|freshly|boneless|skinless|ripe)\\b/g," ");
-  let text=normalizeSearchText(raw).replace(/\\s+/g," ").trim();
+  raw=raw.replace(/^\s*(?:about\s+)?(?:\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)(?:\s*(?:g|kg|mg|ml|l|litres?|liters?|cups?|tbsp|tbsps|tsp|tsps|tablespoons?|teaspoons?|slices?|pieces?|cloves?|cans?|packets?|bunches?|pinches?|handfuls?|large|medium|small))?\s*/i," ");
+  raw=raw.replace(/\b(finely chopped|roughly chopped|chopped|sliced|diced|minced|grated|crushed|softened|melted|optional|to taste|for garnish|as needed|freshly|boneless|skinless|ripe)\b/g," ");
+  let text=normalizeSearchText(raw).replace(/\s+/g," ").trim();
   if(PANTRY_INGREDIENT_ALIASES[text]) text=PANTRY_INGREDIENT_ALIASES[text];
   const words=text.split(" ").filter(Boolean).map(word=>{
     if(word.endsWith("ies") && word.length>4) return word.slice(0,-3)+"y";
