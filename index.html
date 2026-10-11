@@ -940,8 +940,8 @@ function pantryNormalizeWord(word){
   else if(value.endsWith("oes") && value.length>4) value=value.slice(0,-2);
   else if(value.endsWith("s") && !value.endsWith("ss") && value.length>3) value=value.slice(0,-1);
   const aliases={
-    chilli:"chili", chillies:"chili", cilantro:"coriander", scallions:"spring onion",
-    aubergine:"eggplant", brinjal:"eggplant", capsicum:"bell pepper", curd:"yogurt",
+    chilli:"chili", chillies:"chili", cilantro:"coriander", scallions:"scallion",
+    aubergine:"eggplant", brinjal:"eggplant", capsicum:"capsicum", curd:"yogurt",
     yoghurt:"yogurt", maida:"flour", coriander:"coriander"
   };
   return aliases[value] || value;
