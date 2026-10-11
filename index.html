@@ -438,6 +438,12 @@ html[data-theme="dark"] #dipRecommendation select {
 #pantryIngredients:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(242,106,33,.12)}
 .pantry-help{font-size:12px;color:var(--muted);margin:8px 0 14px;line-height:1.5}
 .pantry-actions{display:flex;gap:10px;flex-wrap:wrap}
+.pantry-quick-add{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.pantry-quick-add span{font-size:12px;font-weight:800;color:var(--muted);margin-right:2px}
+.pantry-quick-add button{border:1px solid #e8cdbd;border-radius:999px;padding:7px 11px;background:#fff;color:var(--ink);font:inherit;font-size:12px;font-weight:750;cursor:pointer;min-height:34px}
+.pantry-quick-add button:hover,.pantry-quick-add button:focus-visible{border-color:var(--coral);outline:2px solid rgba(242,106,33,.18);outline-offset:1px}
+html[data-theme="dark"] .pantry-quick-add button{background:#211b17;color:var(--ink);border-color:#594438}
+
 .pantry-find-btn,.pantry-clear-btn{min-height:44px;padding:11px 18px;border-radius:12px;font:inherit;font-weight:850;cursor:pointer}
 .pantry-find-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;box-shadow:0 8px 20px rgba(232,93,4,.2)}
 .pantry-clear-btn{border:1px solid #e8cdbd;background:#fff;color:var(--ink)}
@@ -588,6 +594,15 @@ html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
     <label class="pantry-label" for="pantryIngredients">Your ingredients</label>
     <textarea id="pantryIngredients" rows="3" placeholder="e.g. chicken, rice, onion, tomato, garlic" aria-describedby="pantryHelp"></textarea>
     <p class="pantry-help" id="pantryHelp">Separate ingredients with commas or new lines. Example: chicken, rice, onion. Matching is automatic, so check the full recipe before cooking.</p>
+    <div class="pantry-quick-add" aria-label="Quick add common ingredients">
+      <span>Quick add:</span>
+      <button type="button" data-pantry-ingredient="Chicken">Chicken</button>
+      <button type="button" data-pantry-ingredient="Rice">Rice</button>
+      <button type="button" data-pantry-ingredient="Egg">Egg</button>
+      <button type="button" data-pantry-ingredient="Potato">Potato</button>
+      <button type="button" data-pantry-ingredient="Tomato">Tomato</button>
+      <button type="button" data-pantry-ingredient="Onion">Onion</button>
+    </div>
     <div class="pantry-actions">
       <button type="button" class="pantry-find-btn" id="findPantryRecipes">✨ Find My Recipes</button>
       <button type="button" class="pantry-clear-btn" id="clearPantryIngredients">Clear</button>
@@ -1055,6 +1070,18 @@ function openPantryRecipe(index){
   openRecipe(index);
   currentList=previousList;
 }
+
+document.querySelectorAll("[data-pantry-ingredient]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const field=document.getElementById("pantryIngredients");
+    const item=button.dataset.pantryIngredient;
+    const existing=(field.value||"").split(/[,;\\n]+/).map(x=>x.trim()).filter(Boolean);
+    if(!existing.some(value=>pantryCleanIngredient(value)===pantryCleanIngredient(item))){
+      field.value=existing.concat(item).join(", ");
+    }
+    field.focus();
+  });
+});
 
 document.getElementById("findPantryRecipes").addEventListener("click",findPantryRecipes);
 document.getElementById("clearPantryIngredients").addEventListener("click",()=>{
