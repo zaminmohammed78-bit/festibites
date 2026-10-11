@@ -941,7 +941,7 @@ const PANTRY_INGREDIENT_ALIASES = {
   curd:"yogurt", yoghurt:"yogurt", dahi:"yogurt", maida:"all purpose flour",
   atta:"whole wheat flour", besan:"gram flour", chickpea:"chickpeas",
   "chick pea":"chickpeas", "garbanzo beans":"chickpeas", prawns:"shrimp",
-  prawn:"shrimp", lime:"lime", lemon:"lemon", coriander leaves:"coriander",
+  prawn:"shrimp", lime:"lime", lemon:"lemon", "coriander leaves":"coriander",
   cilantro leaves:"coriander", spring onions:"spring onion", potatoes:"potato",
   tomatoes:"tomato", onions:"onion", eggs:"egg", mushrooms:"mushroom",
   noodles:"noodle", spaghetti:"pasta", macaroni:"pasta", paneer:"paneer",
@@ -950,10 +950,10 @@ const PANTRY_INGREDIENT_ALIASES = {
 
 function pantryCleanIngredient(value){
   let text=normalizeSearchText(String(value||""));
-  text=text.replace(/\\([^)]*\\)/g," ");
-  text=text.replace(/^\\s*(?:about\\s+)?(?:\\d+(?:\\.\\d+)?|\\d+\\/\\d+|\\d+\\s+\\d+\\/\\d+)\\s*(?:g|kg|ml|l|litres?|liters?|cups?|tbsp|tsp|tablespoons?|teaspoons?|slices?|pieces?|cloves?|cans?|packets?|bunches?|pinches?|handfuls?)?\\s*/i," ");
-  text=text.replace(/\\b(finely chopped|roughly chopped|chopped|sliced|diced|minced|grated|crushed|softened|melted|optional|to taste|for garnish|as needed|freshly|boneless|skinless)\\b/g," ");
-  text=text.replace(/\\s+/g," ").trim();
+  text=text.replace(/\([^)]*\)/g," ");
+  text=text.replace(/^\s*(?:about\s+)?(?:\d+(?:\.\d+)?|\d+\/\d+|\d+\s+\d+\/\d+)\s*(?:g|kg|ml|l|litres?|liters?|cups?|tbsp|tsp|tablespoons?|teaspoons?|slices?|pieces?|cloves?|cans?|packets?|bunches?|pinches?|handfuls?)?\s*/i," ");
+  text=text.replace(/\b(finely chopped|roughly chopped|chopped|sliced|diced|minced|grated|crushed|softened|melted|optional|to taste|for garnish|as needed|freshly|boneless|skinless)\b/g," ");
+  text=text.replace(/\s+/g," ").trim();
   if(PANTRY_INGREDIENT_ALIASES[text]) text=PANTRY_INGREDIENT_ALIASES[text];
   const words=text.split(" ").filter(Boolean).map(word=>{
     if(word.endsWith("ies") && word.length>4) return word.slice(0,-3)+"y";
@@ -980,7 +980,7 @@ function findPantryRecipes(){
   const gridEl=document.getElementById("pantryGrid");
   const title=document.getElementById("pantryResultsTitle");
   const note=document.getElementById("pantryResultsNote");
-  const ingredients=[...new Set((field.value||"").split(/[,;\\n]+/).map(x=>x.trim()).filter(Boolean).map(x=>x.slice(0,70)).map(pantryCleanIngredient).filter(Boolean))];
+  const ingredients=[...new Set((field.value||"").split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean).map(x=>x.slice(0,70)).map(pantryCleanIngredient).filter(Boolean))];
   wrap.style.display="block";
   gridEl.innerHTML="";
   if(!ingredients.length){
