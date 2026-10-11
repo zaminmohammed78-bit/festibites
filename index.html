@@ -425,6 +425,42 @@ html[data-theme="dark"] #dipRecommendation select {
   color: #fff0e6 !important;
   border-color: #765640 !important;
 }
+
+/* What's in Your Fridge? pantry recipe finder */
+.pantry-section{padding:32px 6% 28px;scroll-margin-top:110px}
+.pantry-panel{max-width:1050px;margin:0 auto;padding:clamp(22px,4vw,38px);border:1px solid #f2d6c5;border-radius:26px;background:radial-gradient(circle at 95% 0%,rgba(255,154,77,.18),transparent 30%),linear-gradient(135deg,#fff 0%,#fff6ee 100%);box-shadow:0 16px 42px rgba(146,69,25,.08)}
+.pantry-heading{max-width:760px;margin-bottom:22px}
+.pantry-eyebrow{display:inline-block;color:#c34b0b;font-size:11px;letter-spacing:1.5px;font-weight:900;margin-bottom:10px}
+.pantry-heading h2{font-size:clamp(27px,4vw,38px);letter-spacing:-1px;margin-bottom:10px}
+.pantry-heading p{color:var(--muted);line-height:1.65}
+.pantry-label{display:block;font-weight:850;margin:0 0 8px}
+#pantryIngredients{display:block;width:100%;min-height:100px;resize:vertical;padding:15px 16px;border:1px solid #e8cdbd;border-radius:14px;background:#fff;color:var(--ink);font:inherit;line-height:1.6;outline:none}
+#pantryIngredients:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(242,106,33,.12)}
+.pantry-help{font-size:12px;color:var(--muted);margin:8px 0 14px;line-height:1.5}
+.pantry-actions{display:flex;gap:10px;flex-wrap:wrap}
+.pantry-find-btn,.pantry-clear-btn{min-height:44px;padding:11px 18px;border-radius:12px;font:inherit;font-weight:850;cursor:pointer}
+.pantry-find-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;box-shadow:0 8px 20px rgba(232,93,4,.2)}
+.pantry-clear-btn{border:1px solid #e8cdbd;background:#fff;color:var(--ink)}
+.pantry-results-wrap{margin-top:28px;padding-top:24px;border-top:1px solid #f0d9ca}
+.pantry-results-heading{margin-bottom:16px}
+.pantry-results-heading h3{font-size:23px;margin-bottom:5px}
+.pantry-results-heading p{font-size:13px;color:var(--muted);line-height:1.5}
+.pantry-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.pantry-card{min-width:0;background:#fff;border:1px solid var(--line);border-radius:17px;padding:17px;display:flex;flex-direction:column;gap:10px;box-shadow:0 7px 20px rgba(102,54,28,.05)}
+.pantry-card h4{font-size:18px;line-height:1.3}
+.pantry-card p{font-size:13px;color:var(--muted);line-height:1.5}
+.pantry-card .pantry-match{display:inline-flex;align-self:flex-start;padding:5px 9px;border-radius:99px;background:#fff0e6;color:#a63e07;font-size:11px;font-weight:900}
+.pantry-card .pantry-missing{font-size:12px;line-height:1.55;color:var(--muted);overflow-wrap:anywhere}
+.pantry-card .view{margin-top:auto}
+.pantry-empty{grid-column:1/-1;padding:20px;border-radius:14px;background:#fff8f2;color:var(--muted);line-height:1.6}
+html[data-theme="dark"] .pantry-panel{background:linear-gradient(135deg,#211a15,#302017)!important;border-color:var(--line)!important;color:var(--ink)}
+html[data-theme="dark"] .pantry-card{background:#241e19!important;border-color:var(--line)!important;color:var(--ink)}
+html[data-theme="dark"] #pantryIngredients,html[data-theme="dark"] .pantry-clear-btn{background:#211b17!important;color:var(--ink)!important;border-color:#594438!important}
+html[data-theme="dark"] .pantry-card .pantry-match{background:#492b1c;color:#ffb77e}
+html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
+@media(max-width:800px){.pantry-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.pantry-section{padding:24px 5%}.pantry-panel{padding:21px 17px;border-radius:20px}.pantry-grid{grid-template-columns:1fr}.pantry-actions button{flex:1}.pantry-card{padding:16px}}
+
 </style>
 </head>
 <body>
@@ -442,6 +478,7 @@ html[data-theme="dark"] #dipRecommendation select {
     <a href="#home">Home</a>
     <a href="#categories">Categories</a>
     <a href="#recipes">Recipes</a>
+    <a href="#pantryFinder">Pantry Finder</a>
     <a href="#about">About</a>
     <a href="#submit-recipe">Share Recipe</a>
     <a href="./how-to-use.html">How to Use</a>
@@ -509,6 +546,30 @@ html[data-theme="dark"] #dipRecommendation select {
     <button type="button" class="surprise-btn" onclick="openSpinnerModal()" title="Surprise Me Spinner">🎲 Surprise Me</button>
   </div>
 </div>
+
+<section class="pantry-section" id="pantryFinder" aria-labelledby="pantryTitle">
+  <div class="pantry-panel">
+    <div class="pantry-heading">
+      <span class="pantry-eyebrow">LESS WASTE • MORE TASTE</span>
+      <h2 id="pantryTitle">🥕 What’s in Your Fridge?</h2>
+      <p>Tell us what you have at home. We’ll find recipes from FestiBites that use the most of your ingredients.</p>
+    </div>
+    <label class="pantry-label" for="pantryIngredients">Your ingredients</label>
+    <textarea id="pantryIngredients" rows="3" placeholder="e.g. chicken, rice, onion, tomato, garlic" aria-describedby="pantryHelp"></textarea>
+    <p class="pantry-help" id="pantryHelp">Separate ingredients with commas or new lines. Add at least one ingredient.</p>
+    <div class="pantry-actions">
+      <button type="button" class="pantry-find-btn" id="findPantryRecipes">✨ Find My Recipes</button>
+      <button type="button" class="pantry-clear-btn" id="clearPantryIngredients">Clear</button>
+    </div>
+    <div class="pantry-results-wrap" id="pantryResultsWrap" aria-live="polite" style="display:none;">
+      <div class="pantry-results-heading">
+        <h3 id="pantryResultsTitle">Your matches</h3>
+        <p id="pantryResultsNote"></p>
+      </div>
+      <div class="pantry-grid" id="pantryGrid"></div>
+    </div>
+  </div>
+</section>
 
 <div class="controls" id="categories">
   <button class="chip active" data-cat="All">All</button>
@@ -869,6 +930,124 @@ function filterRecipes(resetPage = true){
   if(resetPage) visibleCount=q ? list.length : (window.innerWidth>800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE);
   render(list);
 }
+
+// Pantry finder: compare user-entered ingredients with the existing recipe list.
+let pantryResults = [];
+
+function pantryNormalizeWord(word){
+  let value=normalizeSearchText(word);
+  if(value.endsWith("ies") && value.length>4) value=value.slice(0,-3)+"y";
+  else if(value.endsWith("oes") && value.length>4) value=value.slice(0,-2);
+  else if(value.endsWith("s") && !value.endsWith("ss") && value.length>3) value=value.slice(0,-1);
+  const aliases={
+    chilli:"chili", chillies:"chili", cilantro:"coriander", scallions:"spring onion",
+    aubergine:"eggplant", brinjal:"eggplant", capsicum:"bell pepper", curd:"yogurt",
+    yoghurt:"yogurt", maida:"flour", coriander:"coriander"
+  };
+  return aliases[value] || value;
+}
+
+function pantryWordForms(value){
+  return normalizeSearchText(value).split(" ").filter(Boolean).map(pantryNormalizeWord);
+}
+
+function pantryIngredientMatches(userIngredient, recipeIngredient){
+  const wanted=pantryWordForms(userIngredient);
+  const available=pantryWordForms(recipeIngredient);
+  if(!wanted.length || !available.length) return false;
+  if(wanted.length>1){
+    const phrase=wanted.join(" ");
+    const line=available.join(" ");
+    if((" "+line+" ").includes(" "+phrase+" ")) return true;
+    return wanted.every(word=>available.includes(word));
+  }
+  return available.includes(wanted[0]);
+}
+
+function findPantryRecipes(){
+  const field=document.getElementById("pantryIngredients");
+  const wrap=document.getElementById("pantryResultsWrap");
+  const gridEl=document.getElementById("pantryGrid");
+  const title=document.getElementById("pantryResultsTitle");
+  const note=document.getElementById("pantryResultsNote");
+  const ingredients=[...new Set((field.value||"").split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean).map(x=>x.slice(0,70)))];
+  wrap.style.display="block";
+  gridEl.innerHTML="";
+  if(!ingredients.length){
+    title.textContent="Add your ingredients first";
+    note.textContent="Type at least one ingredient, such as potato, egg or tomato.";
+    gridEl.innerHTML='<div class="pantry-empty">Enter one or more ingredients above, separated by commas or new lines, then tap Find My Recipes.</div>';
+    return;
+  }
+  const ranked=(Array.isArray(recipes)?recipes:[]).map(recipe=>{
+    const listed=Array.isArray(recipe.ingredients)?recipe.ingredients:[];
+    const matched=ingredients.filter(userItem=>listed.some(line=>pantryIngredientMatches(userItem,line)));
+    const matchedLines=listed.filter(line=>ingredients.some(userItem=>pantryIngredientMatches(userItem,line)));
+    const missing=listed.filter(line=>!ingredients.some(userItem=>pantryIngredientMatches(userItem,line)));
+    return {recipe,matched,matchedLines,missing,percentage:Math.round(matched.length/ingredients.length*100)};
+  }).filter(item=>item.matched.length>0)
+    .sort((a,b)=>b.matched.length-a.matched.length || b.percentage-a.percentage || a.missing.length-b.missing.length || String(a.recipe.name).localeCompare(String(b.recipe.name)));
+  pantryResults=ranked.map(item=>item.recipe);
+  title.textContent=ranked.length ? "Recipes you can make more easily" : "No matches yet";
+  note.textContent=ranked.length
+    ? "Ranked by how many of your ingredients match. The percentage measures your entered ingredients found, not whether every recipe ingredient is available."
+    : "We couldn't find these ingredients in the current recipe list. Try common names such as onion, potato, rice, egg or chicken.";
+  if(!ranked.length){
+    gridEl.innerHTML='<div class="pantry-empty">Try adding a different ingredient or two. Your recipes have not been changed.</div>';
+    return;
+  }
+  ranked.slice(0,24).forEach((item,index)=>{
+    const card=document.createElement("article");
+    card.className="pantry-card";
+    const heading=document.createElement("h4");
+    heading.textContent=item.recipe.name||"Recipe";
+    const match=document.createElement("span");
+    match.className="pantry-match";
+    match.textContent=item.matched.length+" of "+ingredients.length+" ingredients matched ("+item.percentage+"%)";
+    const description=document.createElement("p");
+    description.textContent=item.recipe.description||"Explore this recipe on FestiBites.";
+    const missing=document.createElement("p");
+    missing.className="pantry-missing";
+    const missingLabel=document.createElement("strong");
+    missingLabel.textContent="Still listed in recipe: ";
+    missing.appendChild(missingLabel);
+    missing.appendChild(document.createTextNode(item.missing.length ? item.missing.slice(0,4).join(", ")+(item.missing.length>4?" and "+(item.missing.length-4)+" more":"") : "All listed ingredients matched"));
+    const open=document.createElement("button");
+    open.type="button";
+    open.className="view";
+    open.textContent="View full recipe";
+    open.addEventListener("click",()=>openPantryRecipe(index));
+    card.append(heading,match,description,missing,open);
+    gridEl.appendChild(card);
+  });
+  if(ranked.length>24){
+    const more=document.createElement("p");
+    more.className="pantry-empty";
+    more.textContent="Showing the top 24 matches. Try adding more ingredients to narrow the results.";
+    gridEl.appendChild(more);
+  }
+}
+
+function openPantryRecipe(index){
+  const previousList=currentList;
+  currentList=pantryResults;
+  openRecipe(index);
+  currentList=previousList;
+}
+
+document.getElementById("findPantryRecipes").addEventListener("click",findPantryRecipes);
+document.getElementById("clearPantryIngredients").addEventListener("click",()=>{
+  document.getElementById("pantryIngredients").value="";
+  document.getElementById("pantryResultsWrap").style.display="none";
+  document.getElementById("pantryGrid").innerHTML="";
+  document.getElementById("pantryIngredients").focus();
+});
+document.getElementById("pantryIngredients").addEventListener("keydown",event=>{
+  if(event.key==="Enter" && (event.ctrlKey || event.metaKey)){
+    event.preventDefault();
+    findPantryRecipes();
+  }
+});
 
 seeMoreBtn.addEventListener("click",()=>{
   visibleCount+=window.innerWidth>800 ? DESKTOP_PAGE_SIZE : PAGE_SIZE;
