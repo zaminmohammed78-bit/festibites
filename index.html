@@ -509,6 +509,7 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
     aria-label="Switch to dark mode">
     🌙 Dark Mode
   </button>
+  <button id="languageToggle" class="theme-toggle language-toggle" type="button" aria-label="Change website language to Malayalam" aria-pressed="false">മലയാളം</button>
   <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
 
@@ -2057,6 +2058,74 @@ if ("serviceWorker" in navigator) {
   });
 })();
 
+</script>
+<!-- Optional page translation. Original recipe data remains unchanged. -->
+<div id="google_translate_element" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true"></div>
+<script>
+(function () {
+  const button = document.getElementById("languageToggle");
+  if (!button) return;
+  let currentLanguage = "en";
+  const labels = {
+    en: { text: "മലയാളം", aria: "Change website language to Malayalam" },
+    ml: { text: "English", aria: "Change website language to English" }
+  };
+
+  function setLanguageButton(lang) {
+    currentLanguage = lang;
+    button.textContent = labels[lang].text;
+    button.setAttribute("aria-label", labels[lang].aria);
+    button.setAttribute("aria-pressed", String(lang === "ml"));
+  }
+
+  function applyGoogleLanguage(lang) {
+    const select = document.querySelector(".goog-te-combo");
+    if (!select) return false;
+    select.value = lang;
+    select.dispatchEvent(new Event("change"));
+    setLanguageButton(lang);
+    return true;
+  }
+
+  button.addEventListener("click", function () {
+    const target = currentLanguage === "en" ? "ml" : "en";
+    if (applyGoogleLanguage(target)) return;
+    // The translation library can load a moment after the page; retry briefly on later user taps.
+    button.textContent = target === "ml" ? "Loading മലയാളം…" : "Loading English…";
+    button.setAttribute("aria-busy", "true");
+    const started = Date.now();
+    const retry = window.setInterval(function () {
+      if (applyGoogleLanguage(target)) {
+        window.clearInterval(retry);
+        button.removeAttribute("aria-busy");
+      } else if (Date.now() - started > 10000) {
+        window.clearInterval(retry);
+        button.removeAttribute("aria-busy");
+        setLanguageButton(currentLanguage);
+        window.alert("Language translation is not available right now. Please check your internet connection and try again.");
+      }
+    }, 250);
+  });
+
+  window.googleTranslateElementInit = function () {
+    if (!window.google || !google.translate) return;
+    new google.translate.TranslateElement({
+      pageLanguage: "en",
+      includedLanguages: "en,ml",
+      autoDisplay: false
+    }, "google_translate_element");
+  };
+  setLanguageButton("en");
+  const script = document.createElement("script");
+  script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  script.async = true;
+  script.onerror = function () {
+    button.addEventListener("click", function () {
+      window.alert("Language translation could not load. Please try again when connected to the internet.");
+    }, { once: true });
+  };
+  document.head.appendChild(script);
+})();
 </script>
 </body>
 </html>
