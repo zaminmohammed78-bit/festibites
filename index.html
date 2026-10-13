@@ -279,11 +279,10 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 }
 .theme-toggle:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
 .language-control { display:flex; align-items:center; gap:6px; flex-shrink:0; }
-.gtranslate_wrapper { display:flex; align-items:center; flex-shrink:0; }
-.gtranslate_wrapper .language-label { color:var(--ink); font-size:12px; font-weight:800; }
-.gtranslate_wrapper select { max-width:140px; padding:10px 12px; border:1px solid var(--line); border-radius:999px; background:var(--cream); color:var(--ink); font:inherit; font-size:13px; font-weight:700; }
-.gtranslate_wrapper select:focus-visible { outline:3px solid var(--coral); outline-offset:3px; }
-@media(max-width:560px){ .language-control { gap:4px; } .gtranslate_wrapper select { max-width:124px; padding:9px 10px; font-size:12px; } }
+.language-control .language-label { color:var(--ink); font-size:12px; font-weight:800; white-space:nowrap; }
+#siteLanguage { max-width:140px; padding:10px 12px; border:1px solid var(--line); border-radius:999px; background:var(--cream); color:var(--ink); font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+#siteLanguage:focus-visible { outline:3px solid var(--coral); outline-offset:3px; }
+@media(max-width:560px){ .language-control { gap:4px; } #siteLanguage { max-width:124px; padding:9px 10px; font-size:12px; } }
 
 html[data-theme="dark"] {
   color-scheme: dark;
@@ -515,7 +514,13 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
     aria-label="Switch to dark mode">
     🌙 Dark Mode
   </button>
-  <div class="language-control"><span class="language-label">Language</span><div id="gtranslate_wrapper" class="gtranslate_wrapper" aria-label="Choose website language"></div></div>
+  <div class="language-control" aria-label="Website language">
+    <label class="language-label" for="siteLanguage">Language / ഭാഷ</label>
+    <select id="siteLanguage" aria-label="Choose website language">
+      <option value="en">English</option>
+      <option value="ml">മലയാളം</option>
+    </select>
+  </div>
   <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
 
@@ -2067,15 +2072,101 @@ if ("serviceWorker" in navigator) {
 </script>
 <!-- Language selector powered by GTranslate; recipe data is not modified. -->
 <script>
-  window.gtranslateSettings = {
-    "default_language": "en",
-    "languages": ["en", "ml"],
-    "wrapper_selector": ".gtranslate_wrapper",
-    "switcher_horizontal_position": "inline",
-    "float_switcher_open_direction": "bottom"
+/* FestiBites manual English/Malayalam interface translations.
+   Recipe data stays untouched; translated recipe content will be added in a separate safe step. */
+(function () {
+  const translations = {
+    "Home":"ഹോം","Categories":"വിഭാഗങ്ങൾ","Recipes":"പാചകക്കുറിപ്പുകൾ",
+    "Pantry Finder":"അടുക്കളയിലെ സാധനങ്ങൾ കണ്ടെത്തുക","About":"ഞങ്ങളെക്കുറിച്ച്",
+    "Share Recipe":"പാചകക്കുറിപ്പ് പങ്കിടുക","How to Use":"എങ്ങനെ ഉപയോഗിക്കാം","Help":"സഹായം",
+    "Language":"ഭാഷ","Language / ഭാഷ":"ഭാഷ / Language",
+    "Good food makes every day a ":"നല്ല ഭക്ഷണം ഓരോ ദിവസവും ",
+    "Explore":"പര്യവേക്ഷണം ചെയ്യൂ","Search":"തിരയുക",
+    "Search recipe names, ingredients, cuisines, descriptions or cooking steps.":"പാചകക്കുറിപ്പുകളുടെ പേര്, ചേരുവകൾ, വിഭവരീതി, വിവരണം അല്ലെങ്കിൽ തയ്യാറാക്കുന്ന ഘട്ടങ്ങൾ തിരയുക.",
+    "Try:":"ഇവ പരീക്ഷിക്കൂ:","Biryani":"ബിരിയാണി","Chicken":"ചിക്കൻ","Pasta":"പാസ്ത","Paneer":"പനീർ","Chocolate":"ചോക്ലേറ്റ്","Garlic":"വെളുത്തുള്ളി",
+    "Cook Today's Special →":"ഇന്നത്തെ പ്രത്യേക വിഭവം തയ്യാറാക്കൂ →",
+    "View Recipe →":"പാചകക്കുറിപ്പ് കാണുക →","View Recipe":"പാചകക്കുറിപ്പ് കാണുക",
+    "Ingredients":"ചേരുവകൾ","Instructions":"തയ്യാറാക്കുന്ന വിധം","Step-by-step cooking":"ഘട്ടം ഘട്ടമായുള്ള പാചകം",
+    "Breakfast":"പ്രഭാതഭക്ഷണം","Lunch":"ഉച്ചഭക്ഷണം","Dinner":"രാത്രിഭക്ഷണം","Dessert":"മധുരവിഭവം",
+    "Easy":"എളുപ്പം","Medium":"ഇടത്തരം","Hard":"കഠിനം",
+    "minutes":"മിനിറ്റ്","Servings":"പെരുക്കം","servings":"പേർക്കുള്ളത്",
+    "No close matches found 😕":"അനുയോജ്യമായ വിഭവങ്ങൾ കണ്ടെത്താനായില്ല 😕",
+    "Try a shorter search, check the spelling, or search for an ingredient like ":"ചെറിയ വാക്ക് ഉപയോഗിച്ച് തിരയൂ, അക്ഷരത്തെറ്റ് പരിശോധിക്കൂ, അല്ലെങ്കിൽ ഈ ചേരുവകൾ തിരയൂ: ",
+    "Showing":"കാണിക്കുന്നു","recipes":"പാചകക്കുറിപ്പുകൾ",
+    "Dark Mode":"ഡാർക്ക് മോഡ്","Light Mode":"ലൈറ്റ് മോഡ്",
+    "How to use FestiBites":"FestiBites എങ്ങനെ ഉപയോഗിക്കാം",
+    "Find recipes using ingredients you already have.":"നിങ്ങളുടെ കൈവശമുള്ള ചേരുവകൾ ഉപയോഗിച്ച് പാചകക്കുറിപ്പുകൾ കണ്ടെത്തൂ."
   };
+  const attributeNames = ["placeholder","aria-label","title"];
+  const originalText = new WeakMap();
+  const originalAttrs = new WeakMap();
+  let currentLanguage = "en";
+  function translateTextNode(node) {
+    if (!originalText.has(node)) originalText.set(node, node.nodeValue);
+    const original = originalText.get(node);
+    if (currentLanguage === "en") { node.nodeValue = original; return; }
+    const trimmed = original.trim();
+    if (!trimmed) return;
+    const translated = translations[trimmed];
+    if (translated) {
+      const start = original.indexOf(trimmed);
+      node.nodeValue = original.slice(0,start) + translated + original.slice(start + trimmed.length);
+    }
+  }
+  function translateElement(el) {
+    if (!el || el.nodeType !== 1 || /^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA|CODE)$/.test(el.tagName)) return;
+    if (!originalAttrs.has(el)) {
+      const saved = {};
+      attributeNames.forEach(a => { if (el.hasAttribute(a)) saved[a] = el.getAttribute(a); });
+      originalAttrs.set(el, saved);
+    }
+    const saved = originalAttrs.get(el);
+    attributeNames.forEach(a => {
+      if (saved[a] !== undefined) {
+        const value = currentLanguage === "ml" ? (translations[saved[a]] || saved[a]) : saved[a];
+        el.setAttribute(a, value);
+      }
+    });
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        return node.parentElement && !/^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA|CODE)$/.test(node.parentElement.tagName)
+          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(translateTextNode);
+  }
+  function applyLanguage(lang) {
+    currentLanguage = lang === "ml" ? "ml" : "en";
+    document.documentElement.lang = currentLanguage;
+    translateElement(document.body);
+    const selector = document.getElementById("siteLanguage");
+    if (selector && selector.value !== currentLanguage) selector.value = currentLanguage;
+    try { localStorage.setItem("festibites_language", currentLanguage); } catch (e) {}
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    const selector = document.getElementById("siteLanguage");
+    if (selector) {
+      let saved = "en";
+      try { saved = localStorage.getItem("festibites_language") || "en"; } catch (e) {}
+      selector.value = saved === "ml" ? "ml" : "en";
+      selector.addEventListener("change", () => applyLanguage(selector.value));
+      applyLanguage(selector.value);
+    }
+    const observer = new MutationObserver(mutations => {
+      if (currentLanguage !== "ml") return;
+      mutations.forEach(m => {
+        m.addedNodes.forEach(node => {
+          if (node.nodeType === 1) translateElement(node);
+          else if (node.nodeType === 3 && node.parentElement && !/^(SCRIPT|STYLE|TEXTAREA|CODE)$/.test(node.parentElement.tagName)) translateTextNode(node);
+        });
+      });
+    });
+    observer.observe(document.body, { childList:true, subtree:true });
+  });
+})();
 </script>
-<script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
 </body>
 </html>
 
