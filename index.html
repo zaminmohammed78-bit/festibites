@@ -514,14 +514,7 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
     aria-label="Switch to dark mode">
     🌙 Dark Mode
   </button>
-  <div class="language-control" aria-label="Website language">
-    <label class="language-label" for="siteLanguage">Language / ഭാഷ</label>
-    <select id="siteLanguage" aria-label="Choose website language">
-      <option value="en">English</option>
-      <option value="ml">മലയാളം</option>
-    </select>
-  </div>
-  <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
+<button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
 
 <section class="hero" id="home">
@@ -2071,138 +2064,7 @@ if ("serviceWorker" in navigator) {
 
 </script>
 <!-- Language selector powered by GTranslate; recipe data is not modified. -->
-<script>
-/* FestiBites manual English/Malayalam interface translations.
-   Recipe data stays untouched; translated recipe content will be added in a separate safe step. */
-(function () {
-  const translations = {
-    "Home":"ഹോം","Categories":"വിഭാഗങ്ങൾ","Recipes":"പാചകക്കുറിപ്പുകൾ",
-    "Pantry Finder":"അടുക്കളയിലെ സാധനങ്ങൾ കണ്ടെത്തുക","About":"ഞങ്ങളെക്കുറിച്ച്",
-    "Share Recipe":"പാചകക്കുറിപ്പ് പങ്കിടുക","How to Use":"എങ്ങനെ ഉപയോഗിക്കാം","Help":"സഹായം",
-    "Language":"ഭാഷ","Language / ഭാഷ":"ഭാഷ",
-    "Good food makes every day a ":"നല്ല ഭക്ഷണം ഓരോ ദിവസവും ",
-    "Explore":"പര്യവേക്ഷണം ചെയ്യൂ","Search":"തിരയുക",
-    "Search recipe names, ingredients, cuisines, descriptions or cooking steps.":"പാചകക്കുറിപ്പുകളുടെ പേര്, ചേരുവകൾ, വിഭവരീതി, വിവരണം അല്ലെങ്കിൽ തയ്യാറാക്കുന്ന ഘട്ടങ്ങൾ തിരയുക.",
-    "Try:":"ഇവ പരീക്ഷിക്കൂ:","Biryani":"ബിരിയാണി","Chicken":"ചിക്കൻ","Pasta":"പാസ്ത","Paneer":"പനീർ","Chocolate":"ചോക്ലേറ്റ്","Garlic":"വെളുത്തുള്ളി",
-    "Cook Today's Special →":"ഇന്നത്തെ പ്രത്യേക വിഭവം തയ്യാറാക്കൂ →",
-    "View Recipe →":"പാചകക്കുറിപ്പ് കാണുക →","View Recipe":"പാചകക്കുറിപ്പ് കാണുക",
-    "Ingredients":"ചേരുവകൾ","Instructions":"തയ്യാറാക്കുന്ന വിധം","Step-by-step cooking":"ഘട്ടം ഘട്ടമായുള്ള പാചകം",
-    "Breakfast":"പ്രഭാതഭക്ഷണം","Lunch":"ഉച്ചഭക്ഷണം","Dinner":"രാത്രിഭക്ഷണം","Dessert":"മധുരവിഭവം",
-    "Easy":"എളുപ്പം","Medium":"ഇടത്തരം","Hard":"കഠിനം",
-    "minutes":"മിനിറ്റ്","Servings":"പെരുക്കം","servings":"പേർക്കുള്ളത്",
-    "No close matches found 😕":"അനുയോജ്യമായ വിഭവങ്ങൾ കണ്ടെത്താനായില്ല 😕",
-    "Try a shorter search, check the spelling, or search for an ingredient like ":"ചെറിയ വാക്ക് ഉപയോഗിച്ച് തിരയൂ, അക്ഷരത്തെറ്റ് പരിശോധിക്കൂ, അല്ലെങ്കിൽ ഈ ചേരുവകൾ തിരയൂ: ",
-    "Showing":"കാണിക്കുന്നു","recipes":"പാചകക്കുറിപ്പുകൾ",
-    "Dark Mode":"ഡാർക്ക് മോഡ്","Light Mode":"ലൈറ്റ് മോഡ്",
-    "How to use FestiBites":"FestiBites എങ്ങനെ ഉപയോഗിക്കാം",
-    "Find recipes using ingredients you already have.":"നിങ്ങളുടെ കൈവശമുള്ള ചേരുവകൾ ഉപയോഗിച്ച് പാചകക്കുറിപ്പുകൾ കണ്ടെത്തൂ.",
-    "Search recipes...":"പാചകക്കുറിപ്പുകൾ തിരയുക...",
-    "Search recipes":"പാചകക്കുറിപ്പുകൾ തിരയുക",
-    "Search by ingredient":"ചേരുവ ഉപയോഗിച്ച് തിരയുക",
-    "Quick Searches":"വേഗത്തിലുള്ള തിരച്ചിൽ",
-    "Surprise Me":"എനിക്കായി ഒരു വിഭവം തിരഞ്ഞെടുക്കൂ",
-    "Quick":"വേഗം",
-    "Quick (under 30 min)":"30 മിനിറ്റിനുള്ളിൽ",
-    "Under 30 minutes":"30 മിനിറ്റിനുള്ളിൽ",
-    "Recipe of the day":"ഇന്നത്തെ പാചകക്കുറിപ്പ്",
-    "View full recipe":"മുഴുവൻ പാചകക്കുറിപ്പും കാണുക",
-    "Full recipe":"മുഴുവൻ പാചകക്കുറിപ്പ്",
-    "No recipe selected":"പാചകക്കുറിപ്പ് തിരഞ്ഞെടുത്തിട്ടില്ല",
-    "Time varies":"സമയം വ്യത്യാസപ്പെടാം",
-    "Not specified":"വ്യക്തമാക്കിയിട്ടില്ല",
-    "Cooking instructions are not available for this recipe yet.":"ഈ പാചകക്കുറിപ്പിന്റെ തയ്യാറാക്കുന്ന വിധം ഇതുവരെ ചേർത്തിട്ടില്ല.",
-    "Search for a recipe":"ഒരു പാചകക്കുറിപ്പ് തിരയുക",
-    "Share your recipe":"നിങ്ങളുടെ പാചകക്കുറിപ്പ് പങ്കിടുക",
-    "Submit your recipe":"നിങ്ങളുടെ പാചകക്കുറിപ്പ് സമർപ്പിക്കുക",
-    "Print recipe":"പാചകക്കുറിപ്പ് അച്ചടിക്കുക",
-    "Increase servings":"കൂടുതൽ പേർക്കുള്ള അളവ്",
-    "Decrease servings":"കുറച്ച് പേർക്കുള്ള അളവ്",
-    "minutes":"മിനിറ്റ്",
-    "Easy":"എളുപ്പം",
-    "Medium":"ഇടത്തരം",
-    "Hard":"കഠിനം"
 
-    ,"Snacks":"ലഘുഭക്ഷണങ്ങൾ","Beverages":"പാനീയങ്ങൾ","Fast Food":"ഫാസ്റ്റ് ഫുഡ്","Indian":"ഇന്ത്യൻ വിഭവങ്ങൾ","Chinese":"ചൈനീസ് വിഭവങ്ങൾ","Arabic":"അറബി വിഭവങ്ങൾ","Desserts":"മധുരപലഹാരങ്ങൾ"
-    ,"Recipe of the Day":"ഇന്നത്തെ പാചകക്കുറിപ്പ്","Today's Special":"ഇന്നത്തെ പ്രത്യേക വിഭവം","Popular Recipes":"ജനപ്രിയ പാചകക്കുറിപ്പുകൾ","All Recipes":"എല്ലാ പാചകക്കുറിപ്പുകളും"
-    ,"Show More":"കൂടുതൽ കാണിക്കുക","Show Less":"കുറച്ച് കാണിക്കുക","Close":"അടയ്ക്കുക","Cancel":"റദ്ദാക്കുക","Save":"സൂക്ഷിക്കുക","Share":"പങ്കിടുക","Copy":"പകർത്തുക","Print":"പ്രിന്റ് ചെയ്യുക"
-    ,"Cooking Time":"പാചക സമയം","Prep Time":"തയ്യാറാക്കുന്ന സമയം","Difficulty":"ബുദ്ധിമുട്ടിന്റെ നില","Category":"വിഭാഗം","Ready in":"തയ്യാറാകാൻ","Serves":"പേർക്കുള്ളത്","people":"പേർ"
-    ,"No recipes found":"പാചകക്കുറിപ്പുകളൊന്നും കണ്ടെത്തിയില്ല","Try again":"വീണ്ടും ശ്രമിക്കുക","Clear search":"തിരച്ചിൽ മായ്ക്കുക","Filters":"ഫിൽട്ടറുകൾ","Vegetarian":"സസ്യാഹാരം","Vegan":"പൂർണ്ണ സസ്യാഹാരം"
-    ,"Nutrition":"പോഷകവിവരം","Nutrition Facts":"പോഷകവിവരങ്ങൾ","Allergens":"അലർജിയുണ്ടാക്കാവുന്ന ചേരുവകൾ","Suggest a Recipe":"പാചകക്കുറിപ്പ് നിർദ്ദേശിക്കുക","Add Recipe":"പാചകക്കുറിപ്പ് ചേർക്കുക"
-    ,"Ready to spin?":"ഒരു വിഭവം തിരഞ്ഞെടുക്കട്ടേ?","Let FestiBites choose a delicious recipe for you.":"നിങ്ങൾക്കായി രുചികരമായൊരു പാചകക്കുറിപ്പ് FestiBites തിരഞ്ഞെടുക്കട്ടെ.","Spin Wheel!":"ചക്രം തിരിക്കൂ!"
-    ,"Next":"അടുത്തത്","Previous":"മുമ്പത്തേത്","Back":"തിരികെ","Done":"പൂർത്തിയായി","Thank you":"നന്ദി","Search results":"തിരച്ചിൽ ഫലങ്ങൾ","Recipe Details":"പാചകക്കുറിപ്പിന്റെ വിവരങ്ങൾ"
-    ,"Method":"തയ്യാറാക്കുന്ന വിധം","Step":"ഘട്ടം","Notes":"കുറിപ്പുകൾ","Tips":"നുറുങ്ങുകൾ","Email":"ഇമെയിൽ","Name":"പേര്","Description":"വിവരണം","Send":"അയയ്ക്കുക","Submit":"സമർപ്പിക്കുക","Required":"നിർബന്ധമാണ്","Optional":"ഐച്ഛികം"
-    ,"Under 30 min":"30 മിനിറ്റിനുള്ളിൽ","All":"എല്ലാം","View all":"എല്ലാം കാണുക"
-  };
-  const attributeNames = ["placeholder","aria-label","title"];
-  const originalText = new WeakMap();
-  const originalAttrs = new WeakMap();
-  let currentLanguage = "en";
-  function translateTextNode(node) {
-    if (!originalText.has(node)) originalText.set(node, node.nodeValue);
-    const original = originalText.get(node);
-    if (currentLanguage === "en") { node.nodeValue = original; return; }
-    const trimmed = original.trim();
-    if (!trimmed) return;
-    const translated = translations[trimmed];
-    if (translated) {
-      const start = original.indexOf(trimmed);
-      node.nodeValue = original.slice(0,start) + translated + original.slice(start + trimmed.length);
-    }
-  }
-  function translateElement(el) {
-    if (!el || el.nodeType !== 1 || /^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA|CODE)$/.test(el.tagName)) return;
-    if (!originalAttrs.has(el)) {
-      const saved = {};
-      attributeNames.forEach(a => { if (el.hasAttribute(a)) saved[a] = el.getAttribute(a); });
-      originalAttrs.set(el, saved);
-    }
-    const saved = originalAttrs.get(el);
-    attributeNames.forEach(a => {
-      if (saved[a] !== undefined) {
-        const value = currentLanguage === "ml" ? (translations[saved[a]] || saved[a]) : saved[a];
-        el.setAttribute(a, value);
-      }
-    });
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
-      acceptNode(node) {
-        return node.parentElement && !/^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA|CODE)$/.test(node.parentElement.tagName)
-          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-      }
-    });
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(translateTextNode);
-  }
-  function applyLanguage(lang) {
-    currentLanguage = lang === "ml" ? "ml" : "en";
-    document.documentElement.lang = currentLanguage;
-    translateElement(document.body);
-    const selector = document.getElementById("siteLanguage");
-    if (selector && selector.value !== currentLanguage) selector.value = currentLanguage;
-    try { localStorage.setItem("festibites_language", currentLanguage); } catch (e) {}
-  }
-  document.addEventListener("DOMContentLoaded", function () {
-    const selector = document.getElementById("siteLanguage");
-    if (selector) {
-      let saved = "en";
-      try { saved = localStorage.getItem("festibites_language") || "en"; } catch (e) {}
-      selector.value = saved === "ml" ? "ml" : "en";
-      selector.addEventListener("change", () => applyLanguage(selector.value));
-      applyLanguage(selector.value);
-    }
-    const observer = new MutationObserver(mutations => {
-      if (currentLanguage !== "ml") return;
-      mutations.forEach(m => {
-        m.addedNodes.forEach(node => {
-          if (node.nodeType === 1) translateElement(node);
-          else if (node.nodeType === 3 && node.parentElement && !/^(SCRIPT|STYLE|TEXTAREA|CODE)$/.test(node.parentElement.tagName)) translateTextNode(node);
-        });
-      });
-    });
-    observer.observe(document.body, { childList:true, subtree:true });
-  });
-})();
-</script>
 </body>
 </html>
 
