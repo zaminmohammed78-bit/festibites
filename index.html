@@ -479,6 +479,13 @@ html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
 html[data-theme="dark"] .hero-action-secondary{background:#211b17;color:#ffb77e;border-color:#ff8747}
 html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
 @media(max-width:560px){.hero-actions{display:grid;grid-template-columns:1fr;gap:10px}.hero-action{width:100%;min-height:52px;font-size:15px}.hero-action-hint{font-size:12px!important}}
+
+/* Compact navigation link for the separate kitchen tools page */
+.tools-nav-link{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:#fff0e6;color:#b9480a!important;border:1px solid #f2c6a7}
+.tools-nav-link:hover{background:#ffe1ca}
+html[data-theme="dark"] .tools-nav-link{background:#38261b;border-color:#65432d;color:#ffc08e!important}
+@media(max-width:850px){nav{gap:10px;flex-wrap:wrap}.tools-nav-link{padding:7px 10px}}
+
 </style>
 </head>
 <body>
@@ -500,6 +507,7 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
     <a href="#about">About</a>
     <a href="#submit-recipe">Share Recipe</a>
     <a href="./how-to-use.html">How to Use</a>
+    <a href="./tools.html" class="tools-nav-link">Kitchen Tools</a>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4-VeQpvjAO6yTsc5qXOcJRYgT3h7r-TljGEAmVKS92aeZcQ/viewform?usp=publish-editor" target="_blank" rel="noopener">Help</a>
   </nav>
   <button
@@ -2061,7 +2069,6 @@ if ("serviceWorker" in navigator) {
 </script>
 <!-- Language selector powered by GTranslate; recipe data is not modified. -->
 
-<script src="./kitchen-tools.js" defer></script>
 </body>
 </html>
 
