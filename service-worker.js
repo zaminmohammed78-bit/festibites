@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v71-weekly-planner';
+const CACHE_NAME = 'festibites-v72-recipe-timer-contrast';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
