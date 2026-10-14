@@ -1956,7 +1956,8 @@ fetch("./recipes.json")
         document.querySelectorAll(".chip").forEach(chip => chip.classList.toggle("active", chip.dataset.cat === "All"));
         search.value = "";
         filterRecipes();
-        openRecipe(requestedIndex);
+        const visibleIndex = currentList.findIndex(r => r && r.name === requestedRecipe);
+        if (visibleIndex >= 0) openRecipe(visibleIndex);
       }
     }
   })
