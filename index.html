@@ -555,6 +555,72 @@ html[data-theme="dark"] textarea:focus-visible {
 .brand-full-logo{display:inline-block;width:38px;height:38px;object-fit:cover;border-radius:50%;clip-path:circle(50% at 50% 50%);filter:drop-shadow(0 4px 8px rgba(232,93,4,.22));vertical-align:middle}
 @media (min-width:700px){.brand-full-logo{width:42px;height:42px}}
 </style>
+
+  <!-- Dark-mode contrast fixes: keep all content readable in both themes. -->
+  <style id="dark-mode-contrast-fixes">
+    html[data-theme="dark"] { color-scheme: dark; }
+    html[data-theme="dark"] body,
+    html[data-theme="dark"] main,
+    html[data-theme="dark"] section { color: var(--ink, #fff0e6); }
+    html[data-theme="dark"] .card h3,
+    html[data-theme="dark"] .card p,
+    html[data-theme="dark"] .tag,
+    html[data-theme="dark"] .meta,
+    html[data-theme="dark"] .empty,
+    html[data-theme="dark"] .empty h3,
+    html[data-theme="dark"] .empty p,
+    html[data-theme="dark"] .submit-box > p,
+    html[data-theme="dark"] .submit-form label,
+    html[data-theme="dark"] .search-hint,
+    html[data-theme="dark"] .quick-searches > span,
+    html[data-theme="dark"] .stat small,
+    html[data-theme="dark"] .instruction-note,
+    html[data-theme="dark"] .serving-note,
+    html[data-theme="dark"] .ingredients li,
+    html[data-theme="dark"] .steps li { color: #e8d9cf !important; }
+    html[data-theme="dark"] .meta { color: #d0bfb4 !important; }
+    html[data-theme="dark"] .tag,
+    html[data-theme="dark"] .nutrition-badge,
+    html[data-theme="dark"] .dietary-badge,
+    html[data-theme="dark"] .allergen-badge { color: #ffd1a6 !important; }
+    html[data-theme="dark"] .search,
+    html[data-theme="dark"] .card,
+    html[data-theme="dark"] .recipe-card,
+    html[data-theme="dark"] .submit-box,
+    html[data-theme="dark"] .category-card,
+    html[data-theme="dark"] .modal-box,
+    html[data-theme="dark"] .modal-body,
+    html[data-theme="dark"] .serving-control,
+    html[data-theme="dark"] .detail { background-color: #241e19 !important; color: #fff0e6 !important; border-color: #49372c !important; }
+    html[data-theme="dark"] .search input,
+    html[data-theme="dark"] .submit-form input,
+    html[data-theme="dark"] .submit-form select,
+    html[data-theme="dark"] .submit-form textarea,
+    html[data-theme="dark"] #shareTextArea { background: #171310 !important; color: #fff0e6 !important; border-color: #594438 !important; }
+    html[data-theme="dark"] input::placeholder,
+    html[data-theme="dark"] textarea::placeholder { color: #c8b8ac !important; opacity: 1; }
+    html[data-theme="dark"] .quick-search-btn,
+    html[data-theme="dark"] .chip,
+    html[data-theme="dark"] .theme-toggle { background: #30251e !important; color: #fff0e6 !important; border-color: #594438 !important; }
+    html[data-theme="dark"] .chip.active,
+    html[data-theme="dark"] .chip:hover,
+    html[data-theme="dark"] .search button,
+    html[data-theme="dark"] .suggest-recipe-btn,
+    html[data-theme="dark"] .google-form-submit,
+    html[data-theme="dark"] .surprise-btn,
+    html[data-theme="dark"] .see-more { color: #fff !important; }
+    html[data-theme="dark"] a:not(.suggest-recipe-btn):not(.google-form-submit) { color: #ffb77e; }
+    html[data-theme="dark"] .view,
+    html[data-theme="dark"] .print-btn { color: #fff0e6 !important; }
+    html[data-theme="dark"] .modal-top h2,
+    html[data-theme="dark"] .modal-top p { color: #fff5ed !important; }
+    html[data-theme="dark"] .close,
+    html[data-theme="dark"] .fav-btn { color: #fff0e6 !important; }
+    html[data-theme="dark"] .steps li.done { color: #b7a69a !important; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]):not([data-theme="dark"]) { color-scheme: dark; }
+    }
+  </style>
 </head>
 <body>
 
