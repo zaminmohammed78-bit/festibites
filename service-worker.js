@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v69-dark-contrast';
+const CACHE_NAME = 'festibites-v70-lean-tools';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
