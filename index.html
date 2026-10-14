@@ -1596,6 +1596,51 @@ function formatRecipeTime(value){
   return remainder ? hours + " hr " + remainder + " min" : hours + " hr";
 }
 
+let recipeTimerRemaining = 0;
+let recipeTimerInterval = null;
+let recipeTimerRunning = false;
+let recipeTimerRecipeName = '';
+function stopRecipeTimerInterval(){
+  if(recipeTimerInterval!==null){clearInterval(recipeTimerInterval);recipeTimerInterval=null;}
+  recipeTimerRunning=false;
+}
+function formatTimerClock(seconds){
+  const n=Math.max(0,Math.floor(Number(seconds)||0));
+  const h=Math.floor(n/3600),m=Math.floor((n%3600)/60),s=n%60;
+  return h>0?h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'):String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function renderRecipeTimer(){
+  const display=document.getElementById('recipeTimerDisplay'),start=document.getElementById('recipeTimerStart'),reset=document.getElementById('recipeTimerReset'),status=document.getElementById('recipeTimerStatus'),note=document.getElementById('recipeTimerNote');
+  if(!display||!start||!reset||!status||!note)return;
+  const minutes=selectedRecipe?Number(selectedRecipe.minutes):0;
+  display.textContent=minutes>0?formatTimerClock(recipeTimerRemaining):'N/A';
+  start.disabled=!(minutes>0)||recipeTimerRemaining<=0; reset.disabled=!(minutes>0);
+  start.textContent=recipeTimerRunning?'Pause timer':'Start timer';
+  if(!(minutes>0)){note.textContent='No cooking time is listed for this recipe, so a timer duration cannot be set.';status.textContent='Timer unavailable for this recipe.';return;}
+  note.textContent='Duration is fixed to this recipe’s listed cooking time: '+formatRecipeTime(minutes)+'.';
+  if(recipeTimerRunning)status.textContent='Timer running for '+(selectedRecipe.name||'this recipe')+'.';
+  else if(recipeTimerRemaining===0)status.textContent='Time is up! Check your food.';
+  else if(recipeTimerRemaining===Math.round(minutes*60))status.textContent='Ready when you are.';
+  else status.textContent='Timer paused.';
+}
+function resetRecipeTimer(){
+  stopRecipeTimerInterval();
+  recipeTimerRemaining=selectedRecipe&&Number(selectedRecipe.minutes)>0?Math.round(Number(selectedRecipe.minutes)*60):0;
+  recipeTimerRecipeName=selectedRecipe?selectedRecipe.name:'';
+  renderRecipeTimer();
+}
+function toggleRecipeTimer(){
+  if(!selectedRecipe||!(Number(selectedRecipe.minutes)>0)||recipeTimerRemaining<=0)return;
+  if(recipeTimerRunning){stopRecipeTimerInterval();renderRecipeTimer();return;}
+  recipeTimerRunning=true;recipeTimerRecipeName=selectedRecipe.name||'';renderRecipeTimer();
+  recipeTimerInterval=setInterval(function(){
+    if(!selectedRecipe||selectedRecipe.name!==recipeTimerRecipeName){stopRecipeTimerInterval();return;}
+    recipeTimerRemaining=Math.max(0,recipeTimerRemaining-1);
+    if(recipeTimerRemaining===0){stopRecipeTimerInterval();renderRecipeTimer();try{if('vibrate' in navigator)navigator.vibrate([250,100,250]);}catch(_){}return;}
+    renderRecipeTimer();
+  },1000);
+}
+
 function openRecipe(index){
   const r = (Array.isArray(currentList) ? currentList[index] : null);
   if(!r || typeof r !== "object"){
@@ -1603,8 +1648,12 @@ function openRecipe(index){
     return;
   }
 
+  stopRecipeTimerInterval();
   selectedRecipe = r;
   originalServings = Math.max(1, Number(r.servings) || 1);
+  recipeTimerRemaining = Number(r.minutes)>0 ? Math.round(Number(r.minutes)*60) : 0;
+  recipeTimerRecipeName = r.name || '';
+  renderRecipeTimer();
   selectedServings = originalServings;
 
   // Open the modal first so a non-essential feature cannot prevent recipe access.
@@ -1689,6 +1738,7 @@ function openSpunRecipe(){
 }
 
 function closeRecipe(){
+  stopRecipeTimerInterval();
   document.getElementById("modal").style.display = "none";
   document.body.style.overflow = "";
 }
