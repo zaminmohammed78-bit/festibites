@@ -68,12 +68,13 @@ nav a:hover{color:var(--coral)}
 .match-pill{display:inline-flex;align-items:center;border-radius:99px;background:#fff0e6;color:#b9480a;padding:4px 8px;font-size:10px;font-weight:900;letter-spacing:.2px}
 .result-tags{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 @media(max-width:560px){.quick-searches{gap:6px}.quick-search-btn{padding:7px 9px}.search .search-clear{padding:0 7px}.search-hint{font-size:11px}}
+@media(max-width:760px){.controls{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;padding-top:10px;padding-bottom:14px}.controls .chip{flex:0 0 auto;white-space:nowrap}.section-head{align-items:flex-start;gap:10px}.section-head h2{font-size:clamp(26px,7vw,36px)}}
 .surprise-row{max-width:760px;margin:10px auto 0;display:flex;justify-content:center}
 .surprise-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);white-space:nowrap;font-family:inherit;min-height:42px}
-.controls{padding:22px 6%;display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+.controls{max-width:1320px;margin:0 auto;padding:12px 6% 16px;display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:8px}
 .chip{border:1px solid #c9ddda;background:white;color:var(--ink);padding:10px 17px;border-radius:99px;font-weight:750;cursor:pointer}
 .chip.active,.chip:hover{background:var(--teal);color:white;border-color:var(--teal)}
-.section{padding:20px 6% 80px}
+.section{padding:10px 6% 64px;scroll-margin-top:18px}
 .section-head{display:flex;align-items:end;justify-content:space-between;margin:10px 0 28px}
 .section-head h2{font-size:36px;letter-spacing:-1px}
 .section-head p{color:var(--muted)}
@@ -479,6 +480,33 @@ html[data-theme="dark"] .pantry-empty{background:#211b17;color:var(--muted)}
 html[data-theme="dark"] .hero-action-secondary{background:#211b17;color:#ffb77e;border-color:#ff8747}
 html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
 @media(max-width:560px){.hero-actions{display:grid;grid-template-columns:1fr;gap:10px}.hero-action{width:100%;min-height:52px;font-size:15px}.hero-action-hint{font-size:12px!important}}
+
+html[data-theme="dark"] .section-head h2,
+html[data-theme="dark"] .section-head p,
+html[data-theme="dark"] .empty,
+html[data-theme="dark"] .empty h3,
+html[data-theme="dark"] .meta,
+html[data-theme="dark"] .pantry-heading h2,
+html[data-theme="dark"] .pantry-heading p,
+html[data-theme="dark"] .pantry-card,
+html[data-theme="dark"] .detail,
+html[data-theme="dark"] .modal-body,
+html[data-theme="dark"] .modal-body p,
+html[data-theme="dark"] .modal-body li,
+html[data-theme="dark"] .category-card p { color: var(--ink) !important; }
+html[data-theme="dark"] .detail,
+html[data-theme="dark"] .pantry-card,
+html[data-theme="dark"] .pantry-panel,
+html[data-theme="dark"] .pantry-results,
+html[data-theme="dark"] .empty { background:#241e19 !important; border-color:var(--line) !important; }
+html[data-theme="dark"] .search-hint,
+html[data-theme="dark"] .quick-searches > span,
+html[data-theme="dark"] .pantry-missing,
+html[data-theme="dark"] .meta { color:var(--muted) !important; }
+html[data-theme="dark"] .view,
+html[data-theme="dark"] .see-more { background:#b94b17 !important; color:#fff !important; }
+html[data-theme="dark"] .controls { background:transparent; }
+
 </style>
 </head>
 <body>
@@ -496,6 +524,7 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
     <a href="#home">Home</a>
     <a href="#categories">Categories</a>
     <a href="#recipes">Recipes</a>
+    <a href="./tools.html">Kitchen Tools</a>
     <a href="#pantryFinder">Pantry Finder</a>
     <a href="#about">About</a>
     <a href="#submit-recipe">Share Recipe</a>
@@ -523,6 +552,7 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
     <div class="hero-actions" aria-label="Quick start">
       <a class="hero-action hero-action-primary" href="#pantryFinder">🥕 Open Pantry Finder</a>
       <a class="hero-action hero-action-secondary" href="./how-to-use.html">📖 How to Use FestiBites</a>
+      <a class="hero-action hero-action-secondary" href="./tools.html">🧑‍🍳 Kitchen Tools</a>
     </div>
     <p class="hero-action-hint">Find recipes from ingredients you already have, or open the quick guide to learn every feature.</p>
     <div class="hero-stats">
@@ -533,20 +563,6 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
   </div>
   <div class="hero-art"></div>
 </section>
-
-<!-- Recipe of the Day Card -->
-<div style="padding:0 6% 25px;">
-  <div id="recipeOfTheDayCard" style="max-width:900px;margin:auto;background:linear-gradient(135deg,#fffdfb,#fff3eb);border:1.5px solid var(--coral);border-radius:24px;padding:24px;box-shadow:0 12px 32px rgba(232,93,4,.12);position:relative;overflow:hidden;">
-    <div style="position:absolute;top:18px;right:18px;background:var(--coral);color:#fff;font-weight:900;font-size:11px;padding:5px 12px;border-radius:99px;text-transform:uppercase;letter-spacing:1px;">⭐ Recipe of the Day</div>
-    <div class="tag" id="rotdCategory" style="color:var(--teal);margin-bottom:6px;">Featured Dish</div>
-    <h2 id="rotdTitle" style="font-size:26px;color:var(--ink);margin-bottom:8px;padding-right:120px;">Loading Today's Special...</h2>
-    <p id="rotdDesc" style="color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:16px;max-width:700px;"></p>
-    <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
-      <span id="rotdMeta" style="color:#647575;font-size:13px;font-weight:700;"></span>
-      <button id="rotdBtn" class="see-more" style="padding:10px 22px;margin:0;font-size:14px;" onclick="openRotdRecipe()">Cook Today's Special →</button>
-    </div>
-  </div>
-</div>
 
 <div class="search-wrap">
   <div class="search" style="position:relative;" role="search">
@@ -599,6 +615,20 @@ html[data-theme="dark"] .hero-action-hint{color:#e0cfc2!important}
   <div class="grid" id="grid"></div>
   <div class="see-more-wrap" id="seeMoreWrap"><button class="see-more" id="seeMoreBtn">Show More Recipes</button></div>
 </section>
+
+<!-- Recipe of the Day Card -->
+<div style="padding:0 6% 25px;">
+  <div id="recipeOfTheDayCard" style="max-width:900px;margin:auto;background:linear-gradient(135deg,#fffdfb,#fff3eb);border:1.5px solid var(--coral);border-radius:24px;padding:24px;box-shadow:0 12px 32px rgba(232,93,4,.12);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:18px;right:18px;background:var(--coral);color:#fff;font-weight:900;font-size:11px;padding:5px 12px;border-radius:99px;text-transform:uppercase;letter-spacing:1px;">⭐ Recipe of the Day</div>
+    <div class="tag" id="rotdCategory" style="color:var(--teal);margin-bottom:6px;">Featured Dish</div>
+    <h2 id="rotdTitle" style="font-size:26px;color:var(--ink);margin-bottom:8px;padding-right:120px;">Loading Today's Special...</h2>
+    <p id="rotdDesc" style="color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:16px;max-width:700px;"></p>
+    <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+      <span id="rotdMeta" style="color:#647575;font-size:13px;font-weight:700;"></span>
+      <button id="rotdBtn" class="see-more" style="padding:10px 22px;margin:0;font-size:14px;" onclick="openRotdRecipe()">Cook Today's Special →</button>
+    </div>
+  </div>
+</div>
 
 <section class="pantry-section" id="pantryFinder" aria-labelledby="pantryTitle">
   <div class="pantry-panel">
@@ -2048,9 +2078,12 @@ if ("serviceWorker" in navigator) {
     }
   }
 
-  let savedTheme = "light";
-  try { savedTheme = localStorage.getItem(storageKey) === "dark" ? "dark" : "light"; }
-  catch (error) { /* Fall back to light mode. */ }
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem(storageKey); }
+  catch (error) { /* Fall back to the system preference. */ }
+  if (savedTheme !== "dark" && savedTheme !== "light") {
+    savedTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
 
   applyTheme(savedTheme, false);
   toggle.addEventListener("click", () => {
@@ -2061,7 +2094,6 @@ if ("serviceWorker" in navigator) {
 </script>
 <!-- Language selector powered by GTranslate; recipe data is not modified. -->
 
-<script src="./kitchen-tools.js" defer></script>
 </body>
 </html>
 
