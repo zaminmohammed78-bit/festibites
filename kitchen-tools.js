@@ -7,7 +7,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 let recipes=[],timer=0,tick=null,running=false,handRecipe=null,step=0;
 function init(data){
  recipes=(Array.isArray(data)?data:[]).filter(r=>r&&r.name&&Array.isArray(r.ingredients)&&Array.isArray(r.steps)).map(r=>({...r,minutes:Number(r.minutes)||0,servings:Math.max(1,Number(r.servings)||2)}));
- if(!recipes.length||document.getElementById("fbKitchenTools"))return;
+ if(document.body.dataset.page!=="tools"||!recipes.length||document.getElementById("fbKitchenTools"))return;
  const css=document.createElement("style");css.textContent=[
  "#fbKitchenTools{padding:28px 5%;max-width:1240px;margin:auto;color:var(--text,#222)}",
  "#fbKitchenTools .fbgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}",
@@ -37,7 +37,7 @@ function init(data){
  let html='<section id="fbKitchenTools"><header style="margin-bottom:18px"><h2>👩‍🍳 Your Kitchen Toolkit</h2><p>Practical cooking helpers. Plans and progress are stored only in this browser; no account or database is needed.</p></header><div class="fbgrid">';
  html+='<article class="fbcard"><h3>⏱️ Cooking Timer</h3><p>Set a countdown for any cooking step.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><label for="fbMin">Minutes</label><input id="fbMin" type="number" min="0" max="999" value="5"></div><div><label for="fbSec">Seconds</label><input id="fbSec" type="number" min="0" max="59" value="0"></div></div><div class="fbtime" id="fbTime" role="timer">05:00</div><div class="fbrow"><button id="fbStart">Start timer</button><button id="fbReset" class="secondary">Reset</button></div><p id="fbTimerStatus" aria-live="polite">Timer ready.</p></article>';
  html+='<article class="fbcard"><h3>📅 Weekly Meal Planner</h3><p>Pick meals for the week and save your plan on this device.</p><div class="fbplan">'+days.map((d,i)=>'<div class="fbday"><strong>'+d+'</strong>'+["Breakfast","Lunch","Dinner"].map(m=>'<label for="fbp'+i+m+'">'+m+'</label><select id="fbp'+i+m+'" data-day="'+i+'" data-meal="'+m+'"><option value="">Choose recipe</option></select>').join("")+'</div>').join("")+'</div><div class="fbrow"><button id="fbSavePlan">Save plan</button><button id="fbClearPlan" class="secondary">Clear plan</button></div><p id="fbPlanStatus" aria-live="polite">Changes save when you tap Save.</p></article>';
- html+='<article class="fbcard"><h3>🧑‍🍳 Hands-Free Cooking Mode</h3><p>Read one large step at a time, with optional read-aloud.</p><label for="fbHandsRecipe">Recipe</label><select id="fbHandsRecipe"></select><div class="fbbar"><span id="fbHandsBar"></span></div><p id="fbHandsCount">Choose a recipe.</p><div class="fbstep" id="fbHandsStep">Your step will appear here.</div><div class="fbrow"><button id="fbPrev" class="secondary">Previous</button><button id="fbNext">Next step</button><button id="fbSpeak" class="secondary">🔊 Read step</button><button id="fbDone" class="secondary">Mark step done</button></div><p id="fbHandsStatus" aria-live="polite"></p></article>';
+ html+='<article class="fbcard"><h3>🧑‍🍳 Hands-Free Cooking Mode</h3><p>Read one large step at a time, with optional read-aloud.</p><label for="fbHandsRecipe">Recipe</label><select id="fbHandsRecipe"></select><div class="fbbar"><span id="fbHandsBar"></span></div><p id="fbHandsCount">Choose a recipe.</p><div class="fbstep" id="fbHandsStep">Your step will appear here.</div><div class="fbrow"><button id="fbPrev" class="secondary">Previous</button><button id="fbNext">Next step</button><button id="fbSpeak" class="secondary">🔊 Read step</button><button id="fbStopSpeak" class="secondary">■ Stop reading</button><button id="fbDone" class="secondary">Mark step done</button></div><p id="fbHandsStatus" aria-live="polite"></p></article>';
  html+='<article class="fbcard"><h3>🔎 Cuisine & Cooking-Time Filters</h3><p>Filter existing recipes by category and maximum cooking time.</p><label for="fbCuisine">Cuisine / category</label><select id="fbCuisine"><option value="">All categories</option></select><label for="fbMax">Maximum time</label><select id="fbMax"><option value="0">Any time</option><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select><div class="fbrow"><button id="fbFilter">Find recipes</button></div><div id="fbFilterResults" class="fbresults"></div></article>';
  html+='<article class="fbcard"><h3>🕘 Recently Viewed</h3><p>Reopen recipes you viewed on this device.</p><div id="fbRecent" class="fbresults"></div><div class="fbrow"><button id="fbClearRecent" class="secondary">Clear history</button></div></article>';
  html+='<article class="fbcard"><h3>📶 Offline Recipe Access</h3><p>Core recipe files can be cached when you visit while online. Visit once online before relying on offline access.</p><div class="fbnote" id="fbOffline" role="status"></div><p>Offline behavior varies by browser; some images or external services may still need internet.</p></article>';
@@ -69,7 +69,38 @@ function init(data){
  document.getElementById("fbPrev").addEventListener("click",()=>{step=Math.max(0,step-1);renderHands()});
  document.getElementById("fbNext").addEventListener("click",()=>{if(!handRecipe)return;setDone(handRecipe.name,step,true);if(step<handRecipe.steps.length-1)step++;renderHands()});
  document.getElementById("fbDone").addEventListener("click",()=>{if(handRecipe)setDone(handRecipe.name,step,!((progress()[handRecipe.name]||[])[step]))});
- document.getElementById("fbSpeak").addEventListener("click",()=>{if(!handRecipe)return; if(!("speechSynthesis"in window)||typeof SpeechSynthesisUtterance==="undefined"){document.getElementById("fbHandsStatus").textContent="Read-aloud is not supported in this browser.";return}window.speechSynthesis.cancel();window.speechSynthesis.speak(new SpeechSynthesisUtterance(handRecipe.steps[step]))});
+ const speakStatus=document.getElementById("fbHandsStatus");
+ const stopSpeech=()=>{try{if("speechSynthesis" in window)window.speechSynthesis.cancel()}catch(_){}};
+ document.getElementById("fbSpeak").addEventListener("click",()=>{
+   if(!handRecipe||!Array.isArray(handRecipe.steps)||!handRecipe.steps[step]){
+     speakStatus.textContent="Choose a recipe first, then select a step to read aloud.";
+     return;
+   }
+   if(!("speechSynthesis" in window)||typeof window.SpeechSynthesisUtterance==="undefined"){
+     speakStatus.textContent="Read-aloud is not available in this browser. You can still read the large step shown above.";
+     return;
+   }
+   try{
+     const synth=window.speechSynthesis;
+     synth.cancel();
+     const utterance=new SpeechSynthesisUtterance("Step "+(step+1)+". "+handRecipe.steps[step]);
+     utterance.lang=(navigator.language||"en-IN");
+     utterance.rate=0.92;
+     utterance.onstart=()=>{speakStatus.textContent="Reading this step aloud…";};
+     utterance.onend=()=>{speakStatus.textContent="Finished reading this step.";};
+     utterance.onerror=(event)=>{
+       speakStatus.textContent=event&&event.error==="not-allowed"
+         ?"Your browser blocked speech. Tap Read step again and check your device's text-to-speech settings."
+         :"No speech audio was produced. Check media volume and your device's text-to-speech engine, then try again.";
+     };
+     synth.resume();
+     synth.speak(utterance);
+     speakStatus.textContent="Preparing audio… If you hear nothing, check media volume and text-to-speech settings.";
+   }catch(error){
+     speakStatus.textContent="Could not start read-aloud. Check browser support and your device's text-to-speech settings.";
+   }
+ });
+ document.getElementById("fbStopSpeak").addEventListener("click",()=>{stopSpeech();speakStatus.textContent="Read-aloud stopped.";});
  function renderProgress(){const name=document.getElementById("fbProgressRecipe").value,r=recipeByName(name),host=document.getElementById("fbProgressSteps");if(!r){host.innerHTML="";return}const done=progress()[name]||[];host.innerHTML=(r.steps||[]).map((s,i)=>'<label class="fbcheck"><input type="checkbox" data-step="'+i+'" '+(done[i]?"checked":"")+'><span>'+esc(s)+'</span></label>').join("");document.getElementById("fbProgressStatus").textContent=done.filter(Boolean).length+" of "+r.steps.length+" steps completed."}
  document.getElementById("fbProgressRecipe").addEventListener("change",renderProgress);
  document.getElementById("fbProgressSteps").addEventListener("change",e=>{const b=e.target.closest("input[data-step]"),name=document.getElementById("fbProgressRecipe").value;if(b&&name)setDone(name,Number(b.dataset.step),b.checked)});
