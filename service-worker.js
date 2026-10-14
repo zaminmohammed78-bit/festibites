@@ -1,9 +1,7 @@
-const CACHE_NAME = 'festibites-v72-recipe-timer-contrast';
+const CACHE_NAME = 'festibites-v73-remove-kitchen-tools';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './kitchen-tools.js',
-  './kitchen-tools.html',
   './weekly-meal-planner.html',
   './weekly-meal-planner.js',
   './recipes.json',
