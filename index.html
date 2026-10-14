@@ -1946,6 +1946,19 @@ fetch("./recipes.json")
     document.getElementById("heroCount").textContent = recipes.length + "+";
     setupRecipeOfTheDay();
     filterRecipes();
+    // Allow Kitchen Tools to deep-link directly to a selected recipe without losing the main viewer.
+    const requestedRecipe = new URLSearchParams(window.location.search).get("recipe");
+    if (requestedRecipe) {
+      const requestedIndex = recipes.findIndex(r => r.name === requestedRecipe);
+      if (requestedIndex >= 0) {
+        currentList = recipes;
+        activeCategory = "All";
+        document.querySelectorAll(".chip").forEach(chip => chip.classList.toggle("active", chip.dataset.cat === "All"));
+        search.value = "";
+        filterRecipes();
+        openRecipe(requestedIndex);
+      }
+    }
   })
   .catch(error => {
     console.error("FestiBites recipe data error:", error);
@@ -2091,6 +2104,20 @@ if ("serviceWorker" in navigator) {
   });
 })();
 
+</script>
+<script>
+/* Keep the Kitchen Tools recent list in sync without adding a database. */
+document.addEventListener("click", event => {
+  const button = event.target.closest && event.target.closest(".card .view");
+  if (!button) return;
+  const name = button.closest(".card")?.querySelector("h3")?.textContent?.trim();
+  if (!name) return;
+  try {
+    const previous = JSON.parse(localStorage.getItem("fb_recent_v1") || "[]");
+    const list = Array.isArray(previous) ? previous : [];
+    localStorage.setItem("fb_recent_v1", JSON.stringify([name, ...list.filter(item => item !== name)].slice(0, 8)));
+  } catch (_) { /* Recent history is optional when browser storage is unavailable. */ }
+}, true);
 </script>
 <!-- Language selector powered by GTranslate; recipe data is not modified. -->
 
