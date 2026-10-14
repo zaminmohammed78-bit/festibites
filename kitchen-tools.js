@@ -7,29 +7,29 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 let recipes=[],timer=0,tick=null,running=false,handRecipe=null,step=0;
 function init(data){
  recipes=(Array.isArray(data)?data:[]).filter(r=>r&&r.name&&Array.isArray(r.ingredients)&&Array.isArray(r.steps)).map(r=>({...r,minutes:Number(r.minutes)||0,servings:Math.max(1,Number(r.servings)||2)}));
- if(!recipes.length||document.getElementById("fbKitchenTools"))return;
+ if(document.body.dataset.page!=="tools"||!recipes.length||document.getElementById("fbKitchenTools"))return;
  const css=document.createElement("style");css.textContent=[
- "#fbKitchenTools{padding:28px 5%;max-width:1240px;margin:auto;color:var(--ink,#3a1b0f)}",
+ "#fbKitchenTools{padding:28px 5%;max-width:1240px;margin:auto;color:var(--text,#222)}",
  "#fbKitchenTools .fbgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}",
- "#fbKitchenTools .fbcard{padding:18px;border:1px solid #e9c9b3;border-radius:18px;background:var(--white,#fff);min-width:0}",
+ "#fbKitchenTools .fbcard{padding:18px;border:1px solid #e9c9b3;border-radius:18px;background:var(--card-bg,#fff);min-width:0}",
  "#fbKitchenTools h2{font-size:clamp(24px,4vw,34px);margin:0 0 8px}#fbKitchenTools h3{margin:0 0 8px;font-size:18px}",
- "#fbKitchenTools p{font-size:13px;line-height:1.55;color:var(--muted,#765f54);margin:0 0 12px}",
+ "#fbKitchenTools p{font-size:13px;line-height:1.55;color:var(--muted,#666);margin:0 0 12px}",
  "#fbKitchenTools label{display:block;font-weight:700;font-size:13px;margin:9px 0 5px}",
- "#fbKitchenTools input,#fbKitchenTools select{box-sizing:border-box;width:100%;padding:10px;border:1px solid #bbb;border-radius:9px;background:var(--cream,#fffaf7);color:var(--ink,#3a1b0f);font:inherit;font-size:14px}",
+ "#fbKitchenTools input,#fbKitchenTools select{box-sizing:border-box;width:100%;padding:10px;border:1px solid #bbb;border-radius:9px;background:var(--input-bg,#fff);color:var(--text,#222);font:inherit;font-size:14px}",
  "#fbKitchenTools button{padding:10px 12px;border:0;border-radius:9px;background:#e85d04;color:white;font-weight:800;cursor:pointer;font:inherit;font-size:13px}",
- "#fbKitchenTools button.secondary{background:var(--line,#f3e4da);color:var(--ink,#3a1b0f);border:1px solid #ccc}",
+ "#fbKitchenTools button.secondary{background:var(--soft-bg,#f3f3f3);color:var(--text,#222);border:1px solid #ccc}",
  "#fbKitchenTools button:focus-visible,#fbKitchenTools input:focus-visible,#fbKitchenTools select:focus-visible{outline:3px solid #f6a35c;outline-offset:2px}",
  "#fbKitchenTools .fbrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}",
  "#fbKitchenTools .fbresults{display:grid;gap:8px;margin-top:12px}",
  "#fbKitchenTools .fbresult{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #ddd;border-radius:10px;padding:10px}",
- "#fbKitchenTools .fbresult strong,#fbKitchenTools .fbresult small{display:block}#fbKitchenTools .fbresult small{font-size:11px;color:var(--muted,#765f54);margin-top:3px}",
+ "#fbKitchenTools .fbresult strong,#fbKitchenTools .fbresult small{display:block}#fbKitchenTools .fbresult small{font-size:11px;color:var(--muted,#666);margin-top:3px}",
  "#fbKitchenTools .fbtime{font-size:36px;font-weight:900;font-variant-numeric:tabular-nums;margin:12px 0}",
- "#fbKitchenTools .fbstep{font-size:19px;line-height:1.65;padding:16px;border-radius:12px;background:var(--line,#f4e4d9);min-height:80px}",
+ "#fbKitchenTools .fbstep{font-size:19px;line-height:1.65;padding:16px;border-radius:12px;background:var(--soft-bg,#f4f4f4);min-height:80px}",
  "#fbKitchenTools .fbbar{height:7px;background:#ddd;border-radius:9px;margin:10px 0;overflow:hidden}#fbKitchenTools .fbbar span{display:block;height:100%;background:#e85d04;width:0}",
  "#fbKitchenTools .fbday{border:1px solid #ddd;border-radius:10px;padding:10px;min-width:0}",
  "#fbKitchenTools .fbplan{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}",
  "#fbKitchenTools .fbcheck{display:flex;gap:8px;align-items:flex-start;font-weight:400;margin:8px 0}#fbKitchenTools .fbcheck input{width:auto;margin-top:3px}",
- "#fbKitchenTools .fbnote{padding:10px;border-radius:10px;background:var(--line,#f4e4d9);font-size:13px;line-height:1.55;margin:8px 0}",
+ "#fbKitchenTools .fbnote{padding:10px;border-radius:10px;background:var(--soft-bg,#f4f4f4);font-size:13px;line-height:1.55;margin:8px 0}",
  "html[data-theme=dark] #fbKitchenTools .fbcard{background:#211d19;border-color:#59402f}html[data-theme=dark] #fbKitchenTools input,html[data-theme=dark] #fbKitchenTools select{background:#171310;color:#fff5ed;border-color:#655448}html[data-theme=dark] #fbKitchenTools .fbstep,html[data-theme=dark] #fbKitchenTools .fbnote{background:#302820}",
  "@media(max-width:720px){#fbKitchenTools .fbgrid,#fbKitchenTools .fbplan{grid-template-columns:1fr}#fbKitchenTools .fbcard{padding:14px}}"
  ].join("");document.head.appendChild(css);
@@ -37,16 +37,15 @@ function init(data){
  let html='<section id="fbKitchenTools"><header style="margin-bottom:18px"><h2>👩‍🍳 Your Kitchen Toolkit</h2><p>Practical cooking helpers. Plans and progress are stored only in this browser; no account or database is needed.</p></header><div class="fbgrid">';
  html+='<article class="fbcard"><h3>⏱️ Cooking Timer</h3><p>Set a countdown for any cooking step.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><label for="fbMin">Minutes</label><input id="fbMin" type="number" min="0" max="999" value="5"></div><div><label for="fbSec">Seconds</label><input id="fbSec" type="number" min="0" max="59" value="0"></div></div><div class="fbtime" id="fbTime" role="timer">05:00</div><div class="fbrow"><button id="fbStart">Start timer</button><button id="fbReset" class="secondary">Reset</button></div><p id="fbTimerStatus" aria-live="polite">Timer ready.</p></article>';
  html+='<article class="fbcard"><h3>📅 Weekly Meal Planner</h3><p>Pick meals for the week and save your plan on this device.</p><div class="fbplan">'+days.map((d,i)=>'<div class="fbday"><strong>'+d+'</strong>'+["Breakfast","Lunch","Dinner"].map(m=>'<label for="fbp'+i+m+'">'+m+'</label><select id="fbp'+i+m+'" data-day="'+i+'" data-meal="'+m+'"><option value="">Choose recipe</option></select>').join("")+'</div>').join("")+'</div><div class="fbrow"><button id="fbSavePlan">Save plan</button><button id="fbClearPlan" class="secondary">Clear plan</button></div><p id="fbPlanStatus" aria-live="polite">Changes save when you tap Save.</p></article>';
- html+='<article class="fbcard"><h3>🧑‍🍳 Hands-Free Cooking Mode</h3><p>Read one large step at a time, with optional read-aloud.</p><label for="fbHandsRecipe">Recipe</label><select id="fbHandsRecipe"></select><div class="fbbar"><span id="fbHandsBar"></span></div><p id="fbHandsCount">Choose a recipe.</p><div class="fbstep" id="fbHandsStep">Your step will appear here.</div><div class="fbrow"><button id="fbPrev" class="secondary">Previous</button><button id="fbNext">Next step</button><button id="fbSpeak" class="secondary">🔊 Read step</button><button id="fbDone" class="secondary">Mark step done</button></div><p id="fbHandsStatus" aria-live="polite"></p></article>';
+ html+='<article class="fbcard"><h3>🧑‍🍳 Hands-Free Cooking Mode</h3><p>Read one large step at a time, with optional read-aloud.</p><label for="fbHandsRecipe">Recipe</label><select id="fbHandsRecipe"></select><div class="fbbar"><span id="fbHandsBar"></span></div><p id="fbHandsCount">Choose a recipe.</p><div class="fbstep" id="fbHandsStep">Your step will appear here.</div><div class="fbrow"><button id="fbPrev" class="secondary">Previous</button><button id="fbNext">Next step</button><button id="fbSpeak" class="secondary">🔊 Read step</button><button id="fbStopSpeak" class="secondary">■ Stop reading</button><button id="fbDone" class="secondary">Mark step done</button></div><p id="fbHandsStatus" aria-live="polite"></p></article>';
  html+='<article class="fbcard"><h3>🔎 Cuisine & Cooking-Time Filters</h3><p>Filter existing recipes by category and maximum cooking time.</p><label for="fbCuisine">Cuisine / category</label><select id="fbCuisine"><option value="">All categories</option></select><label for="fbMax">Maximum time</label><select id="fbMax"><option value="0">Any time</option><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select><div class="fbrow"><button id="fbFilter">Find recipes</button></div><div id="fbFilterResults" class="fbresults"></div></article>';
  html+='<article class="fbcard"><h3>🕘 Recently Viewed</h3><p>Reopen recipes you viewed on this device.</p><div id="fbRecent" class="fbresults"></div><div class="fbrow"><button id="fbClearRecent" class="secondary">Clear history</button></div></article>';
  html+='<article class="fbcard"><h3>📶 Offline Recipe Access</h3><p>Core recipe files can be cached when you visit while online. Visit once online before relying on offline access.</p><div class="fbnote" id="fbOffline" role="status"></div><p>Offline behavior varies by browser; some images or external services may still need internet.</p></article>';
  html+='<article class="fbcard"><h3>✅ Cooking Progress Tracker</h3><p>Tick off steps and resume later. Progress is saved per recipe on this device.</p><label for="fbProgressRecipe">Recipe</label><select id="fbProgressRecipe"></select><div id="fbProgressSteps"></div><div class="fbrow"><button id="fbResetProgress" class="secondary">Reset progress</button></div><p id="fbProgressStatus" aria-live="polite"></p></article>';
  html+='<article class="fbcard"><h3>🌱 Beginner-Friendly Recipe Mode</h3><p>View the original instructions with suggested equipment and plain-language cooking term explanations.</p><label for="fbBeginnerRecipe">Recipe</label><select id="fbBeginnerRecipe"></select><div class="fbnote" id="fbEquipment">Equipment suggestions will appear here.</div><div class="fbnote" id="fbGlossary">Cooking terms will appear here.</div><ol id="fbBeginnerSteps" style="padding-left:22px;line-height:1.65"></ol></article>';
  html+='<article class="fbcard"><h3>🪙 Budget-Friendly Recipe Finder</h3><p>Find ideas that use common pantry staples. Suggestions are ingredient-based, not live price estimates.</p><label for="fbBudgetType">Recipe style</label><select id="fbBudgetType"><option value="all">All budget-friendly ideas</option><option value="pantry">Simple pantry staples</option><option value="veg">Vegetarian ideas</option><option value="protein">Protein-containing ideas</option></select><div class="fbrow"><button id="fbBudgetFind">Find budget ideas</button></div><p>Actual costs vary by location, brand, portion size, and ingredients already at home.</p><div id="fbBudgetResults" class="fbresults"></div></article></div></section>';
- const wrap=document.createElement("div");wrap.innerHTML=html;const target=document.getElementById("fbToolsMount")||document.getElementById("recipes");if(!target)return;target.parentNode.insertBefore(wrap.firstElementChild,target);
+ const wrap=document.createElement("div");wrap.innerHTML=html;const target=document.getElementById("fbToolsMount");if(!target)return;target.appendChild(wrap.firstElementChild);
  const recipeByName=name=>recipes.find(r=>r.name===name);
- const stepText=value=>typeof value==="string"?value:(value&&typeof value==="object"?String(value.instruction??value.text??value.step??"Read the recipe instruction on the main page."):String(value??""));
  const populate=el=>{el.innerHTML='<option value="">Choose a recipe</option>'+recipes.map(r=>'<option value="'+esc(r.name)+'">'+esc(r.name)+'</option>').join("")};
  ["fbHandsRecipe","fbProgressRecipe","fbBeginnerRecipe"].forEach(id=>populate(document.getElementById(id)));
  [...new Set(recipes.map(r=>r.category).filter(Boolean))].sort().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;document.getElementById("fbCuisine").appendChild(o)});
@@ -55,7 +54,7 @@ function init(data){
  const setDone=(name,i,val)=>{const p=progress();if(!Array.isArray(p[name]))p[name]=[];p[name][i]=val;write(KEY.progress,p);renderProgress();renderHands()};
  const recent=()=>Array.isArray(read(KEY.recent,[]))?read(KEY.recent,[]):[];
  const remember=name=>{if(!name)return;write(KEY.recent,[name,...recent().filter(n=>n!==name)].slice(0,8));renderRecent()};
- const openMain=r=>{if(!r)return;remember(r.name);const s=document.getElementById("search");if(!s){window.location.href="./index.html?recipe="+encodeURIComponent(r.name)+"#recipes";return}const allChip=document.querySelector("#categories [data-cat=\"All\"]");if(allChip&&!allChip.classList.contains("active"))allChip.click();s.value=r.name;s.dispatchEvent(new Event("input",{bubbles:true}));const b=document.querySelector("#grid .view");if(b)b.click()};
+ const openMain=r=>{if(!r)return;remember(r.name);window.location.href="./index.html?recipe="+encodeURIComponent(r.name)};
  function renderRecent(){const host=document.getElementById("fbRecent");const valid=recent().filter(n=>recipeByName(n));host.innerHTML=valid.length?valid.map(n=>{const r=recipeByName(n);return '<div class="fbresult"><div><strong>'+esc(r.name)+'</strong><small>'+esc(r.category||"Recipe")+' · '+(r.minutes||"Time varies")+' min</small></div><button data-open="'+esc(r.name)+'">Open</button></div>'}).join(""):'<p>No recently viewed recipes yet.</p>'}
  document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#grid .view");if(b){const t=b.closest(".card")?.querySelector("h3");if(t)remember(t.textContent.trim())}},true);
  document.getElementById("fbKitchenTools").addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("button[data-open]");if(b)openMain(recipeByName(b.dataset.open))});
@@ -65,12 +64,43 @@ function init(data){
  const textOf=r=>[r.name,r.description,...(r.ingredients||[])].join(" ").toLowerCase();
  const score=r=>pantry.filter(w=>textOf(r).includes(w)).length*2-pricey.filter(w=>textOf(r).includes(w)).length*4-Math.max(0,(r.ingredients||[]).length-10)*.25;
  function renderBudget(){const mode=document.getElementById("fbBudgetType").value;const list=recipes.filter(r=>{const t=textOf(r);if(mode==="veg")return !/\b(chicken|beef|mutton|lamb|pork|fish|prawn|shrimp|crab)\b/.test(t);if(mode==="protein")return /\b(egg|lentil|dal|beans|chickpea|chana|paneer|tofu|chicken|fish|yogurt|curd)\b/.test(t);if(mode==="pantry")return score(r)>=2;return score(r)>=0}).sort((a,b)=>score(b)-score(a)).slice(0,8);document.getElementById("fbBudgetResults").innerHTML=list.length?list.map(r=>'<div class="fbresult"><div><strong>'+esc(r.name)+'</strong><small>'+(score(r)>=4?"More pantry-staple matches":"Potential budget idea")+'</small></div><button data-open="'+esc(r.name)+'">View</button></div>').join(""):"<p>No close matches. Try another style.</p>"}
- function renderHands(){const r=handRecipe,steps=r&&Array.isArray(r.steps)?r.steps:[];document.getElementById("fbHandsStep").textContent=steps.length?stepText(steps[step]):"Choose a recipe to begin.";document.getElementById("fbPrev").disabled=!steps.length||step===0;document.getElementById("fbNext").disabled=!steps.length;document.getElementById("fbNext").textContent=steps.length&&step===steps.length-1?"Finish recipe":"Next step";const done=r?(progress()[r.name]||[]).filter(Boolean).length:0;document.getElementById("fbHandsBar").style.width=(steps.length?Math.round(done/steps.length*100):0)+"%";document.getElementById("fbHandsCount").textContent=r?"Step "+(step+1)+" of "+steps.length+" · "+done+" completed":"Choose a recipe.";document.getElementById("fbHandsStatus").textContent=r&&((progress()[r.name]||[])[step])?"This step is marked complete.":""}
+ function renderHands(){const r=handRecipe,steps=r&&Array.isArray(r.steps)?r.steps:[];document.getElementById("fbHandsStep").textContent=steps.length?steps[step]:"Choose a recipe to begin.";document.getElementById("fbPrev").disabled=!steps.length||step===0;document.getElementById("fbNext").disabled=!steps.length;document.getElementById("fbNext").textContent=steps.length&&step===steps.length-1?"Finish recipe":"Next step";const done=r?(progress()[r.name]||[]).filter(Boolean).length:0;document.getElementById("fbHandsBar").style.width=(steps.length?Math.round(done/steps.length*100):0)+"%";document.getElementById("fbHandsCount").textContent=r?"Step "+(step+1)+" of "+steps.length+" · "+done+" completed":"Choose a recipe.";document.getElementById("fbHandsStatus").textContent=r&&((progress()[r.name]||[])[step])?"This step is marked complete.":""}
  document.getElementById("fbHandsRecipe").addEventListener("change",e=>{handRecipe=recipeByName(e.target.value);step=0;renderHands()});
  document.getElementById("fbPrev").addEventListener("click",()=>{step=Math.max(0,step-1);renderHands()});
  document.getElementById("fbNext").addEventListener("click",()=>{if(!handRecipe)return;setDone(handRecipe.name,step,true);if(step<handRecipe.steps.length-1)step++;renderHands()});
  document.getElementById("fbDone").addEventListener("click",()=>{if(handRecipe)setDone(handRecipe.name,step,!((progress()[handRecipe.name]||[])[step]))});
- document.getElementById("fbSpeak").addEventListener("click",()=>{const status=document.getElementById("fbHandsStatus");if(!handRecipe){status.textContent="Choose a recipe first.";return}const textToRead=stepText(handRecipe.steps[step]);if(!textToRead.trim()){status.textContent="There is no instruction text to read.";return}if(!("speechSynthesis"in window)||typeof SpeechSynthesisUtterance==="undefined"){status.textContent="Read-aloud is not available in this browser. Try opening FestiBites in Chrome and check that your device text-to-speech is enabled.";return}try{window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(textToRead);utterance.lang="en-IN";utterance.rate=0.92;utterance.onstart=()=>{status.textContent="Reading this step aloud…"};utterance.onend=()=>{status.textContent="Finished reading this step."};utterance.onerror=(event)=>{status.textContent="Read-aloud could not start ("+String(event.error||"browser error")+"). Try Chrome or use the large on-screen step.";};window.speechSynthesis.speak(utterance);if(window.speechSynthesis.paused)window.speechSynthesis.resume();if(!window.speechSynthesis.speaking&&!window.speechSynthesis.pending)status.textContent="If you hear nothing, enable your device text-to-speech service or open this page in Chrome."}catch(error){status.textContent="Read-aloud failed in this browser. The written step is still available above."}});
+ const speakStatus=document.getElementById("fbHandsStatus");
+ const stopSpeech=()=>{try{if("speechSynthesis" in window)window.speechSynthesis.cancel()}catch(_){}};
+ document.getElementById("fbSpeak").addEventListener("click",()=>{
+   if(!handRecipe||!Array.isArray(handRecipe.steps)||!handRecipe.steps[step]){
+     speakStatus.textContent="Choose a recipe first, then select a step to read aloud.";
+     return;
+   }
+   if(!("speechSynthesis" in window)||typeof window.SpeechSynthesisUtterance==="undefined"){
+     speakStatus.textContent="Read-aloud is not available in this browser. You can still read the large step shown above.";
+     return;
+   }
+   try{
+     const synth=window.speechSynthesis;
+     synth.cancel();
+     const utterance=new SpeechSynthesisUtterance("Step "+(step+1)+". "+handRecipe.steps[step]);
+     utterance.lang=(navigator.language||"en-IN");
+     utterance.rate=0.92;
+     utterance.onstart=()=>{speakStatus.textContent="Reading this step aloud…";};
+     utterance.onend=()=>{speakStatus.textContent="Finished reading this step.";};
+     utterance.onerror=(event)=>{
+       speakStatus.textContent=event&&event.error==="not-allowed"
+         ?"Your browser blocked speech. Tap Read step again and check your device's text-to-speech settings."
+         :"No speech audio was produced. Check media volume and your device's text-to-speech engine, then try again.";
+     };
+     synth.resume();
+     synth.speak(utterance);
+     speakStatus.textContent="Preparing audio… If you hear nothing, check media volume and text-to-speech settings.";
+   }catch(error){
+     speakStatus.textContent="Could not start read-aloud. Check browser support and your device's text-to-speech settings.";
+   }
+ });
+ document.getElementById("fbStopSpeak").addEventListener("click",()=>{stopSpeech();speakStatus.textContent="Read-aloud stopped.";});
  function renderProgress(){const name=document.getElementById("fbProgressRecipe").value,r=recipeByName(name),host=document.getElementById("fbProgressSteps");if(!r){host.innerHTML="";return}const done=progress()[name]||[];host.innerHTML=(r.steps||[]).map((s,i)=>'<label class="fbcheck"><input type="checkbox" data-step="'+i+'" '+(done[i]?"checked":"")+'><span>'+esc(s)+'</span></label>').join("");document.getElementById("fbProgressStatus").textContent=done.filter(Boolean).length+" of "+r.steps.length+" steps completed."}
  document.getElementById("fbProgressRecipe").addEventListener("change",renderProgress);
  document.getElementById("fbProgressSteps").addEventListener("change",e=>{const b=e.target.closest("input[data-step]"),name=document.getElementById("fbProgressRecipe").value;if(b&&name)setDone(name,Number(b.dataset.step),b.checked)});
