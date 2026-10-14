@@ -1,9 +1,11 @@
-const CACHE_NAME = 'festibites-v70-lean-tools';
+const CACHE_NAME = 'festibites-v71-weekly-planner';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './kitchen-tools.js',
   './kitchen-tools.html',
+  './weekly-meal-planner.html',
+  './weekly-meal-planner.js',
   './recipes.json',
   './recipe-of-the-day.json',
   './manifest.json',
