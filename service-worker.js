@@ -3,7 +3,7 @@ const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './kitchen-tools.js',
-  './tools.html',
+  './kitchen-tools.html',
   './recipes.json',
   './recipe-of-the-day.json',
   './manifest.json',
