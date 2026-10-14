@@ -1,8 +1,7 @@
-const CACHE_NAME = 'festibites-v64';
+const CACHE_NAME = 'festibites-maintenance-v65';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './tools.html',
   './kitchen-tools.js',
   './recipes.json',
   './recipe-of-the-day.json',
