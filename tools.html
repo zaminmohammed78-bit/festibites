@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ff6b35">
+  <meta name="description" content="FestiBites Kitchen Tools: cooking timer, meal planner, hands-free cooking, recipe filters, progress tracking and more.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="./icon-192.png">
+  <title>Kitchen Tools | FestiBites</title>
+  <style>
+    :root{color-scheme:light;--ink:#3a1b0f;--teal:#f26a21;--coral:#e85d04;--cream:#fffaf7;--gold:#ffb067;--white:#fff;--muted:#765f54;--line:#f2ddd0;--page:#fffaf7;--soft:#fff0e6}
+    html[data-theme="dark"]{color-scheme:dark;--ink:#fff0e6;--teal:#ff9857;--coral:#ff8747;--cream:#171310;--gold:#ffc078;--white:#241e19;--muted:#c8b8ac;--line:#49372c;--page:#171310;--soft:#30251d}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--page);color:var(--ink);line-height:1.5}
+    .topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px max(5%,env(safe-area-inset-right)) 12px max(5%,env(safe-area-inset-left));background:color-mix(in srgb,var(--page) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-size:19px;font-weight:900;letter-spacing:-.4px}.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover}
+    .brand span span{color:var(--coral)}.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .topbtn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--white);color:var(--ink);text-decoration:none;font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+    .topbtn.primary{background:var(--coral);color:white;border-color:var(--coral)}
+    .intro{max-width:1160px;margin:0 auto;padding:32px 5% 12px}.eyebrow{display:inline-block;padding:5px 10px;border-radius:99px;background:var(--soft);color:var(--coral);font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+    .intro h1{font-size:clamp(30px,5vw,48px);letter-spacing:-1.5px;line-height:1.05;margin:12px 0}.intro p{max-width:680px;color:var(--muted);margin:0;font-size:15px}
+    .jumpnav{max-width:1160px;margin:12px auto 0;padding:0 5%;display:flex;gap:8px;flex-wrap:wrap}.jumpnav a{border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:var(--white);color:var(--ink);font-size:12px;font-weight:750;text-decoration:none}
+    #fbToolsMount{min-height:1px}#fbKitchenTools{padding-top:18px!important}
+    #fbKitchenTools .fbcard{box-shadow:0 8px 24px rgba(75,42,23,.045);border-color:var(--line)!important;background:var(--white)!important}
+    #fbKitchenTools .fbresult{border-color:var(--line)!important}
+    #fbKitchenTools .fbstep{background:var(--soft)!important;color:var(--ink)}
+    #fbKitchenTools .fbnote{background:var(--soft)!important;color:var(--ink)}
+    #fbKitchenTools button{min-height:40px}
+    #fbKitchenTools .fbgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    #fbKitchenTools .fbcard h3{letter-spacing:-.2px}
+    #fbKitchenTools p{color:var(--muted)}
+    #fbKitchenTools input,#fbKitchenTools select{background:var(--cream)!important;color:var(--ink)!important;border-color:var(--line)!important}
+    #fbKitchenTools .fbresult small{color:var(--muted)!important}
+    #fbKitchenTools .fbbar{background:var(--line)}
+    #fbKitchenTools .fbcheck{line-height:1.5}
+    .pagefoot{padding:10px 5% 30px;text-align:center;color:var(--muted);font-size:12px}
+    @media(max-width:720px){.topbar{align-items:flex-start}.brand{font-size:17px}.brand img{width:32px;height:32px}.actions{justify-content:flex-end}.topbtn{padding:8px 10px;font-size:12px}.intro{padding-top:24px}#fbKitchenTools .fbgrid{grid-template-columns:minmax(0,1fr)!important}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html" aria-label="FestiBites home"><img src="./icon-192.png" alt=""><span>Festi<span>Bites</span></span></a>
+    <div class="actions">
+      <a class="topbtn" href="./index.html#recipes">← Browse recipes</a>
+      <button class="topbtn" id="themeToggle" type="button" aria-pressed="false">🌙 Dark Mode</button>
+    </div>
+  </header>
+  <section class="intro">
+    <span class="eyebrow">Your cooking companion</span>
+    <h1>Kitchen Tools</h1>
+    <p>Helpful tools in one tidy place, separate from recipe search. Your plans and cooking progress stay in this browser; no account or database is needed.</p>
+  </section>
+  <nav class="jumpnav" aria-label="Jump to a kitchen tool">
+    <a href="#fbTimerTool">⏱ Timer</a>
+    <a href="#fbSavePlan">📅 Meal planner</a>
+    <a href="#fbHandsRecipe">🧑‍🍳 Hands-free</a>
+    <a href="#fbCuisine">🔎 Filters</a>
+    <a href="#fbRecent">🕘 Recent</a>
+    <a href="#fbProgressRecipe">✅ Progress</a>
+    <a href="#fbBeginnerRecipe">🌱 Beginner mode</a>
+    <a href="#fbBudgetFind">🪙 Budget ideas</a>
+  </nav>
+  <div id="fbToolsMount"></div>
+  <footer class="pagefoot">FestiBites · Practical cooking helpers · Recipe data remains in recipes.json</footer>
+  <script>
+    (()=>{const root=document.documentElement,toggle=document.getElementById("themeToggle"),key="festibites-theme";let theme="light";try{theme=localStorage.getItem(key)==="dark"?"dark":"light"}catch(_){}function apply(value,save){if(value==="dark")root.setAttribute("data-theme","dark");else root.removeAttribute("data-theme");toggle.textContent=value==="dark"?"☀️ Light Mode":"🌙 Dark Mode";toggle.setAttribute("aria-pressed",String(value==="dark"));document.querySelector('meta[name="theme-color"]').content=value==="dark"?"#171310":"#ff6b35";if(save){try{localStorage.setItem(key,value)}catch(_){}}}apply(theme,false);toggle.addEventListener("click",()=>apply(root.getAttribute("data-theme")==="dark"?"light":"dark",true))})();
+  </script>
+  <script src="./kitchen-tools.js" defer></script>
+</body>
+</html>
