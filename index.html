@@ -550,6 +550,19 @@ html[data-theme="dark"] textarea:focus-visible {
   .card { min-height: 0; padding: 18px; }
 }
 
+/* Recipe-specific cooking timer: clear contrast in both themes */
+.recipe-timer{margin:0 0 22px;padding:16px;border:1px solid var(--line,#f2ddd0);border-radius:16px;background:var(--soft,#fff0e6);color:var(--ink,#3a1b0f)}
+.recipe-timer h3{margin:0 0 6px!important;color:var(--ink,#3a1b0f)!important;font-size:19px!important}
+.recipe-timer p{margin:0 0 8px;color:var(--muted,#765f54);font-size:13px;line-height:1.5}
+.recipe-timer-display{font-size:clamp(30px,5vw,40px);font-weight:900;font-variant-numeric:tabular-nums;color:var(--ink,#3a1b0f);margin:8px 0}
+.recipe-timer-actions{display:flex;gap:8px;flex-wrap:wrap}
+.recipe-timer-actions button{min-height:42px;padding:9px 14px;border:1px solid var(--coral,#e85d04);border-radius:10px;background:var(--coral,#e85d04);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+.recipe-timer-actions button:disabled{opacity:.55;cursor:not-allowed}
+html[data-theme="dark"] .recipe-timer{background:#30251d;border-color:#594638;color:#fff0e6}
+html[data-theme="dark"] .recipe-timer h3,html[data-theme="dark"] .recipe-timer-display{color:#fff0e6!important}
+html[data-theme="dark"] .recipe-timer p{color:#d6c5b8}
+@media(max-width:520px){.recipe-timer{padding:13px}.recipe-timer-display{font-size:34px}.recipe-timer-actions button{flex:1}}
+@media print{.recipe-timer{display:none!important}}
 </style>
 <style>
 .brand-full-logo{display:inline-block;width:38px;height:38px;object-fit:cover;border-radius:50%;clip-path:circle(50% at 50% 50%);filter:drop-shadow(0 4px 8px rgba(232,93,4,.22));vertical-align:middle}
@@ -814,6 +827,13 @@ html[data-theme="dark"] textarea:focus-visible {
         <div class="detail"><b>Difficulty</b><span id="mDifficulty"></span></div>
         <div class="detail" style="background:#fff3eb;"><b>Est. Calories</b><span id="mCalories" style="color:var(--coral);font-weight:900;"></span></div>
       </div>
+      <section class="recipe-timer" id="recipeTimerPanel" aria-labelledby="recipeTimerTitle">
+        <h3 id="recipeTimerTitle">⏱️ Cooking timer</h3>
+        <p id="recipeTimerNote">This timer uses the cooking time listed for this recipe.</p>
+        <div class="recipe-timer-display" id="recipeTimerDisplay" role="timer" aria-live="off">--:--</div>
+        <div class="recipe-timer-actions"><button type="button" id="recipeTimerStart" onclick="toggleRecipeTimer()">Start timer</button> <button type="button" id="recipeTimerReset" onclick="resetRecipeTimer()">Reset</button></div>
+        <p class="recipe-timer-status" id="recipeTimerStatus" aria-live="polite">Ready when you are.</p>
+      </section>
       <div class="serving-control">
         <label for="servingInput">Custom servings</label>
         <div class="serving-stepper">
