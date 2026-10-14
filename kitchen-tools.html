@@ -38,7 +38,7 @@
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
   </style>
 </head>
-<body>
+<body data-page="tools">
   <header class="topbar">
     <a class="brand" href="./index.html" aria-label="FestiBites home"><img src="./icon-192.png" alt=""><span>Festi<span>Bites</span></span></a>
     <div class="actions">
@@ -64,7 +64,7 @@
   <div id="fbToolsMount"></div>
   <footer class="pagefoot">FestiBites · Practical cooking helpers · Recipe data remains in recipes.json</footer>
   <script>
-    (()=>{const root=document.documentElement,toggle=document.getElementById("themeToggle"),key="festibites-theme";let theme="light";try{theme=localStorage.getItem(key)==="dark"?"dark":"light"}catch(_){}function apply(value,save){if(value==="dark")root.setAttribute("data-theme","dark");else root.removeAttribute("data-theme");toggle.textContent=value==="dark"?"☀️ Light Mode":"🌙 Dark Mode";toggle.setAttribute("aria-pressed",String(value==="dark"));document.querySelector('meta[name="theme-color"]').content=value==="dark"?"#171310":"#ff6b35";if(save){try{localStorage.setItem(key,value)}catch(_){}}}apply(theme,false);toggle.addEventListener("click",()=>apply(root.getAttribute("data-theme")==="dark"?"light":"dark",true))})();
+    (()=>{const root=document.documentElement,toggle=document.getElementById("themeToggle"),key="festibites-theme";let theme=null;try{theme=localStorage.getItem(key)}catch(_){}if(theme!=="dark"&&theme!=="light")theme=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";function apply(value,save){if(value==="dark")root.setAttribute("data-theme","dark");else root.removeAttribute("data-theme");toggle.textContent=value==="dark"?"☀️ Light Mode":"🌙 Dark Mode";toggle.setAttribute("aria-pressed",String(value==="dark"));document.querySelector('meta[name="theme-color"]').content=value==="dark"?"#171310":"#ff6b35";if(save){try{localStorage.setItem(key,value)}catch(_){}}}apply(theme,false);toggle.addEventListener("click",()=>apply(root.getAttribute("data-theme")==="dark"?"light":"dark",true))})();
   </script>
   <script src="./kitchen-tools.js" defer></script>
 </body>
