@@ -634,6 +634,44 @@ html[data-theme="dark"] .recipe-timer p{color:#d6c5b8}
       html:not([data-theme="light"]):not([data-theme="dark"]) { color-scheme: dark; }
     }
   </style>
+
+  <!-- Safe visual polish: presentation only; recipe data and feature logic stay unchanged. -->
+  <style id="safe-visual-polish">
+    :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+      outline: 3px solid #e85d04;
+      outline-offset: 3px;
+    }
+    .card, .submit-box, #recipeOfTheDayCard, .pantry-card, .pantry-panel {
+      border-radius: 20px;
+    }
+    .card h3 { line-height: 1.3; overflow-wrap: anywhere; }
+    .card p, .section-head p, .hero p { line-height: 1.65; }
+    .view, .see-more, .surprise-btn, .pwa-install-btn,
+    .google-form-submit, .hero-action {
+      transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+    }
+    .view:active, .see-more:active, .surprise-btn:active,
+    .pwa-install-btn:active, .google-form-submit:active {
+      transform: translateY(1px);
+    }
+    .search input, .submit-form input, .submit-form select, .submit-form textarea {
+      min-width: 0;
+    }
+    .modal-body { overflow-wrap: anywhere; }
+    .ingredients li, .steps li { line-height: 1.65; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+    html[data-theme="dark"] :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+      outline-color: #ffc078;
+    }
+  </style>
+
 </head>
 <body>
 
