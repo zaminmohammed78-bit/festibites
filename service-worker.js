@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v82-smooth-theme-transition';
+const CACHE_NAME = 'festibites-v84-maintenance-removed';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
