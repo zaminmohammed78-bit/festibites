@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v73-remove-kitchen-tools';
+const CACHE_NAME = 'festibites-v74-warm-premium-polish';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
