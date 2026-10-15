@@ -577,6 +577,91 @@ html[data-theme="dark"] .recipe-timer h3,html[data-theme="dark"] .recipe-timer-d
 html[data-theme="dark"] .recipe-timer p{color:#d6c5b8}
 @media(max-width:520px){.recipe-timer{padding:13px}.recipe-timer-display{font-size:34px}.recipe-timer-actions button{flex:1}}
 @media print{.recipe-timer{display:none!important}}
+
+/* Responsive layout and readable light-theme contrast patch */
+html{max-width:100%;overflow-x:clip;scroll-padding-top:100px}
+body{width:100%;max-width:100%;min-width:0;margin:0;overflow-x:clip}
+*,*::before,*::after{box-sizing:border-box}
+img,video,canvas,svg,iframe{max-width:100%}
+input,select,textarea,button{max-width:100%;font:inherit}
+h1,h2,h3,h4,p,a,button,label,small,li,span{overflow-wrap:anywhere}
+.grid,.section,.section-head,.card,.modal-box,.modal-body,.submit-box,.submit-form,.search,.hero,.controls{min-width:0;max-width:100%}
+.grid>*{min-width:0}
+.hero>*{min-width:0}
+.search input{min-width:0;width:100%}
+.modal-box{width:100%}
+.modal-top h2{font-size:clamp(24px,5vw,38px);overflow-wrap:anywhere}
+.modal-body{overflow-wrap:anywhere}
+pre,code{white-space:pre-wrap;overflow-wrap:anywhere}
+table{max-width:100%;width:100%;display:block;overflow-x:auto}
+@media(max-width:800px){
+  header{padding-left:4%;padding-right:4%}
+  .hero{grid-template-columns:minmax(0,1fr);gap:24px;padding:48px 5%}
+  .hero-art{width:100%;max-width:520px;margin-inline:auto}
+  .section-head{flex-wrap:wrap}
+  .section-head>*{min-width:0}
+  .submit-form{grid-template-columns:minmax(0,1fr)}
+  .submit-form .full{grid-column:auto}
+  .modal{padding:8px}
+  .modal-box{border-radius:16px}
+  .modal-top{padding:64px 20px 24px}
+  .modal-body{padding:20px}
+  .details{gap:8px}
+  .detail{min-width:0}
+}
+@media(max-width:560px){
+  .brand-logo{max-width:100%;height:auto}
+  .brand-logo>span{font-size:clamp(21px,6vw,28px)}
+  .brand-mark{width:44px;height:44px;flex:0 0 44px}
+  .pwa-install-btn{padding:9px 12px}
+  .hero{border-radius:0 0 22px 22px}
+  .hero h1{font-size:clamp(32px,9vw,46px);letter-spacing:-1px;line-height:1.1}
+  .hero p{font-size:16px}
+  .hero-stats{gap:16px}
+  .search{gap:2px}
+  .search input{padding:12px 9px;font-size:16px}
+  .search button{padding:0 11px;white-space:nowrap}
+  .section-head h2{font-size:clamp(24px,7vw,32px)}
+  .card{padding:17px}
+  .modal-top h2{padding-right:0}
+  .close{right:12px;top:12px;width:38px;height:38px}
+  .serving-control .print-btn{margin-left:0}
+}
+/* Explicit light-mode text colors prevent inherited dark-theme colors on pale surfaces. */
+html:not([data-theme="dark"]) body{color:#3a1b0f}
+html:not([data-theme="dark"]) .card,
+html:not([data-theme="dark"]) .recipe-card,
+html:not([data-theme="dark"]) .category-card,
+html:not([data-theme="dark"]) .submit-box,
+html:not([data-theme="dark"]) .modal-box,
+html:not([data-theme="dark"]) .search{color:#3a1b0f}
+html:not([data-theme="dark"]) .card h3,
+html:not([data-theme="dark"]) .empty h3,
+html:not([data-theme="dark"]) .submit-box h2,
+html:not([data-theme="dark"]) .section-head h2,
+html:not([data-theme="dark"]) .modal-body,
+html:not([data-theme="dark"]) .modal-body p,
+html:not([data-theme="dark"]) .modal-body li,
+html:not([data-theme="dark"]) .modal-body label{color:#3a1b0f}
+html:not([data-theme="dark"]) .card p,
+html:not([data-theme="dark"]) .section-head p,
+html:not([data-theme="dark"]) .search-hint,
+html:not([data-theme="dark"]) .quick-searches>span,
+html:not([data-theme="dark"]) .submit-box>p,
+html:not([data-theme="dark"]) .serving-note{color:#654c40}
+html:not([data-theme="dark"]) .modal-top{background:linear-gradient(135deg,#e85d04,#a83b00);color:#fff}
+html:not([data-theme="dark"]) .modal-top h2,
+html:not([data-theme="dark"]) .modal-top p{color:#fff}
+html:not([data-theme="dark"]) .detail{background:#fff1e7;color:#3a1b0f}
+html:not([data-theme="dark"]) .detail b,
+html:not([data-theme="dark"]) .modal-body h3{color:#a83b00}
+html:not([data-theme="dark"]) .steps li{color:#4b403a}
+html:not([data-theme="dark"]) .meta{color:#51433c}
+html:not([data-theme="dark"]) .chip{color:#3a1b0f}
+html:not([data-theme="dark"]) .chip.active,
+html:not([data-theme="dark"]) .chip:hover{color:#fff}
+html:not([data-theme="dark"]) .search input{color:#3a1b0f}
+html:not([data-theme="dark"]) .search input::placeholder{color:#705d52;opacity:1}
 </style>
 <style>
 .brand-full-logo{display:inline-block;width:38px;height:38px;object-fit:cover;border-radius:50%;clip-path:circle(50% at 50% 50%);filter:drop-shadow(0 4px 8px rgba(232,93,4,.22));vertical-align:middle}
