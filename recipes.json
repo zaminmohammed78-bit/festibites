@@ -1,5 +1,32 @@
 [
   {
+    "name": "Creamy Truffle Garlic Butter Chicken",
+    "category": "Dinner",
+    "icon": "",
+    "minutes": 35,
+    "servings": 4,
+    "difficulty": "Medium",
+    "ingredients": [
+      "700g chicken breast, cubed",
+      "3 tbsp garlic butter",
+      "1 cup heavy cream",
+      "1/2 cup grated parmesan cheese",
+      "2 tsp Italian herbs",
+      "1 tsp black pepper",
+      "Salt to taste",
+      "2 tbsp fresh chopped parsley"
+    ],
+    "steps": [
+      "Season chicken cubes with salt, pepper, and half of the Italian herbs.",
+      "Melt garlic butter in a large skillet over medium-high heat.",
+      "Add chicken and sear until golden brown and cooked through (about 6-8 minutes).",
+      "Reduce heat to low and pour in the heavy cream and parmesan cheese, stirring gently.",
+      "Simmer for 5 minutes until the sauce thickens into a rich, velvety consistency.",
+      "Garnish with fresh parsley and remaining herbs, then serve warm with garlic bread or pasta."
+    ],
+    "description": "✨ [Chef Special] A luxurious, creamy garlic butter chicken smothered in a rich parmesan sauce that melts in your mouth."
+  },
+  {
     "name": "Sweet & Crispy Cheesy Toast",
     "category": "Breakfast",
     "icon": "",
