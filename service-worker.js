@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v79-hero-bg-image';
+const CACHE_NAME = 'festibites-v80-new-hero-bg-and-darkmode';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
