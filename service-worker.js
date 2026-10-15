@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v89-strict-mobile-no-overflow';
+const CACHE_NAME = 'festibites-v90-feature-audit';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
