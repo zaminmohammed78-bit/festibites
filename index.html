@@ -2047,47 +2047,59 @@ footer{margin-top:30px;padding-top:10px;border-top:1px solid #eee;text-align:cen
 </style>
 
   <!-- Warm premium visual polish: existing content and behavior are preserved. -->
+  <!-- Warm premium design pass: visibly refines existing components only. -->
   <style id="warm-premium-design">
     :root { --ink:#3a1b0f; --coral:#e85d04; --cream:#fffaf7; --muted:#765f54; --line:#f2ddd0; }
     body { background:var(--cream); }
-    header { background:rgba(255,250,247,.94); border-bottom-color:var(--line); box-shadow:0 8px 28px rgba(102,54,28,.07); }
+    header { background:rgba(255,250,247,.97); border-bottom:1px solid #f0d7c5; box-shadow:0 8px 28px rgba(102,54,28,.08); }
     nav a { transition:color .18s ease; }
     nav a:hover { color:var(--coral); }
-    .hero { background:radial-gradient(circle at 86% 14%,rgba(255,154,77,.26),transparent 32%),linear-gradient(135deg,#fffdfb 0%,#fff4e9 58%,#ffe4cc 100%); }
-    .badge { background:#fff0e2; color:#a94408; border:1px solid #f8d5b9; }
+    .hero { background:radial-gradient(ellipse at 88% 12%,rgba(255,154,77,.34),transparent 34%),linear-gradient(125deg,#fffdfb 0%,#fff4e8 56%,#ffe0c2 100%); border-bottom:1px solid #f4d8c1; }
+    .hero h1 { text-wrap:balance; }
+    .badge { background:#fff0e2; color:#963c08; border:1px solid #f4c9a8; }
     .stat strong { color:var(--coral); }
-    .search { border-color:var(--line); box-shadow:0 12px 30px rgba(102,54,28,.08); }
-    .search:focus-within { border-color:#f3a36c; box-shadow:0 0 0 4px rgba(232,93,4,.09),0 12px 30px rgba(102,54,28,.08); }
+    .search { background:#fff; border:1px solid #efcdb5; border-radius:18px; box-shadow:0 12px 30px rgba(102,54,28,.10); }
+    .search:focus-within { border-color:#e85d04; box-shadow:0 0 0 4px rgba(232,93,4,.11),0 12px 30px rgba(102,54,28,.08); }
     .search button { background:linear-gradient(135deg,#f58a43,#e85d04); }
-    .quick-search-btn,.chip,.theme-toggle { border-color:var(--line); }
+    .quick-search-btn,.chip,.theme-toggle { border-color:#f0d7c5; }
+    .section-head { margin-bottom:22px; }
+    .section-head h2 { text-decoration:underline; text-decoration-color:#f4b17e; text-decoration-thickness:3px; text-underline-offset:8px; }
     .card,.recipe-card,.category-card,#recipeOfTheDayCard,.pantry-card,.pantry-panel,.submit-box {
-      border-color:var(--line);
-      box-shadow:0 10px 28px rgba(102,54,28,.065);
+      border:1px solid #f0d7c5;
+      border-radius:20px;
+      box-shadow:0 10px 28px rgba(102,54,28,.075);
     }
+    .card { background:linear-gradient(155deg,#fff 0%,#fffaf5 100%); border-top:3px solid #f4c5a3; }
     .card:hover,.recipe-card:hover,.category-card:hover {
-      border-color:#efb68f;
-      box-shadow:0 16px 36px rgba(166,75,20,.13);
+      border-color:#eeb48b;
+      box-shadow:0 17px 38px rgba(166,75,20,.15);
+      transform:translateY(-4px);
     }
     .view,.see-more,.surprise-btn,.google-form-submit {
       background:linear-gradient(135deg,#f58a43,#e85d04);
+      box-shadow:0 5px 14px rgba(232,93,4,.16);
     }
-    .modal-box,.modal-card,.modal-body,.detail { border-color:var(--line); }
-    .brand-full-logo,.brand-mark { box-shadow:0 5px 14px rgba(166,75,20,.13); }
+    .pantry-panel { background:linear-gradient(135deg,#fff7ee,#fff0e2); }
+    .submit-box { background:linear-gradient(145deg,#fffdfb,#fff3e7); }
+    .modal-box { border:1px solid #f0d7c5; border-radius:22px; box-shadow:0 24px 70px rgba(49,27,13,.22); }
+    .modal-top { background:linear-gradient(135deg,#fff8f1,#ffead8); }
+    .brand-full-logo,.brand-mark { box-shadow:0 5px 14px rgba(166,75,20,.16); }
     img { max-width:100%; }
-    @media (max-width:700px) {
-      header { box-shadow:0 5px 18px rgba(102,54,28,.06); }
+    @media(max-width:700px) {
+      header { box-shadow:0 5px 18px rgba(102,54,28,.07); }
       .hero { background:linear-gradient(160deg,#fffdfb 0%,#fff0e2 100%); }
+      .section-head h2 { text-underline-offset:6px; }
     }
-    @media (prefers-reduced-motion:reduce) {
-      .card,.recipe-card,.category-card,nav a { transition:none !important; }
-    }
-    html[data-theme="dark"] header { background:rgba(36,30,25,.96); border-bottom-color:#49372c; }
+    @media(prefers-reduced-motion:reduce) { .card,.recipe-card,.category-card,nav a { transition:none !important; } }
+    html[data-theme="dark"] header { background:rgba(36,30,25,.97); border-bottom-color:#49372c; }
     html[data-theme="dark"] .badge { background:#30251d; color:#ffd1a6; border-color:#594638; }
-    html[data-theme="dark"] .search { border-color:#594638; }
+    html[data-theme="dark"] .search { background:#241e19; border-color:#594638; }
     html[data-theme="dark"] .card,html[data-theme="dark"] .recipe-card,
     html[data-theme="dark"] .category-card,html[data-theme="dark"] #recipeOfTheDayCard,
     html[data-theme="dark"] .pantry-card,html[data-theme="dark"] .pantry-panel,
-    html[data-theme="dark"] .submit-box { box-shadow:0 10px 26px rgba(0,0,0,.16); }
+    html[data-theme="dark"] .submit-box { background:#241e19; border-color:#49372c; box-shadow:0 10px 26px rgba(0,0,0,.18); }
+    html[data-theme="dark"] .modal-top { background:#30251d; }
+    html[data-theme="dark"] .section-head h2 { text-decoration-color:#b86a36; }
   </style>
 
 </head>
