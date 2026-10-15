@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v75-warm-premium-polish';
+const CACHE_NAME = 'festibites-v76-warm-premium-polish';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
