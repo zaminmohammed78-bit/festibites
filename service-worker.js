@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v81-gourmet-chicken-and-text-contrast';
+const CACHE_NAME = 'festibites-v82-smooth-theme-transition';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
