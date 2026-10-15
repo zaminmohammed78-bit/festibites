@@ -45,12 +45,15 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdro
 nav{display:flex;align-items:center;justify-content:center;gap:22px;flex:1}
 nav a{text-decoration:none;color:var(--ink);font-weight:700;white-space:nowrap}
 nav a:hover{color:var(--coral)}
-.hero{padding:75px 6% 65px;background:linear-gradient(135deg,#fff 0%,#fff5ed 55%,#ffe5d1 100%);display:block}
+.hero{padding:75px 6% 65px;background:linear-gradient(135deg,#fff 0%,#fff5ed 55%,#ffe5d1 100%);display:grid;grid-template-columns:1.1fr 0.9fr;gap:45px;align-items:center}
 .badge{display:inline-block;background:#d8f4ee;color:var(--teal);font-weight:800;padding:8px 14px;border-radius:99px;margin-bottom:18px}
-.hero h1{font-size:clamp(42px,6vw,72px);line-height:.98;letter-spacing:-3px;margin-bottom:22px}
+.hero h1{font-size:clamp(38px,5vw,62px);line-height:1.05;letter-spacing:-2px;margin-bottom:20px}
 .hero h1 em{color:var(--coral);font-style:normal}
-.hero p{max-width:650px;color:var(--muted);font-size:18px;line-height:1.75;margin-bottom:28px}
-.hero-art{display:none}
+.hero p{max-width:650px;color:var(--muted);font-size:17px;line-height:1.75;margin-bottom:26px}
+.hero-art{display:block;position:relative;border-radius:28px;overflow:hidden;box-shadow:0 22px 50px rgba(102,54,28,.18);border:4px solid #fff;background:#ffe5d1;aspect-ratio:4/3}
+.hero-art img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.hero-art img:hover{transform:scale(1.05)}
+.hero-art-badge{position:absolute;bottom:16px;left:16px;background:rgba(58,27,15,0.85);backdrop-filter:blur(8px);color:#fff;padding:10px 16px;border-radius:14px;font-size:13px;font-weight:800;box-shadow:0 6px 16px rgba(0,0,0,.2)}
 .hero-stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:25px}
 .stat strong{display:block;font-size:26px;color:var(--teal)}
 .stat small{color:var(--muted)}
@@ -210,6 +213,14 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   .steps li { page-break-inside: avoid; padding: 0 0 14px 44px !important; color: #222 !important; font-size: 11pt !important; line-height: 1.5 !important; }
   .steps li:before { background: #e85d04 !important; color: #fff !important; width: 28px !important; height: 28px !important; font-size: 11pt !important; }
   body:after { content: "FestiBites Recipe Kitchen • https://zaminmohammed78-bit.github.io/festibites/"; display: block; text-align: center; margin-top: 35px; font-size: 9pt; color: #888; border-top: 1px solid #eee; padding-top: 12px; }
+}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr !important;padding:45px 5% !important;text-align:center}
+  .hero p{margin-left:auto;margin-right:auto}
+  .hero-actions{justify-content:center}
+  .hero-stats{justify-content:center}
+  .hero-art{max-width:450px;margin:30px auto 0 !important}
 }
 
 @media(max-width:560px){
@@ -762,12 +773,12 @@ html[data-theme="dark"] .recipe-timer p{color:#d6c5b8}
 <button id="pwaInstallBtn" class="pwa-install-btn" style="display:none;" aria-label="Install FestiBites App">📲 Install App</button>
 </header>
 
-<section class="hero" id="home" style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;">
-  <div>
+<section class="hero" id="home">
+  <div class="hero-content">
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
       <div class="badge" style="margin-bottom:0;">150+ recipes • Step-by-step cooking</div>
     </div>
-    <h1 style="font-size:clamp(38px,5vw,60px);line-height:1.05;letter-spacing:-2px;margin-bottom:20px;">Good food makes every day a <em>FestiBite.</em></h1>
+    <h1 style="font-size:clamp(36px,5vw,60px);line-height:1.05;letter-spacing:-2px;margin-bottom:20px;">Good food makes every day a <em>FestiBite.</em></h1>
     <p style="font-size:17px;line-height:1.7;color:var(--muted);margin-bottom:26px;">Explore a colorful collection of breakfast, lunch, dinner, dessert and snack recipes. Every recipe includes ingredients, cooking time, servings, difficulty and detailed instructions.</p>
     <div class="hero-actions" aria-label="Quick start">
       <a class="hero-action hero-action-primary" href="#pantryFinder">🥕 Open Pantry Finder</a>
@@ -781,9 +792,9 @@ html[data-theme="dark"] .recipe-timer p{color:#d6c5b8}
       <div class="stat"><strong>∞</strong><small>Good meals</small></div>
     </div>
   </div>
-  <div class="hero-art" style="display:block;position:relative;border-radius:28px;overflow:hidden;box-shadow:0 22px 50px rgba(102,54,28,.18);border:4px solid #fff;background:#ffe5d1;aspect-ratio:4/3;">
-    <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80" alt="Delicious FestiBites Dish" style="width:100%;height:100%;object-fit:cover;transition:transform .4s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-    <div style="position:absolute;bottom:16px;left:16px;background:rgba(58,27,15,0.85);backdrop-filter:blur(8px);color:#fff;padding:10px 16px;border-radius:14px;font-size:13px;font-weight:800;box-shadow:0 6px 16px rgba(0,0,0,.2);">
+  <div class="hero-art">
+    <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80" alt="Delicious FestiBites Dish" loading="lazy">
+    <div class="hero-art-badge">
       ✨ Freshly Prepared & Curated Daily
     </div>
   </div>
