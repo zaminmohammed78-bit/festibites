@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v88-hero-light-text-fix';
+const CACHE_NAME = 'festibites-v89-strict-mobile-no-overflow';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

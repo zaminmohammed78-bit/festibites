@@ -35,8 +35,16 @@
 * {
   transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
-html{scroll-behavior:smooth}
-body{font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--cream);color:var(--ink)}
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100vw;
+}
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
 header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);padding:max(16px,env(safe-area-inset-top)) max(6%,env(safe-area-inset-right)) 16px max(6%,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 10px 35px rgba(210,80,20,.08)}
 .pwa-install-btn{border:0;background:linear-gradient(135deg,#ff8a3d,#e85d04);color:#fff;padding:9px 18px;border-radius:99px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(232,93,4,.25);transition:transform .2s ease,box-shadow .2s ease;font-family:inherit}
 .pwa-install-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(232,93,4,.35)}
@@ -229,18 +237,26 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
 
 @media(max-width:560px){
   header{padding-left:4%;padding-right:4%;padding-bottom:10px}
-  .brand-logo>span{font-size:22px}
-  .brand-mark{width:42px;height:42px;border-radius:50%;object-fit:cover;clip-path:circle(50% at 50% 50%)}
+  .brand-logo>span{font-size:20px}
+  .brand-mark{width:36px;height:36px;border-radius:50%;object-fit:cover;clip-path:circle(50% at 50% 50%)}
   nav{
     justify-content:flex-start;
     overflow-x:auto;
     white-space:nowrap;
-    gap:14px;
+    gap:12px;
     padding:6px 0;
     -webkit-overflow-scrolling:touch;
+    width:100%;
+    max-width:100%;
   }
   nav a{font-size:13px;flex-shrink:0}
-  #authBtn{flex-shrink:0;padding:6px 14px!important}
+  .hero{padding:35px 4% !important;border-radius:0 0 24px 24px !important}
+  .hero h1{font-size:32px !important;line-height:1.1 !important;letter-spacing:-1px !important;color:#fff !important}
+  .hero h1 em{color:#ffb067 !important}
+  .hero p{font-size:14px !important;line-height:1.6 !important;color:rgba(255,255,255,.95) !important}
+  .hero-art{max-width:100% !important;aspect-ratio:16/9 !important;margin-top:20px !important}
+  #recipeOfTheDayCard{padding:18px !important;border-radius:18px !important}
+  #rotdTitle{font-size:20px !important;padding-right:0 !important;margin-top:28px !important}
   .grid{grid-template-columns:1fr;gap:14px!important}
   .card{padding:16px!important;border-radius:18px!important}
   .card h3{font-size:18px!important;margin:4px 0!important}
@@ -252,6 +268,7 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
     flex-wrap:nowrap;
     gap:9px;
     padding:8px;
+    width:100%;
   }
   .search input{
     flex:0 0 auto;
@@ -268,13 +285,20 @@ input:focus,.search-box:focus-within{box-shadow:0 0 0 4px rgba(242,106,33,.13);}
   }
   .surprise-row{
     margin-top:10px;
+    width:100%;
   }
   .search .surprise-btn{
-    width:auto;
+    width:100% !important;
     min-height:42px;
     padding:0 20px!important;
     font-size:14px!important;
   }
+  .modal{padding:10px !important}
+  .modal-box{width:100% !important;max-width:100% !important;border-radius:18px !important}
+  .modal-top{padding:24px 18px !important}
+  .modal-top h2{font-size:24px !important}
+  .modal-body{padding:18px !important}
+  .ingredients{grid-template-columns:1fr !important}
 }
 
 .instruction-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 12px}
