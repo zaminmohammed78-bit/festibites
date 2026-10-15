@@ -3285,13 +3285,13 @@
       "Salt"
     ],
     "steps": [
-      "Marinate chicken with yogurt, ginger-garlic paste, spices, half the fried onions, herbs and salt for at least 1 hour",
-      "Soak the rice for 30 minutes, then boil with whole spices and salt until 70% cooked and drain",
-      "Layer half the rice over the chicken in a heavy pot",
-      "Add mint, coriander, fried onions and ghee, then the remaining rice",
-      "Drizzle saffron milk over the top",
-      "Seal the pot with foil or dough and cook on high for 5 minutes then very low for 35 minutes",
-      "Rest for 10 minutes and gently mix before serving with raita"
+      "Marinate the chicken with yogurt, ginger-garlic paste, spices, half the fried onions, herbs and salt for at least 1 hour; keep refrigerated while marinating.",
+      "Soak the rice for 30 minutes, then boil with whole spices and salt until about 70% cooked; drain.",
+      "Layer half the rice over the raw marinated chicken in a heavy, oven-safe or stovetop pot.",
+      "Add mint, coriander, fried onions and ghee, then the remaining rice.",
+      "Drizzle saffron milk over the top.",
+      "Seal the pot tightly. Cook on medium heat for 5 minutes, then on very low heat for about 35 minutes; avoid opening it repeatedly.",
+      "Check the chicken in several thick pieces with a food thermometer; it must reach 74°C (165°F). If needed, continue cooking until it does. Rest for 10 minutes, gently mix and serve hot with raita."
     ],
     "description": "Fragrant dum-cooked biryani with marinated chicken, saffron and layered basmati rice."
   },
@@ -3319,13 +3319,13 @@
       "Whole spices (cardamom, cloves and cinnamon)"
     ],
     "steps": [
-      "Fry cashews and raisins in ghee and set aside, then fry onions until golden",
-      "Add ginger-garlic paste, green chilies, tomatoes and spices and cook to a thick masala",
-      "Add chicken, salt and a splash of water and cook until tender",
-      "Stir in lemon juice, mint and coriander",
-      "Boil the rice with whole spices and salt until 80% done and drain",
-      "Layer rice and chicken masala in a pot, topping with fried onions, nuts and ghee",
-      "Cover tightly and steam on low for 20 minutes before serving"
+      "Fry cashews and raisins in ghee and set aside, then fry onions until golden.",
+      "Add ginger-garlic paste, green chilies, tomatoes and spices; cook until the masala thickens.",
+      "Add chicken, salt and a splash of water. Cover and cook until the chicken is tender and reaches 74°C (165°F) in the thickest pieces.",
+      "Stir in lemon juice, mint and coriander.",
+      "Boil the rice with whole spices and salt until about 80% cooked, then drain.",
+      "Layer the rice and chicken masala in a pot, topping with fried onions, nuts and ghee.",
+      "Cover tightly and steam on low for 15–20 minutes. Rest for 5–10 minutes, then serve hot."
     ],
     "description": "Kerala's beloved Thalassery-style biryani using short-grain kaima rice and mildly spiced masala."
   },
@@ -3351,12 +3351,12 @@
       "Salt"
     ],
     "steps": [
-      "Marinate the mutton with yogurt, ginger-garlic paste, spices, half the fried onions and salt for 2 hours",
-      "Cook the mutton in a pressure cooker for 4 whistles until nearly tender",
-      "Parboil the soaked rice with whole spices until 70% done and drain",
-      "Layer mutton and rice in a heavy pot with herbs, onions, ghee and saffron milk",
-      "Seal and cook on dum over low heat for 30 minutes",
-      "Rest 10 minutes, mix gently and serve"
+      "Marinate the mutton with yogurt, ginger-garlic paste, spices, half the fried onions and salt for 2 hours in the refrigerator.",
+      "Pressure-cook the mutton with its marinade and a little water until nearly tender; cooking time varies by cut and cooker, so do not rely on whistle count alone.",
+      "Parboil the soaked rice with whole spices until about 70% cooked, then drain.",
+      "Layer the mutton and rice in a heavy pot with herbs, onions, ghee and saffron milk.",
+      "Seal and cook on very low heat for about 20–30 minutes, until the mutton is fully tender and the rice is cooked.",
+      "Rest for 10 minutes, mix gently and serve hot."
     ],
     "description": "Slow-cooked tender mutton layered with aromatic rice, fried onions and whole spices."
   },
@@ -3443,12 +3443,12 @@
       "Salt"
     ],
     "steps": [
-      "Marinate the prawns with turmeric, chili powder, lemon juice and salt for 15 minutes",
-      "Fry onions until golden, then add ginger-garlic paste and tomatoes",
-      "Add spices and prawns and cook for 5 minutes only",
-      "Parboil the rice until 70% cooked and drain",
-      "Layer prawn masala and rice with herbs and ghee",
-      "Steam on low for 15 minutes and serve"
+      "Marinate the cleaned prawns with turmeric, chili powder, lemon juice and salt for 15 minutes; keep refrigerated.",
+      "Fry onions until golden, then add ginger-garlic paste and tomatoes.",
+      "Add the remaining spices and prawns. Cook just until the prawns turn opaque and begin to curl; avoid prolonged cooking.",
+      "Parboil the rice until about 70% cooked and drain.",
+      "Layer the prawn masala and rice with herbs and ghee.",
+      "Cover and steam on very low heat for about 8–10 minutes, just until the rice is cooked. Check that the prawns are fully cooked (about 63°C/145°F), then serve hot."
     ],
     "description": "Juicy prawns tossed in spicy masala and layered with fragrant basmati rice."
   },
@@ -3474,12 +3474,12 @@
       "Salt"
     ],
     "steps": [
-      "Pressure cook the beef with ginger-garlic paste, spices, tomatoes, yogurt and salt until very tender",
-      "Reduce the gravy until thick",
-      "Parboil the rice with whole spices until 75% cooked and drain",
-      "Layer the beef and rice with fried onions, herbs and ghee",
-      "Seal and cook on dum for 25 minutes",
-      "Rest and serve hot"
+      "Pressure-cook the beef with ginger-garlic paste, spices, tomatoes, yogurt and salt until fork-tender; add water as needed and follow the cooker instructions.",
+      "Reduce the gravy until thick.",
+      "Parboil the rice with whole spices until about 75% cooked, then drain.",
+      "Layer the beef and rice with fried onions, herbs and ghee.",
+      "Seal and cook on very low heat for about 20–25 minutes, until the rice is tender and the beef is hot throughout.",
+      "Rest briefly and serve hot."
     ],
     "description": "A rich, robust biryani with slow-cooked spiced beef and long-grain rice."
   },
@@ -3504,12 +3504,12 @@
       "Salt"
     ],
     "steps": [
-      "Marinate chicken with yogurt and tandoori masala, then grill or pan-sear until charred",
-      "Parboil the rice with whole spices and drain",
-      "Layer rice and tikka in a pot with fried onions, herbs and ghee",
-      "Drizzle saffron milk on top",
-      "Cover and steam on low for 20 minutes",
-      "Serve with raita and salad"
+      "Marinate the chicken with yogurt and tandoori masala, then grill or pan-sear until charred and the thickest pieces reach 74°C (165°F).",
+      "Parboil the rice with whole spices until about 70% cooked, then drain.",
+      "Layer the cooked chicken tikka and rice in a pot with fried onions, herbs and ghee.",
+      "Drizzle saffron milk on top.",
+      "Cover and steam on very low heat for 10–15 minutes, until the rice is cooked; rest for 5 minutes.",
+      "Serve hot with raita and salad."
     ],
     "description": "Smoky grilled chicken tikka folded into saffron-scented rice."
   },
@@ -3534,12 +3534,12 @@
       "Salt"
     ],
     "steps": [
-      "Marinate chicken in yogurt, chili powder and salt for 30 minutes and pan-sear until browned",
-      "Melt butter, add ginger-garlic paste and the tomato puree and cook 12 minutes",
-      "Blend the sauce until smooth and return to the pan",
-      "Add chicken, garam masala and sugar and simmer 10 minutes",
-      "Stir in cream and crushed kasuri methi",
-      "Serve with naan or rice"
+      "Marinate the chicken in yogurt, chili powder and salt for 30 minutes in the refrigerator, then pan-sear until browned.",
+      "Melt butter, add ginger-garlic paste and tomato puree, and cook for about 12 minutes.",
+      "Blend the sauce until smooth and return it to the pan.",
+      "Add the chicken, garam masala and sugar. Simmer until the thickest chicken pieces reach 74°C (165°F).",
+      "Stir in cream and crushed kasuri methi; warm gently without boiling hard.",
+      "Serve hot with naan or rice."
     ],
     "description": "Creamy tomato-based curry with tender chicken, a North Indian favorite."
   },
@@ -3705,11 +3705,12 @@
       "Salt"
     ],
     "steps": [
-      "Heat oil in a wok on high flame",
-      "Fry garlic and vegetables for 2-3 minutes so they stay crunchy",
-      "Add rice, soy sauce, pepper and salt",
-      "Toss on high heat for 3 minutes",
-      "Garnish with spring onion greens and serve"
+      "Use cooked rice that was cooled quickly and refrigerated promptly; do not leave cooked rice at room temperature for a long time.",
+      "Heat oil in a wok on high heat.",
+      "Fry garlic and vegetables for 2–3 minutes so they stay slightly crunchy.",
+      "Add the cold rice, soy sauce, pepper and salt.",
+      "Toss until the rice is steaming hot throughout, breaking up any clumps.",
+      "Garnish with spring onion greens and serve immediately."
     ],
     "description": "Wok-tossed rice with crisp vegetables and soy sauce."
   },
@@ -3733,11 +3734,12 @@
       "Salt"
     ],
     "steps": [
-      "Stir-fry the chicken with salt and pepper until cooked and set aside",
-      "Scramble the eggs in the wok and set aside",
-      "Fry garlic and vegetables on high heat",
-      "Add rice, chicken, egg and soy sauce",
-      "Toss well for 3 minutes and serve hot"
+      "Use cooked rice that was cooled quickly and refrigerated promptly; do not leave cooked rice at room temperature for a long time.",
+      "Stir-fry the chicken with salt and pepper until the thickest pieces reach 74°C (165°F), then set aside.",
+      "Scramble the eggs until fully set and set aside.",
+      "Fry garlic and vegetables on high heat.",
+      "Add the rice, cooked chicken, egg and soy sauce.",
+      "Toss until the rice is steaming hot throughout, then serve immediately."
     ],
     "description": "Egg and chicken fried rice with a smoky wok flavor."
   },
@@ -3794,11 +3796,11 @@
       "1/4 cup water for the sauce"
     ],
     "steps": [
-      "Coat chicken with egg, cornflour, salt and pepper and deep fry until crisp",
-      "Stir-fry garlic, chilies, onion and capsicum on high heat",
-      "Add soy sauce, chili sauce and vinegar",
-      "Add fried chicken and a splash of water thickened with cornflour",
-      "Toss until glossy and serve"
+      "Coat the chicken with egg, cornflour, salt and pepper. Deep-fry in batches until golden and the thickest pieces reach 74°C (165°F); drain.",
+      "Stir-fry garlic, chilies, onion and capsicum on high heat.",
+      "Add soy sauce, chili sauce and vinegar.",
+      "Mix the remaining cornflour with the 1/4 cup water to make a smooth slurry. Add it to the pan and cook until the sauce thickens.",
+      "Add the fried chicken and toss until glossy and hot. Serve immediately."
     ],
     "description": "Crispy chicken tossed with peppers and onions in a tangy Indo-Chinese sauce."
   },
@@ -3849,11 +3851,12 @@
       "Salt"
     ],
     "steps": [
-      "Boil the stock with corn and chicken for 8 minutes",
-      "Season with soy sauce, pepper and salt",
-      "Stir in the cornflour slurry and simmer until slightly thick",
-      "Pour the beaten egg in a slow stream while stirring",
-      "Serve hot"
+      "Bring the chicken stock to a boil with the corn and raw chicken; simmer until the chicken reaches 74°C (165°F) in the thickest piece and is cooked through.",
+      "Shred or finely chop the cooked chicken if needed, then return it to the soup.",
+      "Season with soy sauce, pepper and salt.",
+      "Stir in the cornflour slurry and simmer until slightly thick.",
+      "Pour the beaten egg in a slow stream while stirring, then cook until the egg is fully set.",
+      "Serve hot."
     ],
     "description": "A light, warming soup with corn, chicken and silky egg ribbons."
   },
@@ -3988,10 +3991,10 @@
       "4 cups chicken stock or water"
     ],
     "steps": [
-      "Brown the meat with onions and whole spices",
-      "Add tomatoes, tomato paste, kabsa spice and water and cook until the meat is tender",
-      "Add soaked rice to the stock and cook covered until fluffy",
-      "Serve topped with meat, raisins and toasted almonds"
+      "Brown the chicken or lamb with onions and whole spices.",
+      "Add tomatoes, tomato paste, kabsa spice and water. Cover and cook until the meat is tender; if using chicken, check that the thickest pieces reach 74°C (165°F).",
+      "Remove the cooked meat and keep it covered. Add the soaked rice to the cooking stock and cook covered until fluffy and fully tender.",
+      "Serve the rice topped with the meat, raisins and toasted almonds."
     ],
     "description": "Saudi-style spiced rice with meat, tomatoes and warm aromatic spices."
   },
@@ -4015,11 +4018,11 @@
       "Salt"
     ],
     "steps": [
-      "Sauté onion, pepper and garlic in olive oil",
-      "Add spices and tomatoes and simmer 12 minutes into a thick sauce",
-      "Make wells and crack the eggs into them",
-      "Cover and cook 5 minutes until the whites set",
-      "Garnish with parsley and serve with bread"
+      "Sauté the onion, pepper and garlic in olive oil until softened.",
+      "Add the spices and tomatoes and simmer for about 12 minutes, until the sauce is thick.",
+      "Make wells in the sauce and crack the eggs into them.",
+      "Cover and cook until the egg whites and yolks are fully set; use pasteurized eggs if you prefer a runny yolk.",
+      "Garnish with parsley and serve hot with bread."
     ],
     "description": "Eggs poached in a spiced tomato and pepper sauce."
   },
@@ -4071,20 +4074,33 @@
     "servings": 3,
     "difficulty": "Easy",
     "ingredients": [
-      "2 cups puttu podi",
-      "1 cup grated coconut for puttu",
-      "1/2 cup grated coconut for kadala curry",
-      "1/2 cup warm water",
-      "1/2 tsp salt",
-      "1 1/2 cups black chickpeas, cooked",
-      "1 tsp chili powder",
-      "1 tsp coriander powder"
+      "2 cups puttu podi (roasted rice flour)",
+      "1 cup grated coconut, for layering puttu",
+      "1/2 cup warm water, or as needed",
+      "1/2 tsp salt, or to taste",
+      "1 1/2 cups cooked black chickpeas (kadala)",
+      "1 onion, sliced",
+      "1 tomato, chopped",
+      "1 tsp ginger-garlic paste",
+      "2 green chilies, slit",
+      "1/2 cup grated coconut, for curry",
+      "1 tsp coriander powder",
+      "1/2 tsp chili powder",
+      "1/4 tsp turmeric",
+      "1/2 tsp garam masala",
+      "1 sprig curry leaves",
+      "1 tsp mustard seeds",
+      "2 tbsp coconut oil",
+      "Water, as needed for curry",
+      "Salt, to taste"
     ],
     "steps": [
       "Mix the puttu flour with salt and sprinkle warm water over it gradually, rubbing with your fingertips until the flour is moist and crumbly rather than doughy.",
-      "Layer the puttu maker with a little grated coconut, the moistened flour, and more coconut; repeat, finishing with coconut.",
+      "Layer the puttu maker with a little grated coconut, the moistened flour and more coconut; repeat, finishing with coconut.",
       "Steam for 8–10 minutes, or until the puttu is hot and cooked through.",
-      "For the kadala curry, simmer the cooked black chickpeas with chili powder, coriander powder, the reserved grated coconut and enough water to make a thick curry.",
+      "For the kadala curry, heat coconut oil in a pan and let the mustard seeds splutter. Add curry leaves, green chilies, onion and ginger-garlic paste; sauté until softened.",
+      "Add the tomato, coriander powder, chili powder, turmeric and garam masala. Cook until the tomato softens.",
+      "Add the cooked black chickpeas, grated coconut and enough water to make a thick curry. Simmer for 10–15 minutes, adding water if needed.",
       "Season to taste and serve the hot puttu with the kadala curry."
     ],
     "description": "Steamed rice-and-coconut cylinders with spicy black chickpea curry."
@@ -4139,11 +4155,11 @@
       "Salt"
     ],
     "steps": [
-      "Marinate the fish with chili powder, turmeric, lemon juice and salt",
-      "Shallow fry until half cooked",
-      "Cook onions, ginger-garlic paste, tomatoes and spices into a thick masala",
-      "Place masala on a banana leaf, lay the fish and cover with more masala",
-      "Wrap and pan-cook 8 minutes on each side"
+      "Marinate the cleaned fish with chili powder, turmeric, lemon juice and salt.",
+      "Shallow-fry the fish briefly on both sides; it will finish cooking in the banana-leaf parcel.",
+      "Cook onions, ginger-garlic paste, tomatoes and spices into a thick masala.",
+      "Place some masala on a banana leaf, lay the fish on it and cover with the remaining masala. Wrap securely.",
+      "Pan-cook over medium-low heat, turning carefully, until the fish is opaque and flakes easily; check the center reaches 63°C (145°F). Cooking time depends on the fish's thickness."
     ],
     "description": "Pearl spot fish marinated in masala, wrapped in banana leaf and pan-cooked."
   },
@@ -4191,11 +4207,11 @@
       "Salt"
     ],
     "steps": [
-      "Cook the chicken with onion, ginger-garlic paste and spices until dry",
-      "Cool and add coriander",
-      "Fold pastry into cones and fill",
-      "Seal edges with flour paste",
-      "Deep fry until golden and crisp"
+      "Cook the minced chicken with onion, ginger-garlic paste and spices, breaking it into small pieces, until it reaches 74°C (165°F) and no pink remains.",
+      "Cool the filling promptly in a shallow dish; do not leave it at room temperature for more than 2 hours.",
+      "Fold the pastry sheets into cones and fill with the cooled chicken mixture.",
+      "Seal the edges with flour paste.",
+      "Deep-fry in batches until golden and crisp, turning as needed. Serve hot."
     ],
     "description": "Crisp pastry triangles stuffed with spiced minced chicken."
   },
@@ -4490,17 +4506,17 @@
       "1 cup refined oil for frying"
     ],
     "steps": [
-      "Marinate the chicken strips with ginger-garlic paste, red chili powder, and salt for 15 minutes.",
-      "In a bowl, mix maida, cornflour, and a pinch of salt with a little water to make a smooth batter.",
+      "Marinate the chicken strips with ginger-garlic paste, red chili powder and salt for 15 minutes in the refrigerator.",
+      "In a bowl, mix maida, cornflour and a pinch of salt with a little water to make a smooth batter.",
       "Beat the egg in a separate bowl. Place crushed cornflakes in a third plate.",
-      "Dip each chicken strip into the flour batter, then coat in the beaten egg, and finally roll firmly in crushed cornflakes for an extra crispy crust.",
-      "Heat refined oil in a frying pan and deep-fry the coated chicken strips on medium heat for 6 to 7 minutes until crispy and golden brown. Drain on paper towels.",
+      "Coat each chicken strip in the batter, dip in the beaten egg, then press into the crushed cornflakes.",
+      "Heat oil in a deep pan. Fry the strips in small batches until crisp and golden and the thickest parts reach 74°C (165°F); do not rely on color alone. Drain on paper towels.",
       "Warm the tortillas or soft chapatis on a tawa.",
-      "In a small bowl, mix mayonnaise and hot garlic sauce together to form a zesty spread.",
-      "Spread the sauce generously across the center of each tortilla.",
-      "Place shredded lettuce, followed by 3 crispy fried chicken strips in a neat line.",
-      "Drizzle extra sauce on top, fold in the sides tightly, and roll up securely into a wrap.",
-      "Serve warm and crunchy."
+      "Mix the mayonnaise and hot garlic sauce in a small bowl.",
+      "Spread the sauce across the center of each tortilla.",
+      "Add shredded lettuce and the cooked chicken strips.",
+      "Drizzle with extra sauce, fold in the sides and roll up securely.",
+      "Serve warm."
     ],
     "description": "Crunchy golden fried chicken strips rolled in soft tortillas with spicy garlic mayo and fresh lettuce, perfect for a fast-food night at home."
   }
