@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v84-maintenance-removed';
+const CACHE_NAME = 'festibites-v85-hero-heading-contrast-fix';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
