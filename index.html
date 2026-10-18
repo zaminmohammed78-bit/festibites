@@ -25,18 +25,31 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
-  --ink:#3a1b0f;
-  --teal:#f26a21;
-  --teal2:#ff9a4d;
-  --coral:#e85d04;
-  --cream:#fffaf7;
-  --gold:#ffb067;
-  --white:#fff;
-  --muted:#765f54;
-  --line:#f2ddd0;
+  --ink:#fdfbf7;
+  --teal:#e6a15c;
+  --teal2:#ffb86c;
+  --coral:#ff8c42;
+  --cream:#120e0b;
+  --gold:#ffd180;
+  --white:#1a1512;
+  --muted:#b8a89f;
+  --line:#332924;
 }
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
+  background: radial-gradient(circle at 15% 15%, rgba(230, 161, 92, 0.08), transparent 40%), linear-gradient(135deg, #0d0b0a 0%, #17120f 100%);
+  color: var(--ink);
+}
+.card, .recipe-card, .category-card, .pantry-card, .submit-box, .modal-box, .search-box {
+  background: #1a1512 !important;
+  border-color: #332924 !important;
+  color: #fdfbf7 !important;
+}
+.card h3, .section-head h2, .modal-top h2, .submit-box h2, .brand-logo>span {
+  color: #fdfbf7 !important;
+}
+.card p, .section-head p, .submit-box>p, .pantry-card p {
+  color: #b8a89f !important;
 }
 h1, h2, h3, .section-head h2, .modal-top h2, .submit-box h2, .card h3 {
   font-family: 'Playfair Display', serif;
