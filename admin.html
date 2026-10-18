@@ -221,16 +221,7 @@ function renderCatalogList(arr){
   }
   arr.forEach(recipe => {
     const row = document.createElement("div");
-    row.style.cssText = "background:#fff7f1;border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;";
-
-    const left = document.createElement("div");
-    left.style.cssText = "display:flex;align-items:center;gap:12px;";
-
-    const img = document.createElement("img");
-    img.src = recipe.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=120&q=80";
-    img.alt = recipe.name || "";
-    img.style.cssText = "width:48px;height:48px;border-radius:10px;object-fit:cover;flex-shrink:0;";
-
+    row.style.cssText = "background:#fff7f1;border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;";
     const info = document.createElement("div");
     const title = document.createElement("h4");
     title.style.cssText = "font-size:15px;color:var(--ink);margin-bottom:2px;";
@@ -239,14 +230,12 @@ function renderCatalogList(arr){
     meta.style.cssText = "color:var(--muted);";
     meta.textContent = String(recipe.category || "Other") + " • " + (Number(recipe.minutes) || 20) + " mins";
     info.append(title, meta);
-    left.append(img, info);
-
     const button = document.createElement("button");
     button.className = "btn";
-    button.style.cssText = "padding:8px 14px;font-size:12px;width:auto;background:var(--ink);flex-shrink:0;";
+    button.style.cssText = "padding:8px 14px;font-size:12px;width:auto;background:var(--ink);";
     button.textContent = "📋 Copy Name";
     button.addEventListener("click", () => copyName(String(recipe.name || "")));
-    row.append(left, button);
+    row.append(info, button);
     listEl.appendChild(row);
   });
 }
