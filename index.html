@@ -96,6 +96,12 @@ html[data-theme="dark"] .hero{background:linear-gradient(135deg,rgba(15,10,7,0.9
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .card{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;min-height:270px;display:flex;flex-direction:column;box-shadow:0 8px 25px rgba(21,59,58,.05);transition:.22s}
 .card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(21,59,58,.1);border-color:#b9d8d3}
+.card-img-wrap{position:relative;width:100%;height:185px;border-radius:14px;overflow:hidden;margin-bottom:14px;background:#f8ebe1;}
+.card-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;}
+.card:hover .card-img{transform:scale(1.05);}
+.modal-hero-wrap{width:100%;height:320px;border-radius:18px;overflow:hidden;margin-bottom:20px;background:#f8ebe1;box-shadow:0 10px 25px rgba(0,0,0,.08);}
+.modal-hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+@media(max-width:600px){.modal-hero-wrap{height:210px;}.card-img-wrap{height:160px;}}
 .icon{display:none}
 .tag{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:900;color:var(--coral)}
 .card h3{font-size:20px;margin:7px 0}
@@ -969,13 +975,20 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
 <!-- Recipe of the Day Card -->
 <div style="padding:0 6% 25px;">
   <div id="recipeOfTheDayCard" style="max-width:900px;margin:auto;background:linear-gradient(135deg,#fffdfb,#fff3eb);border:1.5px solid var(--coral);border-radius:24px;padding:24px;box-shadow:0 12px 32px rgba(232,93,4,.12);position:relative;overflow:hidden;">
-    <div style="position:absolute;top:18px;right:18px;background:var(--coral);color:#fff;font-weight:900;font-size:11px;padding:5px 12px;border-radius:99px;text-transform:uppercase;letter-spacing:1px;">⭐ Recipe of the Day</div>
-    <div class="tag" id="rotdCategory" style="color:var(--teal);margin-bottom:6px;">Featured Dish</div>
-    <h2 id="rotdTitle" style="font-size:26px;color:var(--ink);margin-bottom:8px;padding-right:120px;">Loading Today's Special...</h2>
-    <p id="rotdDesc" style="color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:16px;max-width:700px;"></p>
-    <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
-      <span id="rotdMeta" style="color:#647575;font-size:13px;font-weight:700;"></span>
-      <button id="rotdBtn" class="see-more" style="padding:10px 22px;margin:0;font-size:14px;" onclick="openRotdRecipe()">Cook Today's Special →</button>
+    <div style="position:absolute;top:18px;right:18px;background:var(--coral);color:#fff;font-weight:900;font-size:11px;padding:5px 12px;border-radius:99px;text-transform:uppercase;letter-spacing:1px;z-index:2;">⭐ Recipe of the Day</div>
+    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+      <div style="flex:1 1 320px;min-width:250px;">
+        <div class="tag" id="rotdCategory" style="color:var(--teal);margin-bottom:6px;">Featured Dish</div>
+        <h2 id="rotdTitle" style="font-size:26px;color:var(--ink);margin-bottom:8px;">Loading Today's Special...</h2>
+        <p id="rotdDesc" style="color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:16px;"></p>
+        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+          <span id="rotdMeta" style="color:#647575;font-size:13px;font-weight:700;"></span>
+          <button id="rotdBtn" class="see-more" style="padding:10px 22px;margin:0;font-size:14px;" onclick="openRotdRecipe()">Cook Today's Special →</button>
+        </div>
+      </div>
+      <div style="flex:0 0 260px;width:260px;height:180px;border-radius:18px;overflow:hidden;background:#f3e8df;box-shadow:0 8px 20px rgba(0,0,0,0.08);">
+        <img id="rotdImage" src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80" alt="Recipe of the day" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
     </div>
   </div>
 </div>
@@ -1072,6 +1085,9 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
       <p id="mDesc"></p>
     </div>
     <div class="modal-body">
+      <div class="modal-hero-wrap" id="mImageWrap">
+        <img id="mImage" src="" alt="Recipe image" class="modal-hero-img">
+      </div>
       <div id="mAllergens"></div>
       <div class="details">
         <div class="detail"><b>Cooking time</b><span id="mTime"></span></div>
@@ -1305,6 +1321,35 @@ function allergenBadgeHTML(recipe){
   return '<div class="allergen-badge" role="note">' + label + '</div><div class="allergen-note"></div>';
 }
 
+function escHtml(str){
+  return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+
+function getCategoryFallbackImage(cat){
+  const defaults = {
+    "Breakfast": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80",
+    "Lunch": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
+    "Dinner": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+    "Biryani": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80",
+    "Kerala Foods": "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=800&q=80",
+    "Indian": "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80",
+    "Chinese": "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80",
+    "Arabic": "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=800&q=80",
+    "Snacks": "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
+    "Desserts": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80",
+    "Beverages": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=800&q=80",
+    "Fast Food": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80"
+  };
+  return defaults[cat] || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80";
+}
+
+function getRecipeImageUrl(r){
+  if(r && r.image && typeof r.image === "string" && r.image.trim().startsWith("http")){
+    return r.image.trim();
+  }
+  return getCategoryFallbackImage(r ? r.category : "");
+}
+
 function render(list){
   currentList = list;
   grid.innerHTML = "";
@@ -1330,10 +1375,14 @@ function render(list){
     const card = document.createElement("article");
     card.className = "card";
     const matchLabel = query && intent.text && i<3 ? '<span class="match-pill">★ Top match</span>' : "";
+    const imgUrl = getRecipeImageUrl(r);
     card.innerHTML = `
+      <div class="card-img-wrap">
+        <img class="card-img" src="${imgUrl}" alt="${escHtml(r.name)}" loading="lazy" onerror="this.onerror=null;this.src=getCategoryFallbackImage('${r.category}');">
+      </div>
       <div class="result-tags"><div class="tag">${r.category}</div><span class="nutrition-badge" title="Rough estimate from ingredient text only; not verified nutrition information">🔥 Est. ~${calculateAccurateCalories(r)} kcal/serving</span>${matchLabel}</div>
-      <h3>${r.name}</h3>
-      <p>${r.description || "Explore this recipe on FestiBites."}</p>
+      <h3>${escHtml(r.name)}</h3>
+      <p>${escHtml(r.description || "Explore this recipe on FestiBites.")}</p>
       ${allergenBadgeHTML(r)}
       <div class="meta"><span>⏱ ${r.minutes ? formatRecipeTime(r.minutes) : "Time varies"}</span><span>🍽 ${r.servings} servings</span><span>${r.difficulty}</span></div>
       <button class="view" onclick="openRecipe(${i})">View full recipe</button>
@@ -1921,6 +1970,12 @@ function openRecipe(index){
   document.getElementById("mDifficulty").textContent = r.difficulty || "Not specified";
   document.getElementById("mAllergens").innerHTML = allergenBadgeHTML(r);
 
+  const mImg = document.getElementById("mImage");
+  if(mImg){
+    mImg.src = getRecipeImageUrl(r);
+    mImg.alt = r.name || "Recipe";
+  }
+
   try {
     updateServingIngredients();
   } catch(error) {
@@ -2037,6 +2092,11 @@ function setupRecipeOfTheDay(){
       document.getElementById("rotdCategory").textContent = "⭐ Recipe of the Day • " + rotd.category;
       document.getElementById("rotdDesc").textContent = rotd.description;
       document.getElementById("rotdMeta").textContent = "⏱️ " + formatRecipeTime(rotd.minutes) + " | 👥 " + rotd.servings + " servings | 📊 " + rotd.difficulty;
+      const rotdImg = document.getElementById("rotdImage");
+      if(rotdImg) {
+        rotdImg.src = getRecipeImageUrl(rotd);
+        rotdImg.alt = rotd.name;
+      }
     })
     .catch(() => {
       rotdRecipeIndex = -1;
