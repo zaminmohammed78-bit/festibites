@@ -19,6 +19,9 @@
   <meta name="msapplication-TileImage" content="./icon-192.png">
   <meta name="google-site-verification" content="srmVmo-jNBUa6fCeCXqfgdyS2pJZVv5WVrP3X2rczwk" />
   <link rel="canonical" href="https://zaminmohammed78-bit.github.io/festibites/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -32,6 +35,37 @@
   --muted:#765f54;
   --line:#f2ddd0;
 }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+h1, h2, h3, .section-head h2, .modal-top h2, .submit-box h2, .card h3 {
+  font-family: 'Playfair Display', serif;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.skeleton-line {
+  height: 18px;
+  border-radius: 9px;
+  background: linear-gradient(90deg, #f0e6e0 25%, #fcefe9 50%, #f0e6e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.skeleton-line.title { height: 26px; width: 75%; }
+.skeleton-line.desc { height: 14px; width: 100%; }
+.skeleton-line.desc2 { height: 14px; width: 60%; }
+.skeleton-line.meta { height: 20px; width: 50%; margin-top: auto; }
 * {
   transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
