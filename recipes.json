@@ -3,7 +3,7 @@
     "name": "Creamy Garlic Butter Chicken",
     "category": "Dinner",
     "icon": "",
-    "minutes": 35,
+    "minutes": 45,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -105,7 +105,7 @@
     "name": "Berry Yogurt Parfait",
     "category": "Breakfast",
     "icon": "",
-    "minutes": 10,
+    "minutes": 15,
     "servings": 2,
     "difficulty": "Easy",
     "ingredients": [
@@ -263,7 +263,7 @@
     "name": "French Crepes",
     "category": "Breakfast",
     "icon": "",
-    "minutes": 25,
+    "minutes": 30,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -289,7 +289,7 @@
     "name": "French Toast",
     "category": "Breakfast",
     "icon": "",
-    "minutes": 15,
+    "minutes": 20,
     "servings": 2,
     "difficulty": "Easy",
     "ingredients": [
@@ -398,7 +398,7 @@
     "name": "Rava Dosa",
     "category": "Breakfast",
     "icon": "",
-    "minutes": 30,
+    "minutes": 40,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -698,7 +698,7 @@
     "name": "Jeera Rice",
     "category": "Lunch",
     "icon": "",
-    "minutes": 30,
+    "minutes": 40,
     "servings": 2,
     "difficulty": "Easy",
     "ingredients": [
@@ -729,7 +729,7 @@
     "name": "Lentil Soup",
     "category": "Lunch",
     "icon": "",
-    "minutes": 40,
+    "minutes": 45,
     "servings": 5,
     "difficulty": "Easy",
     "ingredients": [
@@ -981,7 +981,7 @@
     "name": "Beef Pepper Fry",
     "category": "Dinner",
     "icon": "",
-    "minutes": 50,
+    "minutes": 60,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1102,7 +1102,7 @@
     "name": "Chicken Korma",
     "category": "Dinner",
     "icon": "",
-    "minutes": 55,
+    "minutes": 70,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1133,7 +1133,7 @@
     "name": "Chicken Tikka Masala",
     "category": "Dinner",
     "icon": "",
-    "minutes": 85,
+    "minutes": 90,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1288,7 +1288,7 @@
     "name": "Grilled Chicken",
     "category": "Dinner",
     "icon": "",
-    "minutes": 55,
+    "minutes": 60,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -1467,7 +1467,7 @@
     "name": "Rajma Masala",
     "category": "Dinner",
     "icon": "",
-    "minutes": 50,
+    "minutes": 60,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1499,7 +1499,7 @@
     "name": "Shahi Paneer",
     "category": "Dinner",
     "icon": "",
-    "minutes": 25,
+    "minutes": 35,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -1532,7 +1532,7 @@
     "name": "Stuffed Bell Peppers",
     "category": "Dinner",
     "icon": "",
-    "minutes": 50,
+    "minutes": 60,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1682,7 +1682,7 @@
     "name": "Beef Biryani",
     "category": "Lunch",
     "icon": "",
-    "minutes": 80,
+    "minutes": 100,
     "servings": 5,
     "difficulty": "Medium",
     "ingredients": [
@@ -1715,7 +1715,7 @@
     "name": "Chicken Biryani",
     "category": "Lunch",
     "icon": "",
-    "minutes": 70,
+    "minutes": 90,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1777,7 +1777,7 @@
     "name": "Hyderabadi Chicken Biryani",
     "category": "Lunch",
     "icon": "",
-    "minutes": 75,
+    "minutes": 95,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1810,7 +1810,7 @@
     "name": "Malabar Fish Biryani",
     "category": "Lunch",
     "icon": "",
-    "minutes": 60,
+    "minutes": 75,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -1843,7 +1843,7 @@
     "name": "Mutton Biryani",
     "category": "Lunch",
     "icon": "",
-    "minutes": 90,
+    "minutes": 120,
     "servings": 5,
     "difficulty": "Hard",
     "ingredients": [
@@ -1908,7 +1908,7 @@
     "name": "Vegetable Biryani",
     "category": "Lunch",
     "icon": "",
-    "minutes": 55,
+    "minutes": 70,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -2430,7 +2430,7 @@
     "name": "Corn Cheese Balls",
     "category": "Snacks",
     "icon": "",
-    "minutes": 30,
+    "minutes": 40,
     "servings": 12,
     "difficulty": "Easy",
     "ingredients": [
@@ -2456,7 +2456,7 @@
     "name": "Crispy French Fries",
     "category": "Snacks",
     "icon": "",
-    "minutes": 30,
+    "minutes": 35,
     "servings": 3,
     "difficulty": "Easy",
     "ingredients": [
@@ -2590,7 +2590,7 @@
     "name": "Paneer Tikka",
     "category": "Snacks",
     "icon": "",
-    "minutes": 35,
+    "minutes": 45,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -2652,7 +2652,7 @@
     "name": "Sweet Potato Fries",
     "category": "Snacks",
     "icon": "",
-    "minutes": 35,
+    "minutes": 40,
     "servings": 3,
     "difficulty": "Easy",
     "ingredients": [
@@ -2731,7 +2731,7 @@
     "name": "Apple Crumble",
     "category": "Desserts",
     "icon": "",
-    "minutes": 45,
+    "minutes": 55,
     "servings": 6,
     "difficulty": "Easy",
     "ingredients": [
@@ -3023,7 +3023,7 @@
     "name": "Donuts",
     "category": "Desserts",
     "icon": "",
-    "minutes": 120,
+    "minutes": 150,
     "servings": 5,
     "difficulty": "Medium",
     "ingredients": [
@@ -3080,7 +3080,7 @@
     "name": "Gulab Jamun",
     "category": "Desserts",
     "icon": "",
-    "minutes": 105,
+    "minutes": 120,
     "servings": 6,
     "difficulty": "Medium",
     "ingredients": [
@@ -3110,7 +3110,7 @@
     "name": "Jalebi",
     "category": "Desserts",
     "icon": "",
-    "minutes": 445,
+    "minutes": 510,
     "servings": 3,
     "difficulty": "Easy",
     "ingredients": [
@@ -3140,7 +3140,7 @@
     "name": "Mango Ice Cream",
     "category": "Desserts",
     "icon": "",
-    "minutes": 380,
+    "minutes": 390,
     "servings": 6,
     "difficulty": "Easy",
     "ingredients": [
@@ -3212,7 +3212,7 @@
     "name": "Rice Kheer",
     "category": "Desserts",
     "icon": "",
-    "minutes": 45,
+    "minutes": 50,
     "servings": 6,
     "difficulty": "Easy",
     "ingredients": [
@@ -3299,7 +3299,7 @@
     "name": "Malabar Chicken Biryani",
     "category": "Biryani",
     "icon": "",
-    "minutes": 80,
+    "minutes": 100,
     "servings": 5,
     "difficulty": "Medium",
     "ingredients": [
@@ -3333,7 +3333,7 @@
     "name": "Mutton Biryani (Dum Style)",
     "category": "Biryani",
     "icon": "",
-    "minutes": 120,
+    "minutes": 180,
     "servings": 6,
     "difficulty": "Hard",
     "ingredients": [
@@ -3396,7 +3396,7 @@
     "name": "Vegetable Biryani (Mixed Vegetables)",
     "category": "Biryani",
     "icon": "",
-    "minutes": 50,
+    "minutes": 70,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -3425,7 +3425,7 @@
     "name": "Prawn Biryani",
     "category": "Biryani",
     "icon": "",
-    "minutes": 60,
+    "minutes": 75,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -3487,7 +3487,7 @@
     "name": "Chicken Tikka Biryani",
     "category": "Biryani",
     "icon": "",
-    "minutes": 75,
+    "minutes": 90,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -3517,7 +3517,7 @@
     "name": "Butter Chicken (Creamy Tomato Gravy)",
     "category": "Indian",
     "icon": "",
-    "minutes": 50,
+    "minutes": 65,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -3577,7 +3577,7 @@
     "name": "Dal Tadka (Toor Dal)",
     "category": "Indian",
     "icon": "",
-    "minutes": 35,
+    "minutes": 45,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -3662,7 +3662,7 @@
     "name": "Aloo Paratha",
     "category": "Indian",
     "icon": "",
-    "minutes": 35,
+    "minutes": 45,
     "servings": 3,
     "difficulty": "Medium",
     "ingredients": [
@@ -3947,7 +3947,7 @@
     "name": "Falafel",
     "category": "Arabic",
     "icon": "",
-    "minutes": 40,
+    "minutes": 45,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -3966,7 +3966,7 @@
       "Blend with onion, garlic, herbs and spices into a coarse paste",
       "Stir in baking soda and rest 15 minutes",
       "Shape into small patties",
-      "Deep fry until deep golden and serve with tahini sauce"
+      "Fry in small batches in hot oil until the falafel are browned and cooked through in the centre; do not overcrowd the pan. Drain and serve with tahini sauce."
     ],
     "description": "Crispy herbed chickpea fritters with a fluffy center."
   },
@@ -4070,7 +4070,7 @@
     "name": "Puttu and Kadala Curry",
     "category": "Kerala Foods",
     "icon": "",
-    "minutes": 35,
+    "minutes": 50,
     "servings": 3,
     "difficulty": "Easy",
     "ingredients": [
@@ -4109,7 +4109,7 @@
     "name": "Kerala Beef Fry",
     "category": "Kerala Foods",
     "icon": "",
-    "minutes": 60,
+    "minutes": 75,
     "servings": 4,
     "difficulty": "Medium",
     "ingredients": [
@@ -4167,7 +4167,7 @@
     "name": "Unniyappam",
     "category": "Kerala Foods",
     "icon": "",
-    "minutes": 30,
+    "minutes": 60,
     "servings": 4,
     "difficulty": "Easy",
     "ingredients": [
@@ -4427,7 +4427,7 @@
     "name": "Spicy Peri Peri French Fries",
     "category": "Fast Food",
     "icon": "",
-    "minutes": 20,
+    "minutes": 40,
     "servings": 3,
     "difficulty": "Easy",
     "ingredients": [
@@ -4443,7 +4443,7 @@
       "Soak the potato strips in cold water with 1/2 teaspoon of salt for 15 minutes to remove excess starch, then pat them completely dry with a clean kitchen towel.",
       "Heat refined oil in a deep kadai or frying pan over medium-high flame.",
       "Drop the potato fingers into the hot oil in batches and deep-fry for about 6 to 7 minutes until pale golden and partially cooked. Remove and drain on paper towels.",
-      "Let the fries cool for 5 minutes, then fry them a second time in hot oil for 2 to 3 minutes until crisp, crunchy, and deep golden brown.",
+      "Let the first-fried potatoes rest for about 5 minutes while you maintain a safe, steady frying temperature; keep them away from water and dry surfaces.",
       "Transfer the hot, crispy fries immediately to a wide bowl.",
       "Sprinkle peri peri masala powder and chaat masala generously over the hot fries.",
       "Toss the bowl vigorously to coat every single fry evenly with the spice blend.",
@@ -4487,7 +4487,7 @@
     "name": "Crispy Zinger Chicken Strip Wrap",
     "category": "Fast Food",
     "icon": "",
-    "minutes": 30,
+    "minutes": 45,
     "servings": 2,
     "difficulty": "Medium",
     "ingredients": [
@@ -4538,7 +4538,7 @@
       "Arrange the banana on the bread and cover with the second slice.",
       "Cut in half and serve immediately."
     ],
-    "description": "👥 Friend Challenge Pick: One of the 1-minute recipe ideas added after my friends challenged me to feature food ready in 60 seconds. A quick no-cook chocolate and banana sandwich made with everyday ingredients."
+    "description": "A quick no-cook chocolate and banana sandwich made with everyday ingredients. Use ready-to-eat bread and spread for fast assembly."
   },
   {
     "name": "60-Second Banana Peanut Butter Bowl",
@@ -4558,7 +4558,7 @@
       "Add the peanut butter on top and swirl it through slightly.",
       "Serve immediately."
     ],
-    "description": "👥 Friend Challenge Pick: Part of the 1-minute recipe collection inspired by my friends' challenge. A creamy no-cook snack with banana, yogurt and peanut butter, assembled in about one minute."
+    "description": "A creamy no-cook snack with banana, yogurt and peanut butter, assembled with ready-to-eat ingredients."
   },
   {
     "name": "60-Second Spicy Pori Crunch",
@@ -4580,7 +4580,7 @@
       "Add lemon juice and toss everything together.",
       "Eat immediately while the pori is crunchy."
     ],
-    "description": "👥 Friend Challenge Pick: Added for my friends' 1-minute recipe challenge. A fast Kerala-friendly crunchy snack made with pori, roasted peanuts, lemon and simple spices. No cooking needed."
+    "description": "A Kerala-friendly crunchy snack made with pori, roasted peanuts, lemon and simple spices. No cooking needed."
   },
   {
     "name": "60-Second Chocolate Biscuit Cup",
@@ -4599,7 +4599,7 @@
       "Add the milk gradually and mix until soft and spoonable.",
       "Serve immediately as a quick biscuit dessert."
     ],
-    "description": "👥 Friend Challenge Pick: Included in the collection after my friends challenged me to add 1-minute recipes. A simple no-cook chocolate biscuit dessert mixed right in a cup using just biscuits and milk."
+    "description": "A simple no-cook chocolate biscuit dessert mixed in a cup using chocolate biscuits and a little milk."
   },
   {
     "name": "60-Second Peanut Butter Date Bites",
@@ -4618,6 +4618,6 @@
       "Fill each date with a little peanut butter.",
       "Arrange on a plate and serve."
     ],
-    "description": "👥 Friend Challenge Pick: One of the recipes in my friends' 1-minute challenge collection. Sweet, chewy dates filled with peanut butter for a quick no-cook snack. Soft, pitted dates are easiest to fill quickly."
+    "description": "Sweet, chewy dates filled with peanut butter for a quick no-cook snack. Soft, pitted dates are easiest to prepare quickly."
   }
 ]
