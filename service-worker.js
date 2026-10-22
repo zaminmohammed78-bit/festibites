@@ -1,7 +1,8 @@
-const CACHE_NAME = 'festibites-v91-feature-audit';
+const CACHE_NAME = 'festibites-v92-maintenance-preview';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './preview.html',
   './how-to-use.html',
   './weekly-meal-planner.html',
   './weekly-meal-planner.js',
