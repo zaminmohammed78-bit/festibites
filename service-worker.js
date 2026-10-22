@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v93-smart-cache';
+const CACHE_NAME = 'festibites-v94-smart-cache';
 const CACHE_PREFIX = 'festibites-';
 
 const ASSETS_TO_CACHE = [
@@ -50,7 +50,7 @@ self.addEventListener('fetch', (event) => {
 
   const isPageNavigation = request.mode === 'navigate' ||
     (request.headers.get('accept') || '').includes('text/html');
-  const isRecipeData = /\/(recipes|recipe-of-the-day)\.json$/.test(url.pathname);
+  const isRecipeData = /\\/(recipes|recipe-of-the-day)\\.json$/.test(url.pathname);
 
   if (isPageNavigation || isRecipeData) {
     // Network-first keeps pages and recipe data up to date, with an offline fallback.
@@ -67,7 +67,10 @@ self.addEventListener('fetch', (event) => {
         if (cached) return cached;
 
         if (isPageNavigation) {
-          return (await caches.match('./index.html')) || Response.error();
+          // Fall back to the actual recipe app, not the temporary maintenance page.
+          return (await caches.match('./preview.html')) ||
+            (await caches.match('./index.html')) ||
+            Response.error();
         }
 
         return Response.error();
