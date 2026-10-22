@@ -4519,5 +4519,105 @@
       "Serve warm."
     ],
     "description": "Crunchy golden fried chicken strips rolled in soft tortillas with spicy garlic mayo and fresh lettuce, perfect for a fast-food night at home."
+  },
+  {
+    "name": "60-Second Choco-Banana Sandwich",
+    "category": "1-Minute Recipes",
+    "icon": "🍌",
+    "minutes": 1,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      "2 slices ready-to-eat bread",
+      "1 small ripe banana",
+      "1 tbsp chocolate spread"
+    ],
+    "steps": [
+      "Spread the chocolate spread over one slice of bread.",
+      "Peel and quickly slice the banana into thin rounds.",
+      "Arrange the banana on the bread and cover with the second slice.",
+      "Cut in half and serve immediately."
+    ],
+    "description": "A quick no-cook chocolate and banana sandwich made with everyday ingredients. Assemble and serve within one minute."
+  },
+  {
+    "name": "60-Second Banana Peanut Butter Bowl",
+    "category": "1-Minute Recipes",
+    "icon": "🥜",
+    "minutes": 1,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      "1 small ripe banana",
+      "1/2 cup ready-to-eat yogurt",
+      "1 tbsp smooth peanut butter"
+    ],
+    "steps": [
+      "Spoon the yogurt into a small bowl.",
+      "Peel and slice the banana over the yogurt.",
+      "Add the peanut butter on top and swirl it through slightly.",
+      "Serve immediately."
+    ],
+    "description": "A creamy no-cook snack with banana, yogurt and peanut butter, assembled in about one minute."
+  },
+  {
+    "name": "60-Second Spicy Pori Crunch",
+    "category": "1-Minute Recipes",
+    "icon": "🌶️",
+    "minutes": 1,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      "1 cup ready-to-eat pori (puffed rice)",
+      "2 tbsp roasted peanuts",
+      "1 tsp lemon juice",
+      "A pinch of chilli powder",
+      "A pinch of salt"
+    ],
+    "steps": [
+      "Add the pori and roasted peanuts to a bowl.",
+      "Sprinkle in the chilli powder and salt.",
+      "Add lemon juice and toss everything together.",
+      "Eat immediately while the pori is crunchy."
+    ],
+    "description": "A fast Kerala-friendly crunchy snack made with pori, roasted peanuts, lemon and simple spices. No cooking needed."
+  },
+  {
+    "name": "60-Second Chocolate Biscuit Cup",
+    "category": "1-Minute Recipes",
+    "icon": "🍫",
+    "minutes": 1,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      "4 chocolate biscuits",
+      "2 tbsp milk, adding a little more only if needed"
+    ],
+    "steps": [
+      "Break the biscuits into a cup or small bowl.",
+      "Crush them with the back of a spoon.",
+      "Add the milk gradually and mix until soft and spoonable.",
+      "Serve immediately as a quick biscuit dessert."
+    ],
+    "description": "A simple no-cook chocolate biscuit dessert mixed right in a cup using just biscuits and milk."
+  },
+  {
+    "name": "60-Second Peanut Butter Date Bites",
+    "category": "1-Minute Recipes",
+    "icon": "🌴",
+    "minutes": 1,
+    "servings": 1,
+    "difficulty": "Easy",
+    "ingredients": [
+      "3 soft dates",
+      "1 tbsp smooth peanut butter"
+    ],
+    "steps": [
+      "Check the dates and remove the pits if they have not already been removed.",
+      "Open each date gently.",
+      "Fill each date with a little peanut butter.",
+      "Arrange on a plate and serve."
+    ],
+    "description": "Sweet, chewy dates filled with peanut butter for a quick no-cook snack. Soft dates are easiest to fill quickly."
   }
 ]
