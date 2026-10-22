@@ -1060,6 +1060,53 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
     }
   </style>
 
+
+  <style id="mobile-polish-2026">
+    /* Accessible focus and touch behavior, without removing existing features. */
+    :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+      outline: 3px solid rgba(232, 93, 4, .72);
+      outline-offset: 3px;
+    }
+    :where(button, .chip, .quick-search-btn, .view, .surprise-btn, .see-more, .pwa-install-btn, .hero-action, .close) {
+      touch-action: manipulation;
+    }
+    .modal { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+    .search, .submit-box, .card, .modal-box { min-width: 0; }
+    .submit-form input, .submit-form select, .submit-form textarea { font-size: 16px; }
+
+    @media (max-width: 560px) {
+      header { gap: 8px 10px; }
+      .brand-logo { gap: 8px; }
+      nav a { min-height: 40px; display: inline-flex; align-items: center; }
+      .search button, .surprise-row .surprise-btn, .hero-action,
+      .google-form-submit, .see-more { min-height: 48px; }
+      .controls .chip { min-height: 42px; padding: 10px 14px; }
+      .quick-search-btn { min-height: 40px; }
+      .card, .recipe-card { box-shadow: 0 8px 22px rgba(102, 54, 28, .075); }
+      .modal { padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)) !important; }
+      .modal-box { margin: auto; }
+      .modal-top h2 { overflow-wrap: anywhere; line-height: 1.15; }
+      .modal-body { overflow-wrap: anywhere; }
+      .submit-form { gap: 12px; }
+      .submit-box h2 { font-size: clamp(25px, 7vw, 32px); }
+    }
+    @media (max-width: 360px) {
+      .brand-logo>span { font-size: 20px; }
+      .hero-stats { gap: 12px; }
+      .search-wrap { padding-top: 24px; }
+      .modal-body { padding: 15px !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
 
