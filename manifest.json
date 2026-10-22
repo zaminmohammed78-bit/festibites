@@ -3,7 +3,7 @@
   "name": "FestiBites — Recipe Kitchen",
   "short_name": "FestiBites",
   "description": "A responsive web application to discover, search, and save delicious cooking recipes with ingredients, step-by-step instructions, and dietary filters",
-  "start_url": "./preview.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "display_override": [
@@ -48,7 +48,7 @@
       "name": "Search Recipes",
       "short_name": "Search",
       "description": "Find delicious recipes quickly",
-      "url": "./preview.html#search",
+      "url": "./#search",
       "icons": [
         {
           "src": "./icon-192.png",
@@ -61,7 +61,7 @@
       "name": "Submit a Recipe",
       "short_name": "Submit",
       "description": "Share your favorite cooking recipe",
-      "url": "./preview.html#submit-recipe",
+      "url": "./#submit-recipe",
       "icons": [
         {
           "src": "./icon-192.png",
