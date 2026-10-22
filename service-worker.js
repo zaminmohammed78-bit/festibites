@@ -63,11 +63,17 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       } catch (error) {
+        // If the home/maintenance entry cannot be reached, prefer the actual app offline.
+        const isHomeEntry = /\/(?:index\.html)?$/.test(url.pathname);
+        if (isPageNavigation && isHomeEntry) {
+          const appPage = await caches.match('./preview.html');
+          if (appPage) return appPage;
+        }
+
         const cached = await caches.match(request, { ignoreSearch: isRecipeData });
         if (cached) return cached;
 
         if (isPageNavigation) {
-          // Fall back to the actual recipe app, not the temporary maintenance page.
           return (await caches.match('./preview.html')) ||
             (await caches.match('./index.html')) ||
             Response.error();
