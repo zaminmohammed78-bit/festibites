@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v95-smart-cache';
+const CACHE_NAME = 'festibites-v96-smart-cache';
 const CACHE_PREFIX = 'festibites-';
 
 const ASSETS_TO_CACHE = [
