@@ -1060,6 +1060,111 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
     }
   </style>
 
+
+  <style id="mobile-polish-2026">
+    /* Accessible focus and touch behavior, without removing existing features. */
+    :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+      outline: 3px solid rgba(232, 93, 4, .72);
+      outline-offset: 3px;
+    }
+    :where(button, .chip, .quick-search-btn, .view, .surprise-btn, .see-more, .pwa-install-btn, .hero-action, .close) {
+      touch-action: manipulation;
+    }
+    .modal { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+    .search, .submit-box, .card, .modal-box { min-width: 0; }
+    .submit-form input, .submit-form select, .submit-form textarea { font-size: 16px; }
+
+    @media (max-width: 560px) {
+      header { gap: 8px 10px; }
+      .brand-logo { gap: 8px; }
+      nav a { min-height: 40px; display: inline-flex; align-items: center; }
+      .search button, .surprise-row .surprise-btn, .hero-action,
+      .google-form-submit, .see-more { min-height: 48px; }
+      .controls .chip { min-height: 42px; padding: 10px 14px; }
+      .quick-search-btn { min-height: 40px; }
+      .card, .recipe-card { box-shadow: 0 8px 22px rgba(102, 54, 28, .075); }
+      .modal { padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)) !important; }
+      .modal-box { margin: auto; }
+      .modal-top h2 { overflow-wrap: anywhere; line-height: 1.15; }
+      .modal-body { overflow-wrap: anywhere; }
+      .submit-form { gap: 12px; }
+      .submit-box h2 { font-size: clamp(25px, 7vw, 32px); }
+    }
+    @media (max-width: 360px) {
+      .brand-logo>span { font-size: 20px; }
+      .hero-stats { gap: 12px; }
+      .search-wrap { padding-top: 24px; }
+      .modal-body { padding: 15px !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+
+
+  <style id="festibites-theme-mobile-refine">
+    /* Small refinements to the existing warm orange/cream FestiBites identity. */
+    :root {
+      --line: #efdbce;
+      --muted: #70574b;
+    }
+    :where(button, .hero-action, .pwa-install-btn) {
+      -webkit-tap-highlight-color: rgba(232, 93, 4, .12);
+    }
+    @media (max-width: 760px) {
+      .hero {
+        padding: clamp(28px, 6vw, 42px) 5% 30px;
+        gap: 22px;
+        border-radius: 0 0 24px 24px;
+      }
+      .hero h1 {
+        font-size: clamp(32px, 8vw, 44px);
+        line-height: 1.08;
+        letter-spacing: -1.2px;
+        margin-bottom: 14px;
+      }
+      .hero p {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 18px;
+      }
+      .hero-stats { gap: 14px 22px; margin-top: 18px; }
+      .hero-art { max-height: 260px; }
+      .hero-art img { min-height: 190px; }
+      /* Keep all three shortcuts, but reduce the hero's vertical footprint on phones. */
+      .hero-actions { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+      .hero-action-primary { grid-column: 1 / -1; }
+      .hero-action-secondary { min-width: 0; min-height: 46px; padding: 10px 8px; font-size: 13px; line-height: 1.25; }
+      .hero-action-hint { margin-bottom: 14px !important; }
+      .hero-art { margin-top: 14px !important; }
+      .section { padding-top: 28px; padding-bottom: 28px; }
+      .section-head { margin-bottom: 16px; }
+      .card { min-height: 0; padding: 16px; }
+      .meta { gap: 8px; margin: 11px 0; }
+      .submit-box { padding: 22px 18px; }
+      .modal-box { border-radius: 18px; }
+      .modal-top { padding: 30px 20px 24px; }
+      .modal-body { padding: 18px; }
+    }
+    @media (max-width: 380px) {
+      .hero { padding-left: 4.5%; padding-right: 4.5%; }
+      .hero-stats { gap: 12px 16px; }
+      .hero-action { max-width: 100%; }
+      .quick-searches { gap: 6px; }
+      .quick-search-btn { padding: 7px 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+
 </head>
 <body>
 

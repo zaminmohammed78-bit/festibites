@@ -1,4 +1,4 @@
-const CACHE_NAME = 'festibites-v93-smart-cache';
+const CACHE_NAME = 'festibites-v94-smart-cache';
 const CACHE_PREFIX = 'festibites-';
 
 const ASSETS_TO_CACHE = [
@@ -63,11 +63,20 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       } catch (error) {
+        // If the home/maintenance entry cannot be reached, prefer the actual app offline.
+        const isHomeEntry = /\/(?:index\.html)?$/.test(url.pathname);
+        if (isPageNavigation && isHomeEntry) {
+          const appPage = await caches.match('./preview.html');
+          if (appPage) return appPage;
+        }
+
         const cached = await caches.match(request, { ignoreSearch: isRecipeData });
         if (cached) return cached;
 
         if (isPageNavigation) {
-          return (await caches.match('./index.html')) || Response.error();
+          return (await caches.match('./preview.html')) ||
+            (await caches.match('./index.html')) ||
+            Response.error();
         }
 
         return Response.error();
