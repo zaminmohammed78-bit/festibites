@@ -909,6 +909,157 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
     html[data-theme="dark"] .section-head h2 { text-decoration-color:#b86a36; }
   </style>
 
+  <!-- Mobile-first polish: layout and touch targets only; existing features remain unchanged. -->
+  <style id="mobile-first-polish">
+    /* Give the brand and controls their own row; keep all navigation links reachable. */
+    @media (max-width: 760px) {
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 8px;
+        padding: max(10px, env(safe-area-inset-top)) 4% 10px;
+      }
+      header .brand-logo {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      header nav {
+        order: 3;
+        flex: 1 1 100%;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+        padding: 5px 2px 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+      }
+      header nav a {
+        flex: 0 0 auto;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+      header #themeToggle {
+        order: 2;
+        flex: 0 0 auto;
+        min-height: 42px;
+        padding: 9px 11px;
+      }
+      header #pwaInstallBtn {
+        order: 4;
+        min-height: 42px;
+      }
+      .section, .search-wrap {
+        padding-left: max(16px, 4%);
+        padding-right: max(16px, 4%);
+      }
+      .controls {
+        padding-left: max(16px, 4%);
+        padding-right: max(16px, 4%);
+        scroll-snap-type: x proximity;
+      }
+      .controls .chip {
+        min-height: 42px;
+        scroll-snap-align: start;
+      }
+      .hero-actions .hero-action,
+      .surprise-row .surprise-btn,
+      .search button,
+      .view,
+      .see-more,
+      .serving-control button,
+      .recipe-timer-actions button {
+        min-height: 44px;
+      }
+      .card, .pantry-card, .pantry-panel, #recipeOfTheDayCard {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      .modal {
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .modal-box {
+        max-height: calc(100vh - 16px);
+        max-height: calc(100dvh - 16px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      .close {
+        min-width: 42px;
+        min-height: 42px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      header .brand-full-logo {
+        width: 34px;
+        height: 34px;
+      }
+      header .brand-logo > span {
+        font-size: clamp(19px, 5.8vw, 23px);
+        letter-spacing: -.6px;
+      }
+      header #themeToggle {
+        font-size: 12px;
+        padding-inline: 9px;
+      }
+      header .pwa-install-btn {
+        font-size: 12px;
+        padding-inline: 10px;
+      }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .hero-stats > * {
+        min-width: 0;
+      }
+      .quick-searches {
+        align-items: flex-start;
+      }
+      .quick-search-btn {
+        min-height: 36px;
+      }
+      .details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .details .detail {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    /* Avoid hover-only movement on touch screens and honor reduced-motion preferences. */
+    @media (hover: none) and (pointer: coarse) {
+      .card:hover, .recipe-card:hover, .category-card:hover,
+      .hero-art img:hover, .hero-action:hover, .suggest-recipe-btn:hover {
+        transform: none;
+      }
+      .card, .recipe-card, .category-card, .hero-art img {
+        transition-duration: .15s;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      .card, .recipe-card, .category-card, .hero-art img,
+      .hero-action, .suggest-recipe-btn, nav a {
+        transition: none !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
 
