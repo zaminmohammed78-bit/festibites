@@ -1,4 +1,6 @@
-const CACHE_NAME = 'festibites-v92-maintenance-preview';
+const CACHE_NAME = 'festibites-v93-smart-cache';
+const CACHE_PREFIX = 'festibites-';
+
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -15,66 +17,79 @@ const ASSETS_TO_CACHE = [
   './sitemap.xml'
 ];
 
-// Install event - Cache core static assets
+// Pre-cache the core pages and assets so the app remains useful offline.
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] Caching core app assets for offline cross-platform use');
-      return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(ASSETS_TO_CACHE))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activate event - Clean up old caches
+// Remove only older FestiBites caches; leave unrelated apps' caches alone.
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log('[Service Worker] Deleting outdated cache:', cache);
-            return caches.delete(cache);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys()
+      .then((cacheNames) => Promise.all(
+        cacheNames
+          .filter((name) => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
-// Fetch event - Cache First with Network Fallback strategy
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const request = event.request;
+  if (request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Return cached resource immediately, update cache in background
-        fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
-            }
-          })
-          .catch(() => {/* Silent fallback when offline */});
-        return cachedResponse;
+  const url = new URL(request.url);
+
+  // Do not intercept third-party requests such as Supabase or image CDN calls.
+  if (url.origin !== self.location.origin) return;
+
+  const isPageNavigation = request.mode === 'navigate' ||
+    (request.headers.get('accept') || '').includes('text/html');
+  const isRecipeData = /\/(recipes|recipe-of-the-day)\.json$/.test(url.pathname);
+
+  if (isPageNavigation || isRecipeData) {
+    // Network-first keeps pages and recipe data up to date, with an offline fallback.
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request);
+        if (response && response.ok && response.type === 'basic') {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(request, response.clone());
+        }
+        return response;
+      } catch (error) {
+        const cached = await caches.match(request, { ignoreSearch: isRecipeData });
+        if (cached) return cached;
+
+        if (isPageNavigation) {
+          return (await caches.match('./index.html')) || Response.error();
+        }
+
+        return Response.error();
       }
+    })());
+    return;
+  }
 
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
-        }
+  // Cache-first for static assets avoids an unnecessary network request on every hit.
+  event.respondWith((async () => {
+    const cached = await caches.match(request);
+    if (cached) return cached;
 
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-
-        return networkResponse;
-      }).catch(() => {
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match('./index.html');
-        }
-      });
-    })
-  );
+    try {
+      const response = await fetch(request);
+      if (response && response.ok && response.type === 'basic') {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
+      }
+      return response;
+    } catch (error) {
+      return Response.error();
+    }
+  })());
 });
