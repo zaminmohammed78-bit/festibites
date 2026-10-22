@@ -68,6 +68,16 @@
     <p class="note">This is temporary. Your recipes and existing features are being kept safe.</p>
   </main>
   <script>
+    // Keep the normal website in maintenance mode, but send installed app
+    // windows that still launch the old root URL to the actual recipe app.
+    const isInstalledApp =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.matchMedia("(display-mode: fullscreen)").matches ||
+      window.navigator.standalone === true;
+    if (isInstalledApp) {
+      window.location.replace("./preview.html");
+    }
+
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("./service-worker.js").catch(() => {});
