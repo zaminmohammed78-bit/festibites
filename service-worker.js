@@ -50,7 +50,7 @@ self.addEventListener('fetch', (event) => {
 
   const isPageNavigation = request.mode === 'navigate' ||
     (request.headers.get('accept') || '').includes('text/html');
-  const isRecipeData = /\\/(recipes|recipe-of-the-day)\\.json$/.test(url.pathname);
+  const isRecipeData = /\/(recipes|recipe-of-the-day)\.json$/.test(url.pathname);
 
   if (isPageNavigation || isRecipeData) {
     // Network-first keeps pages and recipe data up to date, with an offline fallback.
