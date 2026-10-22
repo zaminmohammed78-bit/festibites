@@ -1107,6 +1107,55 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
     }
   </style>
 
+
+  <style id="festibites-theme-mobile-refine">
+    /* Small refinements to the existing warm orange/cream FestiBites identity. */
+    :root {
+      --line: #f0ded2;
+      --muted: #725b50;
+    }
+    @media (max-width: 760px) {
+      .hero {
+        padding: clamp(28px, 6vw, 42px) 5% 30px;
+        gap: 22px;
+        border-radius: 0 0 24px 24px;
+      }
+      .hero h1 {
+        font-size: clamp(32px, 8vw, 44px);
+        line-height: 1.08;
+        letter-spacing: -1.2px;
+        margin-bottom: 14px;
+      }
+      .hero p {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 18px;
+      }
+      .hero-stats { gap: 14px 22px; margin-top: 18px; }
+      .hero-art { max-height: 260px; }
+      .hero-art img { min-height: 190px; }
+      .section { padding-top: 28px; padding-bottom: 28px; }
+      .section-head { margin-bottom: 16px; }
+      .card { min-height: 0; padding: 16px; }
+      .meta { gap: 8px; margin: 11px 0; }
+      .submit-box { padding: 22px 18px; }
+      .modal-box { border-radius: 18px; }
+      .modal-top { padding: 30px 20px 24px; }
+      .modal-body { padding: 18px; }
+    }
+    @media (max-width: 380px) {
+      .hero { padding-left: 4.5%; padding-right: 4.5%; }
+      .hero-stats { gap: 12px 16px; }
+      .hero-action { max-width: 100%; }
+      .quick-searches { gap: 6px; }
+      .quick-search-btn { padding: 7px 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+
 </head>
 <body>
 
