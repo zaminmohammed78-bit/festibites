@@ -1111,8 +1111,11 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
   <style id="festibites-theme-mobile-refine">
     /* Small refinements to the existing warm orange/cream FestiBites identity. */
     :root {
-      --line: #f0ded2;
-      --muted: #725b50;
+      --line: #efdbce;
+      --muted: #70574b;
+    }
+    :where(button, .hero-action, .pwa-install-btn) {
+      -webkit-tap-highlight-color: rgba(232, 93, 4, .12);
     }
     @media (max-width: 760px) {
       .hero {
@@ -1134,6 +1137,12 @@ html:not([data-theme="dark"]) .hero .hero-action-hint{color:#684536!important}
       .hero-stats { gap: 14px 22px; margin-top: 18px; }
       .hero-art { max-height: 260px; }
       .hero-art img { min-height: 190px; }
+      /* Keep all three shortcuts, but reduce the hero's vertical footprint on phones. */
+      .hero-actions { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+      .hero-action-primary { grid-column: 1 / -1; }
+      .hero-action-secondary { min-width: 0; min-height: 46px; padding: 10px 8px; font-size: 13px; line-height: 1.25; }
+      .hero-action-hint { margin-bottom: 14px !important; }
+      .hero-art { margin-top: 14px !important; }
       .section { padding-top: 28px; padding-bottom: 28px; }
       .section-head { margin-bottom: 16px; }
       .card { min-height: 0; padding: 16px; }
